@@ -1,0 +1,172 @@
+body{
+    background: linear-gradient(135deg, rgb(252, 228, 236) 0%, rgb(248, 249, 250) 60%);
+  
+    padding: 20px;
+
+}
+.login-seccion{
+    width: 100%;
+            display: flex;
+             align-items: center;
+             flex-direction: column;
+    justify-content: center;
+
+}
+.encabezado{
+     text-align: center;
+    margin-bottom: 32px;
+}
+
+.nameApp{
+        font-family: Arial Black;
+    font-weight: 800;
+    font-size: 28px;
+    color: rgb(233, 30, 99);
+    margin: 0px;
+}
+
+.text-head{
+        color: rgb(136, 136, 136);
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.logo-encaezado{
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+*, ::after, ::before, ::backdrop, ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+}
+
+
+.login-card{
+        background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    width: 80vh;
+
+
+}
+
+.btn-primary2 {
+    background-color: #E91E63;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+
+.btn-registrar-cliente-delivery {
+    background: transparent;
+    color: #E91E63;
+    border: 2px solid #E91E63;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+ .btn-registrar-comercio {
+    background: #f0f0f0;
+    color: #444;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-olvide-contra {
+    background: none;
+    border-width: medium;
+    border-style: none;
+    border-color: currentcolor;
+    border-image: none;
+    color: rgb(233, 30, 99);
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.linea{
+      margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(206, 206, 206);
+    height: 1px;
+}
+
+.form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a4a4a;
+    margin-bottom: 6px;
+    font-family:  Franklin Gothic Medium;
+}
+
+.card-text{
+    font-family: Franklin Gothic Medium;
+    font-weight: 700;
+    font-size: 25px;
+    margin-bottom: 6px;
+    color: rgb(26, 26, 46);
+}
+.form-control{
+    padding: 10px 14px;
+        font-size: 14px;
+            font-family: 'Inter', sans-serif;
+         color: #1a1a2e;
+    transition: border-color 0.2s;
+       
+}
+
+.form-control:focus {
+
+  border-color: rgb(233, 30, 99);
+    box-shadow: 0 0 5px .05rem rgb(233, 30, 99);
+
+}
+
+.advertencia-login{
+     background: #FFEBEE;
+    color: #c62828;
+    border-left: 4px solid #c62828;
+        padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

@@ -45,3 +45,36 @@ src
       ├── commerce
       ├── delivery
       └── admin
+
+
+
+      views
+│
+├── auth
+│      login.hbs
+│      registerClient.hbs
+│      registerCommerce.hbs
+│
+├── admin
+│      dashboard.hbs
+│
+├── client
+│      home.hbs
+│
+├── commerce
+│      home.hbs
+│
+├── delivery
+│      home.hbs
+│
+├── layouts
+│      auth.hbs
+│      admin.hbs
+│      client.hbs
+│      commerce.hbs
+│      delivery.hbs
+│
+└── partials
+       navbarAdmin.hbs
+       navbarClient.hbs
+       ...
