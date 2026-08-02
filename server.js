@@ -38,6 +38,12 @@ app.use("/", authRoute);
 const registrarClient_DeliveryRouter = require("./routers/registrarClient-DeliveryRouter");
 app.use("/registrar", registrarClient_DeliveryRouter);
 
+const registrarComercio = require("./routers/registrarComercioRouter");
+app.use("/registrarComercio", registrarComercio);
+
+const cliente = require("./routers/clienteRouter");
+app.use("/cliente", cliente);
+
 // Middleware de manejo de errores
 app.use((err, req, res, next) => {
     console.error(err);
