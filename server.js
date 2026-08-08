@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const { engine } = require("express-handlebars");
+require('dotenv').config({ path: '.dev.env' });
+
 
 const app = express();
 
@@ -52,5 +54,5 @@ app.use((err, req, res, next) => {
     res.redirect(referer + separador + "error=" + encodeURIComponent(err.message || "Ocurrió un error inesperado"));
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));

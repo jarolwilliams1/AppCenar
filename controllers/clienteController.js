@@ -4,5 +4,12 @@ async function mostrar (req,res){
     )
 }
 
+async function perfil(req, res) {
+    res.render("client/perfil",{
+         layout: "client" }
+    )
+    }
 
-module.exports = {mostrar}
+
+
+module.exports = {mostrar, perfil}
