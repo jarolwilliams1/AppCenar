@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const { engine } = require("express-handlebars");
 require('dotenv').config({ path: '.dev.env' });
+const conexion = require( "./config/mongooseConection");
 
 
 const app = express();
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+
 // Rutas
 const authRoute = require("./routers/authRoute");
 app.use("/", authRoute);
@@ -53,6 +55,10 @@ app.use((err, req, res, next) => {
     const separador = referer.includes("?") ? "&" : "?";
     res.redirect(referer + separador + "error=" + encodeURIComponent(err.message || "Ocurrió un error inesperado"));
 });
+
+
+     conexion.connectDB();
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
