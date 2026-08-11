@@ -2,8 +2,7 @@ const clienteDeliveryController = require("../controllers/registrarClient-Delive
 const express = require("express");
 const router = express.Router();
 
-//ter.post("/login", authController.validar )
 
 router.get("/", clienteDeliveryController.mostrar);
-
+router.post("/", clienteDeliveryController.validarCrearCuentaCD)
 module.exports = router;

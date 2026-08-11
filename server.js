@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const { engine } = require("express-handlebars");
-require('dotenv').config({ path: '.dev.env' });
+require('dotenv').config({ path: '.env.dev' });
 const conexion = require( "./config/mongooseConection");
 
 
@@ -23,7 +23,7 @@ app.engine("hbs", engine({
         money: (valor) => Number(valor || 0).toFixed(2),
         incluido: (lista, valor) => Array.isArray(lista) && lista.includes(valor)
     },
-    partialsDir: path.join(__dirname, "views/partials") // 👈 Aquí se configuran los parciales
+    partialsDir: path.join(__dirname, "views/partials") //  Aquí se configuran los parciales
 }));
 
 app.set("view engine", "hbs");

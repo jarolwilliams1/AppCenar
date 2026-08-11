@@ -14,9 +14,11 @@
      <div class="login-card">
     <h2 class="card-text">Iniciar Sesión</h2>
 
-<div class="advertencia-login" id="AdvertenciaLogin" hidden>
-    Credenciales incorrectas
-</div>
+{{#if error}}
+  <div class="advertencia-login" id="AdvertenciaLogin">
+    {{error}}
+  </div>
+{{/if}}
   <div class="mb-3">
   <label for="exampleFormControlInput1" class="form-label">Usuario</label>
   <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ej.cliente" name="usuario" required>
@@ -32,11 +34,11 @@
 
 <div class="linea"></div>
 
-<button type="button" class="btn-registrar-cliente-delivery">Registrarse como Cliente o Delivery</button>
+<button type="button" class="btn-registrar-cliente-delivery"  onclick="location.href='/registrar'">Registrarse como Cliente o Delivery</button>
 
-<button type="button" class="btn-registrar-comercio">Registrarse como Comercio</button>
+<button type="button" class="btn-registrar-comercio"  onclick="location.href='/RegistrarComercio'">Registrarse como Comercio</button>
 
-<button type="button" class="btn-olvide-contra">Olvidé mi contraseña</button>
+<button type="button" class="btn-olvide-contra"  onclick="location.href='/'">Olvidé mi contraseña</button>
 
 
 

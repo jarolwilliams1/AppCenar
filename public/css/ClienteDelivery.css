@@ -104,3 +104,17 @@ select:focus{
     box-shadow: 0 0 5px .05rem rgb(233, 30, 99) !important;
 
 }
+
+
+.advertencia-login{
+     background: #FFEBEE;
+    color: #c62828;
+    border-left: 4px solid #c62828;
+        padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
