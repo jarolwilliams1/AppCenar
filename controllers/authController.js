@@ -9,10 +9,36 @@ async function mostrar(req, res) {
 async function validar(req, res) {
     try {
         console.log(req.body);
-        const usuario = await loginService.ValidarDatos(req.body);
-        
+        const usuario = await loginService.IniciarSesion(req.body);
+        console.log(usuario)
         // Redirigir si el login es exitoso
-        return res.redirect("/client"); 
+        switch(usuario){
+            case "Cliente":
+        return res.redirect("/cliente"); 
+
+            
+            break;
+
+             case "Delivery":
+        return res.redirect("/cliente"); 
+
+            
+            break;
+
+
+             case "Administrador":
+        return res.redirect("/admin"); 
+
+            
+            break;
+
+
+             case "Comercio":
+        return res.redirect("/comercio"); 
+
+            
+            break;
+        }
     } catch (error) {
         return res.status(400).render("auth/login", {
             layout: "auth",
@@ -21,5 +47,14 @@ async function validar(req, res) {
         });
     }
 }
+
+async function Entrar(req, res) 
+{
+ const datos = await loginService.IniciarSesionModel(req.body);
+ console.log(datos)
+
+}
+
+
 
 module.exports = { mostrar, validar };

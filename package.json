@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/jarolwilliams1/AppCenar#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "connect-mongo": "^6.0.0",
     "cross-env": "^10.1.0",
     "dotenv": "^17.4.2",

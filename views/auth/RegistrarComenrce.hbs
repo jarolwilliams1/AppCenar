@@ -8,12 +8,16 @@
 
     <div class="container ">
 
-    <form action="" method="post">
-
+    <form action="/registrarComercio" method="post">
+   {{#if error}}
+  <div class="advertencia-login" id="AdvertenciaLogin">
+    {{error}}
+  </div>
+{{/if}}
 
              <div class="mb-3">
             <label for="comercioInputNombre" class="form-label">Nombre del comercio *</label>
-            <input type="text" class="form-control" id="comercioInputNombre" name="comercioInputNombre" placeholder="ej. Pizzeria Bella" required>
+            <input type="text" class="form-control" id="comercioInputNombre" name="comercioInputNombre" placeholder="ej. Pizzeria Bella" >
             </div>
 
 
@@ -21,12 +25,12 @@
         <div class="row">
             <div class="mb-3 col-sm-12 col-md-6">
             <label for="comercioInputTelefono" class="form-label">Teléfono *</label>
-            <input type="text" class="form-control" id="comercioInputTelefono" name="comercioInputTelefono" placeholder="+1 809-000-0000" required>
+            <input type="text" class="form-control" id="comercioInputTelefono" name="comercioInputTelefono" placeholder="+1 809-000-0000" >
             </div>
 
             <div class="mb-3 col-sm-12 col-md-6 ">
             <label for="comercioInputEmail" class="form-label">Correo *</label>
-            <input type="email" class="form-control" id="comercioInputEmail" name="comercioInputEmail" placeholder="name@example.com" required>
+            <input type="email" class="form-control" id="comercioInputEmail" name="comercioInputEmail" placeholder="name@example.com" >
             </div>
         </div>
 
@@ -34,23 +38,23 @@
 
   <div class="mb-3 ">
             <label for="comercioInputLogo" class="form-label">Logo del comercio</label>
-            <input type="file" class="form-control" id="comercioInputLogo" name="comercioInputLogo" required>
+            <input type="file" class="form-control" id="comercioInputLogo" name="comercioInputLogo" >
             </div>
         
         <div class="row">
             <div class="mb-3 col-sm-12 col-md-4">
             <label for="comercioInputAperturaH" class="form-label">Hora apertura *</label>
-            <input type="time" class="form-control" id="comercioInputAperturaH" name="comercioInputAperturaH"  required>
+            <input type="time" class="form-control" id="comercioInputAperturaH" name="comercioInputAperturaH"  >
             </div>
 
               <div class="mb-3 col-sm-12 col-md-4">
             <label for="comercioInputCierreH" class="form-label">Hora cierre *</label>
-            <input type="time" class="form-control" id="comercioInputCierreH" name="comercioInputCierreH"  required>
+            <input type="time" class="form-control" id="comercioInputCierreH" name="comercioInputCierreH"  >
             </div>
 
             <div class="mb-3 col-sm-12 col-md-4 ">
             <label for="comercioSelectTipo" class="form-label">Tipo de comercio</label>
-            <select class="form-select" aria-label="Default select example" id="comercioSelectTipo" name="comercioSelectTipo" required>
+            <select class="form-select" aria-label="Default select example" id="comercioSelectTipo" name="comercioSelectTipo" >
             <option value="Restaurante">Restaurante</option>
             <option value="Mercado">Mercado</option>
             <option value="Bebidas">Bebidas</option>
@@ -66,12 +70,12 @@
         <div class="row">
             <div class="mb-3 col-sm-12 col-md-6">
             <label for="passwordCDInput" class="form-label">Contraseña *</label>
-            <input type="password" class="form-control" id="passwordCDInput" name="passwordCDInput" placeholder="........" required>
+            <input type="password" class="form-control" id="comercioPasswordInput" name="comercioPasswordInput" placeholder="........" >
             </div>
 
             <div class="mb-3 col-sm-12 col-md-6 ">
             <label for="confirmarPasswordCDInput" class="form-label">Confirmar contraseña *</label>
-            <input type="password" class="form-control" id="confirmarPasswordCDInput" name="confirmarPasswordCDInput"placeholder="........" required>
+            <input type="password" class="form-control" id="confirmarComercioPasswordInput" name="confirmarComercioPasswordInput"placeholder="........" >
             </div>
         </div>
 

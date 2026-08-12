@@ -22,6 +22,15 @@ async function ValidarDatos(datos) {
     throw new Error("Las contraseñas no coinciden");
   }
 
+  
+  //if (rol.toLowerCase() != 'delivery' || rol.toLowerCase() != 'cliente' )
+    // {
+
+      //    throw new Error("El rol es invalido");
+
+
+ // }
+
  UserModel.CrearUsuario(datos);
 }
 

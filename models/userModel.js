@@ -1,111 +1,150 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose; // Extraer Schema para los discriminadores
+const { Schema } = mongoose;
 
 const userOptions = {
-    discriminatorKey: 'rol',
-    timestamps: true
+  discriminatorKey: 'rol',
+  timestamps: true
 };
 
-// Aislado, esto es solo una plantilla/regla de validación.
 // 1. Esquema Base
 const userSchema = new Schema({
-    usuario: { type: String, required: true, unique: true, trim: true },
-    correo: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    password: { type: String, required: true },                         
-    resetPasswordToken: { type: String, default: null },
-    activationToken: { type: String, default: null },
-    isActive: { type: Boolean, default: false },
-    resetPasswordExpires: { type: Date, default: null }
-}, userOptions); // userOptions pasa como segundo argumento
+  usuario: { type: String, required: true, unique: true, trim: true },
+  correo: { type: String, required: true, unique: true, lowercase: true, trim: true },
+  password: { type: String, required: true },                         
+  resetPasswordToken: { type: String, default: null },
+  activationToken: { type: String, default: null },
+  isActive: { type: Boolean, default: false },
+  resetPasswordExpires: { type: Date, default: null }
+}, userOptions);
 
-
-// Aquí le dices a Mongoose: "Crea una colección llamada 'users' usando el plano userSchema".
 const User = mongoose.model('User', userSchema);
 
-
-// Dices: "Cliente hereda todo lo de User, pero agrégale sus propios campos"
 // 2. Rol: Cliente
 const Cliente = User.discriminator('Cliente', new Schema({
-    nombre: { type: String, required: true, trim: true },
-    apellido: { type: String, required: true, trim: true },
-    telefono: { type: String, required: true, trim: true },
-    fotoPerfil: { type: String, default: null },
-    favoritos: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  nombre: { type: String, required: true, trim: true },
+  apellido: { type: String, required: true, trim: true },
+  telefono: { type: String, required: true, trim: true },
+  fotoPerfil: { type: String, default: null },
+  favoritos: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 }));
 
 // 3. Rol: Delivery
 const Delivery = User.discriminator('Delivery', new Schema({
-    nombre: { type: String, required: true, trim: true },
-    apellido: { type: String, required: true, trim: true },
-    telefono: { type: String, required: true, trim: true },
-    fotoPerfil: { type: String, default: null },
-    estadoDelivery: { 
-        type: String, 
-        enum: ['Disponible', 'Ocupado'], 
-        default: 'Disponible' 
-    }
+  nombre: { type: String, required: true, trim: true },
+  apellido: { type: String, required: true, trim: true },
+  telefono: { type: String, required: true, trim: true },
+  fotoPerfil: { type: String, default: null },
+  estadoDelivery: { 
+    type: String, 
+    enum: ['Disponible', 'Ocupado'], 
+    default: 'Disponible' 
+  }
 }));
 
 // 4. Rol: Comercio
 const Comercio = User.discriminator('Comercio', new Schema({
-    nombreComercio: { type: String, required: true, trim: true },
-    telefono: { type: String, required: true, trim: true },
-    logoComercio: { type: String, default: null },
-    horaApertura: { type: String, required: true },
-    horaCierre: { type: String, required: true },
-    tipoComercioId: { type: Schema.Types.ObjectId, ref: 'TipoComercio', required: true }
+  nombreComercio: { type: String, required: true, trim: true },
+  telefono: { type: String, required: true, trim: true },
+  logoComercio: { type: String, default: null },
+  horaApertura: { type: String, required: true },
+  horaCierre: { type: String, required: true },
+  tipoComercioId: { type: Schema.Types.ObjectId, ref: 'TipoComercio', required: true }
 }));
 
 // 5. Rol: Administrador
 const Administrador = User.discriminator('Administrador', new Schema({
-    nombre: { type: String, required: true, trim: true },
-    apellido: { type: String, required: true, trim: true },
-    cedula: { type: String, required: true, unique: true, trim: true }
+  nombre: { type: String, required: true, trim: true },
+  apellido: { type: String, required: true, trim: true },
+  cedula: { type: String, required: true, unique: true, trim: true }
 }));
 
+// FUNCIÓN DE CREACIÓN DE USUARIOS
+async function CrearUsuario(datos) {
+  try {
+    const rol = datos.rolCDInput?.trim().toLowerCase();
 
-async function CrearUsuario(datos)
- {
-  const nombre = datos.nombrelCDInput?.trim();
-  const apellido = datos.apellidolCDInput?.trim();
-  const telefono = datos.telefonoCDInput?.trim();
-  const email = datos.emailCDInput?.trim();
-  const userName = datos.usuarioCDInput?.trim();
-  const rol = datos.rolCDInput?.trim();
-  const fotoPerfil = datos.fotoCDInput?.trim();
-  const password = datos.passwordCDInput?.trim();
-   // 4. Evaluar según el rol para registrar (usando toLowerCase() para evitar fallos por mayúsculas)
-  if (rol.toLowerCase() === 'cliente') {
-    try {
-      const nuevoCliente = await new UserModel.Cliente({
-        usuario: userName,
-        correo: email,
-        password: password, // NOTA: Se recomienda encriptar con bcrypt antes de guardar
-        nombre: nombre,
-        apellido: apellido,
-        telefono: telefono,
-        fotoPerfil: fotoPerfil
+    // Registro de Cliente
+    if (rol === 'cliente') {
+      const nuevoCliente = new Cliente({
+        usuario: datos.usuarioCDInput?.trim(),
+        correo: datos.emailCDInput?.trim(),
+        password: datos.passwordCDInput?.trim(), // Encriptar con bcrypt en controlador
+        nombre: datos.nombrelCDInput?.trim(),
+        apellido: datos.apellidolCDInput?.trim(),
+        telefono: datos.telefonoCDInput?.trim(),
+        fotoPerfil: datos.fotoCDInput?.trim() || null
       });
-
-      // 5. GUARDAR EN LA BASE DE DATOS Y RETORNAR EL RESULTADO
-      const clienteGuardado = await nuevoCliente.save();
-      return clienteGuardado;
-
-    } catch (error) {
-      console.error("Error al guardar en MongoDB:", error.message);
-      throw error;
+      return await nuevoCliente.save();
     }
-  }
 
-  // Si se añade el registro de Delivery en este mismo flujo:
-  /*
-  if (rol.toLowerCase() === 'delivery') {
-    const nuevoDelivery = new UserModel.Delivery({ ... });
-    return await nuevoDelivery.save();
-  }
-  */
+    // Registro de Delivery
+    if (rol === 'delivery') {
+      const nuevoDelivery = new Delivery({
+        usuario: datos.usuarioCDInput?.trim(),
+        correo: datos.emailCDInput?.trim(),
+        password: datos.passwordCDInput?.trim(),
+        nombre: datos.nombrelCDInput?.trim(),
+        apellido: datos.apellidolCDInput?.trim(),
+        telefono: datos.telefonoCDInput?.trim(),
+        fotoPerfil: datos.fotoCDInput?.trim() || null
+      });
+      return await nuevoDelivery.save();
+    }
 
-  throw new Error("El rol especificado no es válido");
-  
+    // Registro de Comercio
+    if (rol === 'comercio') {
+      const nuevoComercio = new Comercio({
+        usuario: datos.usuarioCDInput?.trim() || datos.comercioInputEmail?.trim(),
+        correo: datos.comercioInputEmail?.trim(),
+        password: datos.comercioPasswordInput?.trim(),
+        nombreComercio: datos.comercioInputNombre?.trim(),
+        telefono: datos.comercioInputTelefono?.trim(),
+        logoComercio: datos.comercioInputLogo?.trim() || null,
+        horaApertura: datos.comercioInputAperturaH?.trim(),
+        horaCierre: datos.comercioInputCierreH?.trim(),
+        tipoComercioId: datos.comercioSelectTipo?.trim()
+      });
+      return await nuevoComercio.save();
+    }
+
+    throw new Error("El rol especificado no es válido");
+  } catch (error) {
+    console.error("Error al guardar usuario en MongoDB:", error.message);
+    throw error;
+  }
 }
-module.exports = { User, Cliente, Delivery, Comercio, Administrador, CrearUsuario };
+
+// VERIFICACIÓN DE CREDENCIALES (LOGIN)
+async function verificarCredenciales(usuarIngresado, passwordIngresada) {
+  try {
+    const loginClean = usuarIngresado.trim();
+
+    // 1. Buscar usuario por Nombre de Usuario O Correo
+    const usuarioEncontrado = await User.findOne({
+      $or: [
+        { usuario: loginClean },
+        { correo: loginClean.toLowerCase() }
+      ]
+    });
+
+    if (!usuarioEncontrado) {
+      return { exito: false, mensaje: 'Credenciales incorrectas' };
+    }
+
+    // 2. Validar Contraseña (se recomienda usar bcrypt.compare en producción)
+    if (usuarioEncontrado.password !== passwordIngresada.trim()) {
+      return { exito: false, mensaje: 'Credenciales incorrectas' };
+    }
+
+    // 3. Validar Estado Activo
+   // if (!usuarioEncontrado.isActive) {
+     // return { exito: false, mensaje: 'Tu cuenta está inactiva. Revisa tu correo.' };
+    //}
+
+    return { exito: true, usuario: usuarioEncontrado };
+  } catch (error) {
+    console.error('Error al consultar en MongoDB:', error);
+    throw error;
+  }
+}
+module.exports = { User, Cliente, Delivery, Comercio, Administrador, CrearUsuario, verificarCredenciales };

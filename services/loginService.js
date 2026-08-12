@@ -1,19 +1,20 @@
-// const LoginModel = require("../models/Login"); // Reemplaza por tu modelo real
-async function ValidarDatos(datosLogin) {
-    const usuario = datosLogin.usuario?.trim();
-    const password = datosLogin.password?.trim();
+ const LoginModel = require("../models/userModel"); // Reemplaza por tu modelo real
 
-    if (!usuario || !password) {
-        throw new Error("Credenciales incorrectas");
-    }
 
-    // Usar el modelo de la BD, no la misma variable 'login'
-    //const nuevoLogin = await LoginModel.create({
-       // usuario: usuario,
-       // password: password
-   // });
 
-  //  return nuevoLogin;
+// INICIO DE SESIÓN
+async function IniciarSesion(datosLogin) {
+  const nombreUsuario = datosLogin.usuario?.trim();
+  const passwordUsuario = datosLogin.password?.trim();
+
+  const resultado = await LoginModel.verificarCredenciales(nombreUsuario, passwordUsuario);
+  
+  if (!resultado.exito) {
+    throw new Error(resultado.mensaje);
+  }
+
+  return resultado.usuario.rol;
 }
 
-module.exports = { ValidarDatos };
+
+module.exports = { IniciarSesion };
