@@ -1,0 +1,61 @@
+<div class="head-lista-clientes">
+    <h2 class="text-head-list">
+        Listado de Clientes
+    </h2>
+
+    <p class="registros">{{cantidad}} clientes registrados </p>
+
+</div>
+
+<section class="lista-clientes">
+
+
+
+<table class="tabla-clientes">
+
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Correo</th>
+        <th>Telefono</th>
+        <th>Pedidos</th>
+        <th>Estado</th>
+        <th>Accion</th>
+      </tr>
+    </thead>
+
+    <tbody>
+       
+    {{#each listaClientes}}
+    <tr>
+      <td>{{this.nombre}}</td>
+      <td>{{this.apellido}}</td>
+      <td>{{this.correo}}</td>
+      <td>{{this.telefono}}</td>
+      <td>hola</td>
+      <td>{{#if this.isActive}}Activo{{else}}Inactivo{{/if}}</td>
+      <td><button class="btn btn-sm btn-primary">Acción</button></td>
+    </tr>
+  {{/each}}
+
+
+    </tbody>
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>

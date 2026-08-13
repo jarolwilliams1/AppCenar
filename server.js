@@ -48,6 +48,9 @@ app.use("/registrarComercio", registrarComercio);
 const cliente = require("./routers/clienteRouter");
 app.use("/cliente", cliente);
 
+const admin = require("./routers/adminRouter");
+app.use("/admin", admin);
+
 // Middleware de manejo de errores
 app.use((err, req, res, next) => {
     console.error(err);

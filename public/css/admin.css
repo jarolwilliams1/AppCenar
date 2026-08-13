@@ -1,0 +1,276 @@
+body {
+    background-color: #f4f6f8;
+    
+}
+
+.cuadrologo {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-head{
+     font-family: Franklin Gothic Medium;
+    font-weight: 800;
+    font-size: 24px;
+    color: rgb(233, 30, 99);
+    letter-spacing: -0.5px;
+}
+.partenegra{
+    color: black;
+}
+
+nav{
+    margin: 0px auto;
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    background-color: white;
+    z-index: 99;
+    position: fixed;
+    top: 0;
+    width: 100%;
+
+}
+
+.izquierda{
+    display: flex;
+    align-items: center;
+}
+
+
+main{
+    width: 100%;
+    
+}
+
+.nombre{
+     font-family: Franklin Gothic Medium;
+    font-weight: 600;
+    font-size: 13px;
+    color: rgb(26, 26, 46);
+text-align: right;
+}
+
+.rol{
+    
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 100px;
+    background-color: rgb(233, 30, 99);
+    color: white;
+     font-family: Franklin Gothic Medium;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.derecha{
+    display: flex;
+    padding: 20px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.btn-salir{
+    
+    padding: 7px 16px;
+    background: rgb(224, 224, 224);
+    border-width: medium;
+    border-style: none;
+    border-color: currentcolor;
+    border-image: none;
+    border-radius: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    color: rgb(102, 102, 102);
+    transition: background 0.2s;
+    height: 40px;
+}
+
+.name-rol{
+    margin-right: 15px;
+}
+
+.panel{
+    margin-top: 100px;
+}
+
+.cuadro-total-historico, .cuadro-pedidos-hoy, .cuadro-productos-totales
+, .cuadro-comercios-activos, .cuadro-clientes-activos, .cuadro-deliveries-activos{
+        background: white;
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 10px;
+    max-width: 340px;
+    margin: 10px 5px;
+}
+.cuadro-total-historico{
+        border-top: 4px solid rgb(233, 30, 99);
+}
+.cuadro-pedidos-hoy{
+border-top: 4px solid rgb(255, 152, 0);
+}
+
+.cuadro-productos-totales{
+    border-top: 4px solid rgb(123, 31, 162);
+}
+
+.cuadro-comercios-activos{
+    border-top: 4px solid rgb(21, 101, 192);
+}
+
+.cuadro-clientes-activos{
+    border-top: 4px solid rgb(46, 125, 50);
+}
+
+.cuadro-deliveries-activos{
+    border-top: 4px solid rgb(233, 30, 99);
+}
+
+.titulo{
+     font-family: Arial black;
+
+   font-size: 22px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+}
+
+.texto-panel{
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 24px;
+    font-family:Arial, Helvetica, sans-serif;
+
+}
+
+.head-dash{
+        font-family: arial ;
+    font-weight: 700;
+    font-size: 15px;
+    color: rgb(136, 136, 136);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+}
+
+.texto-cuadro{
+        font-size: 12px;
+    font-weight: 700;
+    color: rgb(153, 153, 153);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-family: arial black ;
+}
+
+.head-cuadro{
+        display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.cantidad{
+        font-family: Poppins;
+    font-weight: 800;
+    font-size: 32px;
+    color: rgb(26, 26, 46);
+    font-family: arial black;
+}
+
+.texto-final-cuadro{
+    font-size: 14px;
+    color: rgb(136, 136, 136);
+    margin-top: 4px;
+    font-family:Arial;
+
+}
+
+.pedidos-dash, .usuarios-dash{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.lista-clientes{
+    display: flex;
+    justify-content: center;
+}
+.head-lista-clientes{
+        margin-top: 100px;
+
+}
+table{
+    background-color: white;
+    width: 76%;
+    border-collapse: collapse;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 10px;
+     border-color: inherit;
+
+
+}
+thead{
+        box-sizing: border-box;
+}
+
+thead th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #888;
+    border-bottom: 2px solid #f0f0f0;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+td{
+    font-family: Arial;
+    font-weight: 600;
+    border-bottom: 2px solid #f0f0f0;
+    padding: 5px;
+
+}
+
+.Nuevo-tipo-comercio
+{
+background-color: #E91E63;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+
+}
+
+.Nuevo-tipo-comercio:hover{
+    background-color: #C2185B;
+    transform: translateY(-1px);
+}
+
+.nuevo-tipo{
+        margin-bottom: 20px;
+    border: 2px solid rgb(252, 228, 236);
+        background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    padding: 24px;
+        width: 76%;
+
+}

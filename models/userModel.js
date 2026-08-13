@@ -114,6 +114,44 @@ async function CrearUsuario(datos) {
   }
 }
 
+// todos los clientes para los administradores
+
+async function GetClientesToAdmin() 
+{
+  try{
+  const clientes = await User.find(
+    {
+      rol: "Cliente"
+    }
+  );
+  return clientes;
+  }
+  catch(error){
+    throw error;
+    console.log("error, extrayendo los clietes para los admin: ", error)
+  }
+  
+}
+
+// todos los deliveries para los administradores
+
+async function GetDeliveriesToAdmin() 
+{
+  try{
+  const deliveries = await User.find(
+    {
+      rol: "Delivery"
+    }
+  );
+  return deliveries;
+  }
+  catch(error){
+    throw error;
+    console.log("error, extrayendo los deliveries para los admin: ", error)
+  }
+  
+}
+
 // VERIFICACIÓN DE CREDENCIALES (LOGIN)
 async function verificarCredenciales(usuarIngresado, passwordIngresada) {
   try {
@@ -147,4 +185,4 @@ async function verificarCredenciales(usuarIngresado, passwordIngresada) {
     throw error;
   }
 }
-module.exports = { User, Cliente, Delivery, Comercio, Administrador, CrearUsuario, verificarCredenciales };
+module.exports = { User, Cliente, Delivery, Comercio, Administrador, CrearUsuario, verificarCredenciales, GetClientesToAdmin, GetDeliveriesToAdmin };
