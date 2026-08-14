@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const tipoComercioModel = require("../models/TipoComercioModel")
 const { Schema } = mongoose;
 
 const userOptions = {
@@ -91,21 +92,7 @@ async function CrearUsuario(datos) {
       return await nuevoDelivery.save();
     }
 
-    // Registro de Comercio
-    if (rol === 'comercio') {
-      const nuevoComercio = new Comercio({
-        usuario: datos.usuarioCDInput?.trim() || datos.comercioInputEmail?.trim(),
-        correo: datos.comercioInputEmail?.trim(),
-        password: datos.comercioPasswordInput?.trim(),
-        nombreComercio: datos.comercioInputNombre?.trim(),
-        telefono: datos.comercioInputTelefono?.trim(),
-        logoComercio: datos.comercioInputLogo?.trim() || null,
-        horaApertura: datos.comercioInputAperturaH?.trim(),
-        horaCierre: datos.comercioInputCierreH?.trim(),
-        tipoComercioId: datos.comercioSelectTipo?.trim()
-      });
-      return await nuevoComercio.save();
-    }
+ 
 
     throw new Error("El rol especificado no es válido");
   } catch (error) {
@@ -114,6 +101,29 @@ async function CrearUsuario(datos) {
   }
 }
 
+async function CrearComercio(datos) {
+  
+     // Registro de Comercio
+    try {
+      const nuevoComercio = new Comercio({
+        rol: "Comercio",
+        usuario:datos.comercioInputEmail?.trim() ,
+        correo: datos.comercioInputEmail?.trim(),
+        password: datos.comercioPasswordInput?.trim(),
+        nombreComercio: datos.comercioInputNombre?.trim(),
+        telefono: datos.comercioInputTelefono?.trim(),
+        logoComercio: datos.comercioInputLogo?.trim() || null,
+        horaApertura: datos.comercioInputAperturaH?.trim(),
+        horaCierre: datos.comercioInputCierreH?.trim(),
+        
+      });
+      return await nuevoComercio.save();
+      throw new Error("El rol especificado no es válido");
+  } catch (error) {
+    console.error("Error al guardar usuario en MongoDB:", error.message);
+    throw error;
+  }
+}
 // todos los clientes para los administradores
 
 async function GetClientesToAdmin() 
@@ -185,4 +195,4 @@ async function verificarCredenciales(usuarIngresado, passwordIngresada) {
     throw error;
   }
 }
-module.exports = { User, Cliente, Delivery, Comercio, Administrador, CrearUsuario, verificarCredenciales, GetClientesToAdmin, GetDeliveriesToAdmin };
+module.exports = { User, Cliente, Delivery, Comercio, Administrador, CrearUsuario, verificarCredenciales, GetClientesToAdmin, GetDeliveriesToAdmin, CrearComercio };

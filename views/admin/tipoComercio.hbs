@@ -14,24 +14,24 @@
 <section class="nuevo-tipo" id="NuevoTipoSection" hidden>
     <h3 class="nuevo-tipo-text">Nuevo tipo de comercio</h3>
 
-<form action="" method="get">
+<form action="/admin/tipo-comercio" method="post">
 <div class="NTC-inputs-container">
 
         <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Usuario</label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ej.cliente" name="usuario" required>
+        <label for="iconoNuevoTipoComercioAdminInput" class="form-label">Icono</label>
+        <input type="file" class="form-control" id="iconoNuevoTipoComercioAdminInput"  name="iconoNuevoTipoComercioAdminInput">
         </div>
 
 
         <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Usuario</label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ej.cliente" name="usuario" required>
+        <label for="nombeNuevoTipoComercioInput" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombeNuevoTipoComercioInput" placeholder="ej.Restaurante" name="nombeNuevoTipoComercioInput" required>
         </div>
         
 
         <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Usuario</label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ej.cliente" name="usuario" required>
+        <label for="descripcionNuevoTipoComercioInput" class="form-label">Descripcion</label>
+        <input type="text" class="form-control" id="descripcionNuevoTipoComercioInput"  name="descripcionNuevoTipoComercioInput" required>
         </div>
 
     </div>
@@ -57,28 +57,23 @@
 
     <thead>
       <tr>
+        <th>Icono</th>
         <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Correo</th>
-        <th>Telefono</th>
-        <th>Disponibilidad</th>
-        <th>Entregas</th>
-        <th>Estado</th>
-        <th>Accion</th>
+        <th>Descripcion</th>
+        <th>Comercios</th>
+        <th>Acciones</th>
+        
       </tr>
     </thead>
 
     <tbody>
        
-    {{#each listaDeliveries}}
+    {{#each listaTiposComercio}}
     <tr>
+      <td>{{this.icono}}</td>
       <td>{{this.nombre}}</td>
-      <td>{{this.apellido}}</td>
-      <td>{{this.correo}}</td>
-      <td>{{this.telefono}}</td>
-      <td>{{#if this.estadoDelivery}}Libre{{else}}Ocupado{{/if}}</td>
+      <td>{{this.descripcion}}</td>
       <td>hola</td>
-      <td>{{#if this.isActive}}Activo{{else}}Inactivo{{/if}}</td>
       <td><button class="btn btn-sm btn-primary">Acción</button></td>
     </tr>
   {{/each}}

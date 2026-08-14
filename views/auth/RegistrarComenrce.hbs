@@ -55,16 +55,15 @@
             <div class="mb-3 col-sm-12 col-md-4 ">
             <label for="comercioSelectTipo" class="form-label">Tipo de comercio</label>
             <select class="form-select" aria-label="Default select example" id="comercioSelectTipo" name="comercioSelectTipo" >
-            <option value="Restaurante">Restaurante</option>
-            <option value="Mercado">Mercado</option>
-            <option value="Bebidas">Bebidas</option>
-            <option value="Farmacia">Farmacia</option>
-            <option value="Cafeteria">Cafeteria</option>
-            </select>
+             {{#each listaTiposComercio}}
+    
+                <option value="{{this.nombre}}">{{this.nombre}}</option>
+            {{/each}}
+             </select>
+
             </div>
         </div>
 
-          
 
         
         <div class="row">

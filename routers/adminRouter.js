@@ -12,5 +12,8 @@ router.get("/deliveries", adminContoller.DeliveriesToAdmin)
 
 router.get("/tipo-comercio", adminContoller.ListaComercios)
 
+router.post("/tipo-comercio", adminContoller.NuevoTipoComercio)
+
+
 
 module.exports = router;

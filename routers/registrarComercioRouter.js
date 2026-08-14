@@ -6,5 +6,4 @@ const router = express.Router();
 
 router.get("/", RegistrarComercioController.mostrar);
 router.post("/", RegistrarComercioController.validarCrearCuentaComercio)
-
 module.exports = router;

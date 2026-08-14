@@ -46,7 +46,7 @@ const registrarComercio = require("./routers/registrarComercioRouter");
 app.use("/registrarComercio", registrarComercio);
 
 const cliente = require("./routers/clienteRouter");
-app.use("/cliente", cliente);
+app.use("/cliente/home", cliente);
 
 const admin = require("./routers/adminRouter");
 app.use("/admin", admin);

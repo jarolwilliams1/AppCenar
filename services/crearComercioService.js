@@ -23,7 +23,7 @@ async function ValidarDatos(datos) {
   }
 
 
- UserModel.CrearUsuario(datos);
+ UserModel.CrearComercio(datos);
 }
 
 module.exports = { ValidarDatos };

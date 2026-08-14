@@ -1,5 +1,6 @@
 const loginService = require("../services/loginService");
 
+
 async function mostrar(req, res) {
     res.render("auth/login", {
         layout: "auth"
@@ -14,7 +15,7 @@ async function validar(req, res) {
         // Redirigir si el login es exitoso
         switch(usuario){
             case "Cliente":
-        return res.redirect("/cliente"); 
+        return res.redirect("/cliente/home"); 
 
             
             break;

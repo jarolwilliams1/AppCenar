@@ -6,4 +6,6 @@ const DireccionSchema = new mongoose.Schema({
   descripcion: { type: String, required: true, trim: true } // Ej: "C/ Cerro Mar, Apt. 304"
 }, { timestamps: true });
 
-module.exports = mongoose.model('Direccion', DireccionSchema);
+const direccion = mongoose.model('Direccion', DireccionSchema);
+
+module.exports = {direccion}

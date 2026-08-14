@@ -1,5 +1,8 @@
 
 const usermodel = require("../models/userModel")
+const TipoComercioServices = require("../services/crearTipoComercioServices")
+const tipoComercioModel = require("../models/TipoComercioModel")
+
 async function mostrar (req,res){
     res.render("admin/dashboard",{
         layout: "admin"}
@@ -56,21 +59,27 @@ res.render("admin/deliveries",{
 async function ListaComercios(req, res)
  {
     try {
-        const deliveriesBD = await usermodel.GetDeliveriesToAdmin();
+        const TiposComerciosDB = await tipoComercioModel.GetTiposComercio();
 
         // Convertir documentos de Mongoose a objetos planos para Handlebars
-const listaDeliveries = deliveriesBD.map(cliente => cliente.toObject());
+const listaTiposComercio = TiposComerciosDB.map(TiposComercios => TiposComercios.toObject());
 
 
 
 res.render("admin/tipoComercio",{
-         layout: "admin", listaDeliveries })
-    console.log(deliveriesBD)
+         layout: "admin", listaTiposComercio })
+    console.log(TiposComerciosDB)
+
 } catch (error) {
     console.error("Error al obtener los comercios:", error);
     res.status(500).send("Error del servidor");
   }
 }
 
+async function NuevoTipoComercio(req, res) {
+    const nuevoTipo = TipoComercioServices.ValidarDatos(req.body)
+    console.log(nuevoTipo)
+}
 
-module.exports ={mostrar,  ClientesToAdmin, DeliveriesToAdmin, ListaComercios}
+
+module.exports ={mostrar,  ClientesToAdmin, DeliveriesToAdmin, ListaComercios, NuevoTipoComercio}

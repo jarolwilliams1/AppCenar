@@ -7,3 +7,38 @@
     <div class="pregunta" style="margin: 0px; font-size: 16px; opacity: 0.9;">¿Qué vas a pedir hoy?</div>
    </div>
 </div>
+
+
+<section class="perfil-categorias container">
+   <div class="perfil-categoria-text">
+      <h3 class="titulo-perfil-categoria">
+         Explorar por categoría
+      </h3>
+      <p class="texto-perfil-categoria">Elige el tipo de comercio que buscas</p>
+   </div>
+
+<div class=" container  catengorias-container">
+
+<div class="row cat-cont">
+
+
+{{#each listaTiposComercio}}
+
+   <div class="categoria-cuadro col-sm-12 col-md-1">
+      <a href="">
+      <img src="" alt="" class="logo-cateogria">
+      <h4 class="nombre-categoria">{{this.nombre}}</h4>
+      <p class="disponibles-categoria">192 disponibles</p>
+      </a>
+   </div>
+
+{{/each}}
+
+  
+
+
+
+   
+</div>
+</div>
+</section>

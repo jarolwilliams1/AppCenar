@@ -59,6 +59,8 @@ main{
     display: flex;
     justify-content: center;
     width: 100%;
+    flex-wrap: wrap;
+ 
 }
 
 .nombre{
@@ -112,4 +114,85 @@ text-align: right;
 
 .name-rol{
     margin-right: 15px;
+}
+
+.categoria-cuadro{
+    background: white;
+    border-width: medium;
+    border-style: none;
+    border-color: currentcolor;
+    border-image: none;
+    border-radius: 16px;
+    padding: 24px 16px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 2px 12px;
+    transition: 0.5s;
+   min-width: 200px;
+    height: 150px;
+    margin: 10px;
+}
+
+.categoria-cuadro:hover{
+        box-shadow: rgba(233, 30, 98, 0.298) 0px 2px 12px  !important;
+
+    transform: translateY(-3px);
+
+}
+.perfil-categorias{
+    width: 80%;
+            padding-bottom: 30px;
+margin-bottom: 50px;
+
+}
+
+.catengorias-container{
+    width: 100%;
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.cat-cont{
+    display: flex;
+    justify-content: space-between;
+}
+
+.titulo-perfil-categoria{
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+        font-family: Arial black;
+
+
+}
+
+
+.texto-perfil-categoria{
+font-size: 14px;
+    color: #888;
+    margin-bottom: 24px;
+    
+}
+.nombre-categoria{
+    text-decoration: none;
+    font-family: Arial black;
+    font-weight: 700;
+    font-size: 15px;
+    color: rgb(26, 26, 46);
+    margin-bottom: 4px;
+}
+
+.disponibles-categoria{
+    font-size: 13px;
+    color: rgb(170, 170, 170);
+    font-weight: 500;
+    text-decoration: none;
+
+}
+
+a{
+    text-decoration: none;
 }
