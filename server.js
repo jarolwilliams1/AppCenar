@@ -4,9 +4,28 @@ const path = require("path");
 const { engine } = require("express-handlebars");
 require('dotenv').config({ path: '.env.dev' });
 const conexion = require( "./config/mongooseConection");
-
+const session = require('express-session');
 
 const app = express();
+
+
+
+// Middlewares para parsear el body
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+
+// CONFIGURACIÓN DE EXPRESS-SESSION
+app.use(session({
+  secret: process.env.SESSION_ENV,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24, // Duración: 24 horas
+    httpOnly: true // Seguridad contra ataques XSS
+  }
+}));
+
 
 // Configurar Handlebars como motor de vistas
 app.engine("hbs", engine({
@@ -51,6 +70,8 @@ app.use("/cliente/home", cliente);
 const admin = require("./routers/adminRouter");
 app.use("/admin", admin);
 
+const Comercio = require("./routers/ComercioRouter");
+app.use("/comercio", Comercio);
 // Middleware de manejo de errores
 app.use((err, req, res, next) => {
     console.error(err);
