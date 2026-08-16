@@ -1,6 +1,6 @@
  const LoginModel = require("../models/userModel"); // Reemplaza por tu modelo real
 
-
+//const ComercioController = require("../controllers/ComercioController")
 
 // INICIO DE SESIÓN
 async function IniciarSesion(datosLogin) {
@@ -13,7 +13,16 @@ async function IniciarSesion(datosLogin) {
     throw new Error(resultado.mensaje);
   }
 
-  return resultado.usuario.rol;
+  const rol = resultado.usuario.rol;
+  const idUsuario = resultado.usuario._id;
+
+  const devueltaDatosUsurio ={
+    rol,
+    idUsuario
+  }
+  
+   
+  return await devueltaDatosUsurio;
 }
 
 

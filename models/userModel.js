@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const tipoComercioModel = require("../models/TipoComercioModel")
 const { Schema } = mongoose;
 
 const userOptions = {
@@ -115,6 +114,7 @@ async function CrearComercio(datos) {
         logoComercio: datos.comercioInputLogo?.trim() || null,
         horaApertura: datos.comercioInputAperturaH?.trim(),
         horaCierre: datos.comercioInputCierreH?.trim(),
+        tipoComercioId: datos.comercioSelectTipo
         
       });
       return await nuevoComercio.save();
@@ -161,7 +161,6 @@ async function GetDeliveriesToAdmin()
   }
   
 }
-
 // VERIFICACIÓN DE CREDENCIALES (LOGIN)
 async function verificarCredenciales(usuarIngresado, passwordIngresada) {
   try {

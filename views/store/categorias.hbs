@@ -1,0 +1,93 @@
+<div class="head-lista-clientes">
+   <div class="">
+     <h2 class="text-head-list">
+        Categorías
+    </h2>
+    <p class="registros">Organiza tu menú por categorías </p>
+    </div>
+
+
+<button class="Nuevo-tipo-categoria" id="btnNuevaCaregoria"> + Nuevo Categoría </button>
+
+</div>
+
+<section class="nuevo-tipo" id="NuevaCategoriaSection" hidden>
+    <h3 class="nuevo-tipo-text">Nueva categoría</h3>
+
+<form action="/comercio/categoria" method="post">
+<div class="NTC-inputs-container">
+
+      
+        <div class="mb-3">
+        <label for="nombreNuevaCategoriaInput" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombreNuevaCategoriaInput"  name="nombreNuevaCategoriaInput" required>
+        </div>
+        
+
+        <div class="mb-3">
+        <label for="descripcionNuevaCategoriaInput" class="form-label">Descripcion</label>
+        <input type="text" class="form-control" id="descripcionNuevaCategoriaInput"  name="descripcionNuevaCategoriaInput" required>
+        </div>
+
+    </div>
+
+    <div class="btones">
+        <button class="Nuevo-tipo-comercio" id="envu" type="submit">Crear</button>
+        <button type="button" class="btn btn-secondary" id="btnCancelarNuevaCategoria">Cancelar</button>
+
+
+    </div>
+    </form>
+    
+
+
+</section>
+
+<section class="lista-categorias">
+
+
+
+
+<table class="tabla-categorias">
+
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Productos</th>
+        <th>Acciones</th>
+        
+      </tr>
+    </thead>
+
+    <tbody>
+       
+    {{#each listaTiposComercio}}
+    <tr>
+      <td>{{this.icono}}</td>
+      <td>{{this.nombre}}</td>
+      <td>5</td>
+      <td><button class="btn btn-sm btn-primary">editat</button> eliminar<button></button></td>
+    </tr>
+  {{/each}}
+
+
+    </tbody>
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+</section>

@@ -3,6 +3,7 @@ const usermodel = require("../models/userModel")
 const TipoComercioServices = require("../services/crearTipoComercioServices")
 const tipoComercioModel = require("../models/TipoComercioModel")
 
+
 async function mostrar (req,res){
     res.render("admin/dashboard",{
         layout: "admin"}
@@ -80,6 +81,8 @@ async function NuevoTipoComercio(req, res) {
     const nuevoTipo = TipoComercioServices.ValidarDatos(req.body)
     console.log(nuevoTipo)
 }
+
+
 
 
 module.exports ={mostrar,  ClientesToAdmin, DeliveriesToAdmin, ListaComercios, NuevoTipoComercio}

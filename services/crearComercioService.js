@@ -12,6 +12,7 @@ async function ValidarDatos(datos) {
   const password = datos.comercioPasswordInput?.trim();
   const confirmarPassword = datos.confirmarComercioPasswordInput?.trim();
 
+
   // 2. Validar campos requeridos
   if (!nombreComercio || !telefonoComercio || !emailComercio || !logo || !horaApertura || !horaCierre || !tipoComercio || !password || !confirmarPassword) {
     throw new Error("Todos los campos son requeridos");

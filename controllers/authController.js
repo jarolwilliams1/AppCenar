@@ -11,9 +11,15 @@ async function validar(req, res) {
     try {
         console.log(req.body);
         const usuario = await loginService.IniciarSesion(req.body);
-        console.log(usuario)
+       // console.log(usuario.idUsuario) // id comercio
+// GUARDAR EN LA SESIÓN: Queda disponible para todas las solicitudes futuras
+    // 1. GUARDAR EN LA SESIÓN
+    req.session.usuario = {
+      id: usuario.idUsuario,
+      rol: usuario.rol
+    };
         // Redirigir si el login es exitoso
-        switch(usuario){
+        switch(usuario.rol){
             case "Cliente":
         return res.redirect("/cliente/home"); 
 
@@ -35,7 +41,7 @@ async function validar(req, res) {
 
 
              case "Comercio":
-        return res.redirect("/comercio"); 
+        return res.redirect("/comercio/home"); 
 
             
             break;
