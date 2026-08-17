@@ -31,5 +31,25 @@ console.log("categoria agregda manito")
   }
 }
 
-module.exports = {Categoria, CrearCategoria }
+// todos los clientes para los administradores
+
+async function GetCategoriasToComerce(id) 
+{
+  try{
+  const categorias = await Categoria.find(
+    {
+      comercioId: id
+    }
+  );
+  return categorias;
+  }
+  catch(error){
+    throw error;
+    console.log("error, extrayendo las categorias para el comercio: ", error)
+  }
+  
+}
+
+
+module.exports = {Categoria, CrearCategoria, GetCategoriasToComerce }
 

@@ -9,4 +9,53 @@ const ProductoSchema = new mongoose.Schema({
   foto: { type: String, required: true }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Producto', ProductoSchema);
+const Producto = mongoose.model('Producto', ProductoSchema);
+
+async function CrearProducto(datos, id)
+{
+
+  try{
+     const nombrep = datos.NombreNuevoPorducto?.trim();
+    const categoriap = datos.CategoriaNuevoProducto?.trim();
+    const preciop = datos.PrecioNuevoProducto?.trim();
+    const descripcionp = datos.DescripcionNuevoProducto?.trim();
+    const fotop = datos.FotoProductoNuevo?.trim();
+
+    const NewProduct = await Producto.create({
+      comercioId: id,
+      categoriaId: categoriap,
+      nombre: nombrep ,
+      descripcion: descripcionp ,
+      precio: preciop ,
+      foto: fotop 
+
+
+
+
+    })
+
+    return NewProduct
+
+  }
+  catch(error){
+  console.log("Ocurrio un error guardando el producto en la base de datos: ", error)
+
+ //throw Error("Ocurrio un error guardando el producto.")
+  }
+
+}
+
+async function GetProductosToComerceById(idComercio, IdCategoria)
+{
+
+  const productos = await Producto.find(
+   {
+     comercioId: idComercio,
+     categoriaId: IdCategoria
+   }
+  )
+  
+  return await productos;
+}
+
+module.exports ={CrearProducto, GetProductosToComerceById}

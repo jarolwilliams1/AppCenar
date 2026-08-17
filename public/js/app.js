@@ -9,6 +9,25 @@ const btnNuevaCaregoria = document.getElementById("btnNuevaCaregoria");
 const NuevaCategoriaSection = document.getElementById("NuevaCategoriaSection");
 const btnCancelarNuevaCategoria = document.getElementById("btnCancelarNuevaCategoria");
 
+const btnNuevoProducto = document.getElementById("btnNuevoProducto");
+const NuevoProductoSection = document.getElementById("NuevoProductoSection");
+const btnCancelarNuevoProducto = document.getElementById("btnCancelarNuevoProducto");
+if (btnNuevoProducto)
+    {
+        btnNuevoProducto.addEventListener("click", () =>{
+            NuevoProductoSection.hidden = false;
+        });
+
+}
+
+if(btnCancelarNuevoProducto)
+{
+    btnCancelarNuevoProducto.addEventListener("click", ()=>{
+        NuevoProductoSection.hidden=true;
+    })
+}
+
+
 
 if(nuevoTipoComercio){
     nuevoTipoComercio.addEventListener("click", ()=> {
