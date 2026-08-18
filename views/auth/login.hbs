@@ -1,48 +1,53 @@
 <section class="login-seccion">
-    
     <div class="encabezado">
         <div class="logo-encaezado">
-            <img src="" alt="" class="logo">
+            <span>AC</span>
         </div>
-
-          <h2 class="nameApp">AppCenar</h2>
-    <p class="text-head">Tu comida favorita, a un clic</p>
-
+        <h2 class="nameApp">AppCenar</h2>
+        <p class="text-head">Tu comida favorita, a un clic</p>
     </div>
-  
- <form action="/login" method="post">
-     <div class="login-card">
-    <h2 class="card-text">Iniciar Sesión</h2>
 
-{{#if error}}
-  <div class="advertencia-login" id="AdvertenciaLogin">
-    {{error}}
-  </div>
-{{/if}}
-  <div class="mb-3">
-  <label for="exampleFormControlInput1" class="form-label">Usuario</label>
-  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ej.cliente" name="usuario" required>
-</div>
+    <form action="/login" method="post" class="login-form">
+        <div class="login-card">
+            <h2 class="card-text">Iniciar sesión</h2>
 
+            {{#if success}}
+                <div class="alert alert-success py-2 text-center" style="font-size: 14px; border-radius: 8px;">
+                    {{success}}
+                </div>
+            {{/if}}
 
-<div class="mb-3">
-  <label for="exampleFormControlInput1" class="form-label">Contraseña</label>
-  <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="........" name="password" required>
-</div>
+            {{#if error}}
+                <div class="advertencia-login" id="AdvertenciaLogin">
+                    {{error}}
+                </div>
+            {{/if}}
 
-<button class=" btn-primary2" type="submit" value="Submit">Iniciar Sesión</button>
+            <div class="mb-3">
+                <label for="usuarioLogin" class="form-label">Correo o Nombre de usuario</label>
+                <input type="text" class="form-control" id="usuarioLogin" placeholder="ej. cliente@appcenar.com o admin" name="usuario" value="{{datos.usuario}}" required>
+            </div>
 
-<div class="linea"></div>
+            <div class="mb-3">
+                <label for="passwordLogin" class="form-label">contraseña</label>
+                <input type="password" class="form-control" id="passwordLogin" placeholder="" name="password" required>
+            </div>
 
-<button type="button" class="btn-registrar-cliente-delivery"  onclick="location.href='/registrar'">Registrarse como Cliente o Delivery</button>
+            <button class="btn-primary2" type="submit">Iniciar sesión</button>
 
-<button type="button" class="btn-registrar-comercio"  onclick="location.href='/RegistrarComercio'">Registrarse como Comercio</button>
+            <div class="linea"></div>
 
-<button type="button" class="btn-olvide-contra"  onclick="location.href='/'">Olvidé mi contraseña</button>
+            <button type="button" class="btn-registrar-cliente-delivery" onclick="location.href='/registrar'">
+                Registrarse como Cliente o Delivery
+            </button>
 
+            <button type="button" class="btn-registrar-comercio" onclick="location.href='/registrarComercio'">
+                Registrarse como Comercio
+            </button>
 
-
-  </div>
- </form>
-
+            <button type="button" class="btn-olvide-contra" onclick="location.href='/recuperar-password'">
+                Olvidaste tu contraseña?
+            </button>
+        </div>
+    </form>
 </section>

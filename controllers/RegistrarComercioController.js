@@ -1,48 +1,34 @@
-const ComercioCuenta = require("../services/crearComercioService")
+const ComercioCuenta = require("../services/crearComercioService");
+const tipoComercioModel = require("../models/TipoComercioModel");
 
-const tipoComercioModel = require("../models/TipoComercioModel")
+async function mostrar(req, res) {
+  const TiposComerciosDB = await tipoComercioModel.GetTiposComercio();
+  const listaTiposComercio = TiposComerciosDB.map(t => t.toObject());
 
-async function mostrar (req,res){
-      const TiposComerciosDB = await tipoComercioModel.GetTiposComercio();
-
-        // Convertir documentos de Mongoose a objetos planos para Handlebars
-const listaTiposComercio = TiposComerciosDB.map(TiposComercios => TiposComercios.toObject());
-
-    console.log(TiposComerciosDB)
-    res.render("auth/RegistrarComenrce",{
-        layout: "comerce",
-                 listaTiposComercio   
-         }
-        
-    )
-
-     
-
-
+  return res.render("auth/RegistrarComenrce", {
+    layout: "comerce",
+    listaTiposComercio,
+    error: req.query.error || null
+  });
 }
-
 
 async function validarCrearCuentaComercio(req, res) {
-    try {
-       
-        console.log(req.body);
-      ComercioCuenta.ValidarDatos(req.body)
+  try {
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    await ComercioCuenta.ValidarDatos(req.body, req.file, baseUrl);
 
-        // Redirigir si el login es exitoso
-        return res.redirect("/login"); 
-    } catch (error) {
-        return res.status(400).render("auth/RegistrarComenrce", {
-            layout: "comerce",
-            error: error.message,
-            datos: req.body,
-             listaTiposComercio
-        });
-    }
+    return res.redirect("/login?success=Comercio registrado exitosamente. Te hemos enviado un correo de activación.");
+  } catch (error) {
+    const TiposComerciosDB = await tipoComercioModel.GetTiposComercio();
+    const listaTiposComercio = TiposComerciosDB.map(t => t.toObject());
 
-    
-    return usuario;
+    return res.status(400).render("auth/RegistrarComenrce", {
+      layout: "comerce",
+      error: error.message,
+      datos: req.body,
+      listaTiposComercio
+    });
+  }
 }
 
-
-
-module.exports = {mostrar, validarCrearCuentaComercio }
+module.exports = { mostrar, validarCrearCuentaComercio };

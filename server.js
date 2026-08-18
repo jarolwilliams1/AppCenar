@@ -1,60 +1,107 @@
-require("dotenv").config();
-const express = require("express");
 const path = require("path");
+const fs = require("fs");
+const express = require("express");
+const session = require("express-session");
 const { engine } = require("express-handlebars");
-require('dotenv').config({ path: '.env.dev' });
-const conexion = require( "./config/mongooseConection");
-const session = require('express-session');
+const dotenv = require("dotenv");
+
+const ambiente = (process.env.NODE_ENV || "development").toLowerCase();
+const archivosEntorno = [
+  path.resolve(__dirname, ".env"),
+  path.resolve(__dirname, `.env.${ambiente}`),
+  path.resolve(__dirname, ".env.dev"),
+  path.resolve(__dirname, ".env.qa")
+];
+
+for (const archivo of archivosEntorno) {
+  if (fs.existsSync(archivo)) {
+    dotenv.config({ path: archivo });
+  }
+}
+
+const conexion = require("./config/mongooseConection");
+const seedAdmin = require("./config/seedAdmin");
 
 const app = express();
 
+app.use(express.urlencoded({ extended: true, limit: "15mb" }));
+app.use(express.json({ limit: "15mb" }));
 
-
-// Middlewares para parsear el body
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-
-// CONFIGURACIÓN DE EXPRESS-SESSION
 app.use(session({
-  secret: process.env.SESSION_ENV,
+  secret: process.env.SESSION_ENV || "appcenar-secret",
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24, // Duración: 24 horas
-    httpOnly: true // Seguridad contra ataques XSS
+    maxAge: 1000 * 60 * 60 * 24, // 24 horas
+    httpOnly: true,
+    sameSite: "lax"
   }
 }));
 
-
-// Configurar Handlebars como motor de vistas
 app.engine("hbs", engine({
-    extname: ".hbs",
-    defaultLayout: "auth",
-    runtimeOptions: {
-        allowProtoPropertiesByDefault: true,
-        allowProtoMethodsByDefault: true
+  extname: ".hbs",
+  defaultLayout: "auth",
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true
+  },
+  helpers: {
+    eq: (a, b) => String(a) === String(b),
+    ne: (a, b) => String(a) !== String(b),
+    or: (a, b) => a || b,
+    and: (a, b) => a && b,
+    not: (a) => !a,
+    calcularPosicion: (index) => Number(index) + 1,
+    seleccionado: (a, b) => String(a) === String(b) ? "selected" : "",
+    money: (valor) => Number(valor || 0).toLocaleString("es-DO", { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+    incluido: (lista, valor) => Array.isArray(lista) && (lista.includes(valor) || lista.map(String).includes(String(valor))),
+    formatDate: (date) => {
+      if (!date) return "";
+      const d = new Date(date);
+      return d.toLocaleDateString("es-DO", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
     },
-    helpers: {
-        eq: (a, b) => a === b,
-        calcularPosicion: (index) => index + 1,
-        seleccionado: (a, b) => a == b ? "selected" : "",
-        money: (valor) => Number(valor || 0).toFixed(2),
-        incluido: (lista, valor) => Array.isArray(lista) && lista.includes(valor)
+    json: (obj) => JSON.stringify(obj),
+    statusBadge: (estado) => {
+      switch (estado) {
+        case "pendiente":
+          return "bg-warning text-dark";
+        case "en_proceso":
+          return "bg-info text-dark";
+        case "completado":
+          return "bg-success text-white";
+        default:
+          return "bg-secondary text-white";
+      }
     },
-    partialsDir: path.join(__dirname, "views/partials") //  Aquí se configuran los parciales
+    statusLabel: (estado) => {
+      switch (estado) {
+        case "pendiente":
+          return "Pendiente";
+        case "en_proceso":
+          return "En Proceso";
+        case "completado":
+          return "Completado";
+        default:
+          return estado;
+      }
+    }
+  },
+  partialsDir: path.join(__dirname, "views/partials")
 }));
 
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
-
-// Middlewares esenciales
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+// Pasar usuario de sesión y alertas a todas las vistas
+app.use((req, res, next) => {
+  res.locals.sessionUser = req.session && req.session.usuario ? req.session.usuario : null;
+  res.locals.successMsg = req.query.success || null;
+  res.locals.errorMsg = req.query.error || null;
+  next();
+});
 
-// Rutas
+// Enrutadores Web MVC
 const authRoute = require("./routers/authRoute");
 app.use("/", authRoute);
 
@@ -67,22 +114,29 @@ app.use("/registrarComercio", registrarComercio);
 const cliente = require("./routers/clienteRouter");
 app.use("/cliente", cliente);
 
+const Comercio = require("./routers/ComercioRouter");
+app.use("/comercio", Comercio);
+
+const delivery = require("./routers/deliveryRouter");
+app.use("/delivery", delivery);
+
 const admin = require("./routers/adminRouter");
 app.use("/admin", admin);
 
-const Comercio = require("./routers/ComercioRouter");
-app.use("/comercio", Comercio);
-// Middleware de manejo de errores
+// Manejo global de errores
 app.use((err, req, res, next) => {
-    console.error(err);
-    const referer = req.get("Referer") || "/";
-    const separador = referer.includes("?") ? "&" : "?";
-    res.redirect(referer + separador + "error=" + encodeURIComponent(err.message || "Ocurrió un error inesperado"));
+  console.error("Global Error Handler:", err);
+  const referer = req.get("Referer") || "/";
+  const separador = referer.includes("?") ? "&" : "?";
+  res.redirect(referer + separador + "error=" + encodeURIComponent(err.message || "Ocurri un error inesperado"));
 });
 
-
-     conexion.connectDB();
-
-
-const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
+// Conectar a MongoDB y arrancar servidor
+conexion.connectDB().then(async () => {
+  await seedAdmin();
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => console.log(`?? Servidor AppCenar Web MVC corriendo en http://localhost:${PORT} [${ambiente}]`));
+}).catch((error) => {
+  console.error("No fue posible arrancar el servidor:", error);
+  process.exit(1);
+});

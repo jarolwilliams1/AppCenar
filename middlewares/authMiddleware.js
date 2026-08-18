@@ -1,12 +1,50 @@
-// middlewares/authMiddleware.js
-function protegerComercio(req, res, next) {
-  // Comprobar si existe la sesión y si tiene rol Comercio
-  if (req.session && req.session.usuario && req.session.usuario.rol === 'Comercio') {
-    return next(); // Pasa al controlador
+function requiereLogin(req, res, next) {
+  if (req.session && req.session.usuario) {
+    return next();
   }
-  
-  // Si no está autenticado, mandar al login
-  return res.redirect('/auth/login');
+  return res.redirect('/login');
 }
 
-module.exports = { protegerComercio };
+function requiereRol(rolesPermitidos = []) {
+  return (req, res, next) => {
+    const usuario = req.session && req.session.usuario ? req.session.usuario : null;
+
+    if (!usuario) {
+      return res.redirect('/login');
+    }
+
+    if (!rolesPermitidos.includes(usuario.rol)) {
+      return res.status(403).render('auth/login', {
+        layout: 'auth',
+        error: 'No tienes permisos para acceder a esta sección.'
+      });
+    }
+
+    return next();
+  };
+}
+
+function redirectIfAuth(req, res, next) {
+  if (req.session && req.session.usuario) {
+    const rol = req.session.usuario.rol;
+    switch (rol) {
+      case 'Cliente':
+        return res.redirect('/cliente/home');
+      case 'Delivery':
+        return res.redirect('/delivery/home');
+      case 'Comercio':
+        return res.redirect('/comercio/home');
+      case 'Administrador':
+        return res.redirect('/admin');
+      default:
+        return next();
+    }
+  }
+  return next();
+}
+
+module.exports = {
+  requiereLogin,
+  requiereRol,
+  redirectIfAuth
+};

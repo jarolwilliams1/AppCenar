@@ -1,64 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/comercio.css">
-    <title>AppCenar Comercio</title>
+    <title>AppCenar | Comercio</title>
 </head>
 <body>
-    
-    <nav>
-      <div class="izquierda">
-        <div class="cuadrologo">
-          <img src="" alt="">
+    <nav class="cliente-nav comercio-nav">
+        <div class="izquierda">
+            <a href="/comercio/home" class="d-flex align-items-center text-decoration-none">
+                <div class="cuadrologo me-2">
+                    <span class="text-white fw-bold">AC</span>
+                </div>
+                <h2 class="text-head mb-0">App<span class="partenegra">Cenar</span></h2>
+            </a>
         </div>
 
-        <h2 class="text-head">App<span class="partenegra">Cenar</span></h2>
-      </div>
-
-<div class="centro">
-  <ul class="nav justify-content-center">
- 
-  <li class="nav-item">
-    <a class="nav-link" href="/comercio/home"  aria-current="page">Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="/comercio/categoria">Categorias</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link " href="/comercio/productos">Productos</a>
-  </li>
-
-  <li class="nav-item">
-    <a class="nav-link " href="#">Perfil</a>
-  </li>
-
-   
-</ul>
-</div>
-
-      <div class="derecha">
-        <div class="name-rol">
-          <h3 class="nombre">Jarol Williams</h3>
-          <h3 class="rol">CLIENTE</h3>
+        <div class="centro">
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="/comercio/home">Pedidos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/comercio/categoria">categorías</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/comercio/productos">Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/comercio/perfil">Perfil</a>
+                </li>
+            </ul>
         </div>
-        <button type="button" class="  btn-salir">Salir</button>
 
-
-      </div>
+        <div class="derecha">
+            <div class="name-rol">
+                <h3 class="nombre">{{#if sessionUser.nombre}}{{sessionUser.nombre}}{{else if sessionUser.usuario}}{{sessionUser.usuario}}{{else}}Comercio{{/if}}</h3>
+                <h3 class="rol">COMERCIO</h3>
+            </div>
+            <a href="/logout" class="btn-salir text-decoration-none d-flex align-items-center">Salir</a>
+        </div>
     </nav>
-
 
     <main>
         {{{body}}}
     </main>
-    
 
-<footer>
-</footer>
-<script src="/js/bootstrap.bundle.js"></script>
-<script src="/js/app.js"></script>
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/app.js"></script>
 </body>
 </html>

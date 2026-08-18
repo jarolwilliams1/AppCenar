@@ -1,37 +1,62 @@
-const UserModel = require('../models/userModel');
+const { User, CrearUsuario } = require("../models/userModel");
+const { sendActivationEmail } = require("./mailService");
 
-async function ValidarDatos(datos) {
-  // 1. Extraer y limpiar los campos enviando los nombres correctos del body/formulario
-  const nombre = datos.nombrelCDInput?.trim();
-  const apellido = datos.apellidolCDInput?.trim();
-  const telefono = datos.telefonoCDInput?.trim();
-  const email = datos.emailCDInput?.trim();
-  const userName = datos.usuarioCDInput?.trim();
-  const rol = datos.rolCDInput?.trim();
-  const fotoPerfil = datos.fotoCDInput?.trim();
-  const password = datos.passwordCDInput?.trim();
-  const confirmarPassword = datos.confirmarPasswordCDInput?.trim();
+async function ValidarDatos(datos, file, baseUrl) {
+  const nombre = (datos.nombrelCDInput || datos.nombre || "").trim();
+  const apellido = (datos.apellidolCDInput || datos.apellido || "").trim();
+  const telefono = (datos.telefonoCDInput || datos.telefono || "").trim();
+  const email = (datos.emailCDInput || datos.correo || "").trim().toLowerCase();
+  const userName = (datos.usuarioCDInput || datos.usuario || "").trim();
+  const rol = (datos.rolCDInput || datos.rol || "").trim();
+  const password = (datos.passwordCDInput || datos.password || "").trim();
+  const confirmarPassword = (datos.confirmarPasswordCDInput || datos.confirmarPassword || "").trim();
 
-  // 2. Validar campos requeridos
-  if (!nombre || !apellido || !telefono || !email || !userName || !rol || !fotoPerfil || !password || !confirmarPassword) {
+  if (!nombre || !apellido || !telefono || !email || !userName || !rol || !password || !confirmarPassword) {
     throw new Error("Todos los campos son requeridos");
   }
 
-  // 3. Validar contraseñas
   if (password !== confirmarPassword) {
     throw new Error("Las contraseñas no coinciden");
   }
 
-  
-  //if (rol.toLowerCase() != 'delivery' || rol.toLowerCase() != 'cliente' )
-    // {
+  // Validación de unicidad de usuario y correo
+  const existeUsuario = await User.findOne({ usuario: userName });
+  if (existeUsuario) {
+    throw new Error("El nombre de usuario ya está en uso");
+  }
 
-      //    throw new Error("El rol es invalido");
+  const existeCorreo = await User.findOne({ correo: email });
+  if (existeCorreo) {
+    throw new Error("El correo electrónico ya está registrado");
+  }
 
+  const fotoPath = file ? `/uploads/${file.filename}` : (datos.fotoPerfil || null);
 
- // }
+  const datosCompletos = {
+    ...datos,
+    nombrelCDInput: nombre,
+    apellidolCDInput: apellido,
+    telefonoCDInput: telefono,
+    emailCDInput: email,
+    usuarioCDInput: userName,
+    rolCDInput: rol,
+    passwordCDInput: password,
+    fotoCDInput: fotoPath
+  };
 
- UserModel.CrearUsuario(datos);
+  const nuevoUsuario = await CrearUsuario(datosCompletos);
+
+  // Enviar correo de activación
+  if (nuevoUsuario && nuevoUsuario.activationToken) {
+    await sendActivationEmail({
+      email: nuevoUsuario.correo,
+      nombre: nuevoUsuario.nombre,
+      token: nuevoUsuario.activationToken,
+      baseUrl: baseUrl
+    });
+  }
+
+  return nuevoUsuario;
 }
 
 module.exports = { ValidarDatos };

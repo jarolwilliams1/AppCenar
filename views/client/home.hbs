@@ -1,44 +1,91 @@
 <div class="bienvenida">
-   <div class="text-bienvenida">
-     <h1 class="hola" style=" font-weight: 800; font-size: 30px; margin: 0px 0px 6px;">
-        Hola, Jarol. 👋
-    </h1>
-
-    <div class="pregunta" style="margin: 0px; font-size: 16px; opacity: 0.9;">¿Qué vas a pedir hoy?</div>
-   </div>
+    <div class="text-bienvenida">
+        <h1 class="hola">Hola, {{#if sessionUser.nombre}}{{sessionUser.nombre}}{{else}}{{sessionUser.usuario}}{{/if}}. ??</h1>
+        <div class="pregunta">qué vas a pedir hoy?</div>
+    </div>
+    <div class="d-none d-md-block text-white opacity-75" style="font-size: 50px;">
+        ???
+    </div>
 </div>
 
+{{#if successMsg}}
+    <div class="alert alert-success alert-dismissible fade show w-80 mb-4" role="alert">
+        {{successMsg}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+{{/if}}
+
+{{#if errorMsg}}
+    <div class="alert alert-danger alert-dismissible fade show w-80 mb-4" role="alert">
+        {{errorMsg}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+{{/if}}
 
 <section class="perfil-categorias container">
-   <div class="perfil-categoria-text">
-      <h3 class="titulo-perfil-categoria">
-         Explorar por categoría
-      </h3>
-      <p class="texto-perfil-categoria">Elige el tipo de comercio que buscas</p>
-   </div>
+    <div class="perfil-categoria-text">
+        <h3 class="titulo-perfil-categoria">Explorar por categoría</h3>
+        <p class="texto-perfil-categoria">Elige el tipo de comercio que buscas</p>
+    </div>
 
-<div class=" container  catengorias-container">
-
-<div class="row cat-cont">
-
-
-{{#each listaTiposComercio}}
-
-   <div class="categoria-cuadro col-sm-12 col-md-1" >
-      <ahref="/cliente/home/comercios/{{this._id}}">
-      <img src="" alt="" class="logo-cateogria">
-      <h4 class="nombre-categoria">{{this.nombre}}</h4>
-      <p class="disponibles-categoria"></p>
-      </a>
-   </div>
-
-{{/each}}
-
-  
-
-
-
-   
-</div>
-</div>
+    <div class="catengorias-container">
+        <div class="row w-100 g-3">
+            {{#each listaTiposComercio}}
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="/cliente/home/comercios/{{this._id}}" class="text-decoration-none">
+                        <div class="categoria-cuadro">
+                            <div class="categoria-icono fs-1 mb-2">
+                                {{#if this.icono}}
+                                    {{#if (eq this.icono "??")}}??{{else if (eq this.icono "??")}}??{{else if (eq this.icono "??")}}??{{else if (eq this.icono "??")}}??{{else if (eq this.icono "?")}}?{{else if (eq this.icono "??")}}??{{else}}<img src="{{this.icono}}" alt="{{this.nombre}}" style="width: 42px; height: 42px; object-fit: contain;">{{/if}}
+                                {{else}}
+                                    ???
+                                {{/if}}
+                            </div>
+                            <h4 class="nombre-categoria">{{this.nombre}}</h4>
+                            <p class="disponibles-categoria">{{this.disponibles}} disponibles</p>
+                        </div>
+                    </a>
+                </div>
+            {{else}}
+                <div class="col-12 text-center py-4">
+                    <p class="text-muted">No hay tipos de comercio registrados actualmente.</p>
+                </div>
+            {{/each}}
+        </div>
+    </div>
 </section>
+
+{{#if pedidosRecientes.length}}
+<section class="container w-80 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold mb-0" style="color: #1a1a2e;">Pedidos recientes</h4>
+        <a href="/cliente/pedidos" class="text-decoration-none" style="color: #E91E63; font-weight: 600; font-size: 14px;">Ver todos ?</a>
+    </div>
+
+    <div class="d-flex flex-column gap-2">
+        {{#each pedidosRecientes}}
+            <div class="card border-0 shadow-sm p-3 rounded-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 48px; height: 48px;">
+                            {{#if this.comercioId.logoComercio}}
+                                <img src="{{this.comercioId.logoComercio}}" alt="Logo" style="width: 36px; height: 36px; object-fit: cover; border-radius: 8px;">
+                            {{else}}
+                                <span style="font-size: 24px;">??</span>
+                            {{/if}}
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0 text-dark">{{this.comercioId.nombreComercio}}</h6>
+                            <small class="text-muted">{{formatDate this.createdAt}}  {{this.productos.length}} productos</small>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <div class="fw-bold mb-1" style="color: #E91E63;">RD$ {{money this.total}}</div>
+                        <span class="badge {{statusBadge this.estado}} rounded-pill px-3 py-1">{{statusLabel this.estado}}</span>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</section>
+{{/if}}

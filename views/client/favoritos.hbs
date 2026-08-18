@@ -1,0 +1,58 @@
+<section class="container" style="max-width: 800px; margin-top: 90px; margin-bottom: 60px;">
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1" style="color: #1a1a2e;">Mis Favoritos</h2>
+        <p class="text-muted">Comercios que guardaste para pedir más rpido</p>
+    </div>
+
+    {{#if successMsg}}
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
+            {{successMsg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {{/if}}
+
+    <div class="d-flex flex-column gap-3">
+        {{#each favoritos}}
+            <div class="card border-0 shadow-sm p-3 rounded-4">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 56px; height: 56px; border: 1px solid #eee;">
+                            {{#if this.logoComercio}}
+                                <img src="{{this.logoComercio}}" alt="{{this.nombreComercio}}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">
+                            {{else}}
+                                <span style="font-size: 28px;">??</span>
+                            {{/if}}
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-dark">{{this.nombreComercio}}</h5>
+                            <small class="text-muted">{{this.tipoComercioId.nombre}}  ? {{this.horaApertura}} - {{this.horaCierre}}</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="/cliente/comercio/{{this._id}}" class="btn text-white px-3 py-2" style="background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91)); border-radius: 8px; font-weight: 600; font-size: 13px;">
+                            Ver menú
+                        </a>
+
+                        <form action="/cliente/favoritos/remove/{{this._id}}" method="POST" class="m-0">
+                            <button type="submit" class="btn btn-outline-danger px-3 py-2" style="border-radius: 8px; font-size: 13px;">
+                                Remover ??
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {{else}}
+            <div class="card border-0 shadow-sm p-5 text-center rounded-4">
+                <div style="font-size: 40px;" class="mb-2">??</div>
+                <h5 class="fw-bold text-dark">No tienes comercios favoritos</h5>
+                <p class="text-muted mb-3">Guarda tus comercios preferidos haciendo clic en el corazn para acceder rpidamente.</p>
+                <div>
+                    <a href="/cliente/home" class="btn text-white px-4 py-2" style="background-color: #E91E63; border-radius: 10px; font-weight: 600;">
+                        Explorar Comercios
+                    </a>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</section>

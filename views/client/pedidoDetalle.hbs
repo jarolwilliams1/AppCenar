@@ -1,0 +1,76 @@
+<section class="container" style="max-width: 800px; margin-top: 90px; margin-bottom: 60px;">
+    <div class="d-flex align-items-center mb-4">
+        <a href="/cliente/pedidos" class="btn btn-outline-secondary btn-sm rounded-pill px-3 me-3">
+            &larr; Volver a mis pedidos
+        </a>
+        <h4 class="fw-bold mb-0" style="color: #1a1a2e;">Detalles del Pedido</h4>
+    </div>
+
+    <div class="card border-0 shadow-sm p-4 rounded-4 mb-4">
+        <!-- Cabecera del pedido -->
+        <div class="d-flex justify-content-between align-items-center pb-3 mb-4 border-bottom flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 56px; height: 56px; border: 1px solid #eee;">
+                    {{#if pedido.comercioId.logoComercio}}
+                        <img src="{{pedido.comercioId.logoComercio}}" alt="Logo" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">
+                    {{else}}
+                        <span style="font-size: 28px;">??</span>
+                    {{/if}}
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-0 text-dark">{{pedido.comercioId.nombreComercio}}</h5>
+                    <small class="text-muted">{{formatDate pedido.createdAt}}</small>
+                </div>
+            </div>
+
+            <span class="badge {{statusBadge pedido.estado}} rounded-pill px-3 py-2 text-uppercase" style="font-size: 12px; font-weight: 700;">
+                {{statusLabel pedido.estado}}
+            </span>
+        </div>
+
+        <!-- Lista de Productos -->
+        <div class="mb-4">
+            <h6 class="fw-bold text-uppercase text-muted mb-3" style="font-size: 12px; letter-spacing: 0.05em;">Productos</h6>
+            <div class="d-flex flex-column gap-3">
+                {{#each pedido.productos}}
+                    <div class="d-flex justify-content-between align-items-center p-2 rounded-3 bg-light">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-2 d-flex align-items-center justify-content-center bg-white" style="width: 44px; height: 44px; overflow: hidden; border: 1px solid #eee;">
+                                {{#if this.foto}}
+                                    <img src="{{this.foto}}" alt="{{this.nombre}}" style="width: 100%; height: 100%; object-fit: cover;">
+                                {{else}}
+                                    <span>???</span>
+                                {{/if}}
+                            </div>
+                            <span class="fw-bold text-dark" style="font-size: 14px;">{{this.nombre}}</span>
+                        </div>
+                        <span class="fw-bold" style="color: #1a1a2e; font-size: 14px;">RD$ {{money this.precio}}</span>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <!-- dirección de entrega -->
+        <div class="p-3 rounded-3 mb-4" style="background-color: #f8f9fb; border: 1px solid #eee;">
+            <div class="text-muted text-uppercase fw-bold mb-1" style="font-size: 11px; letter-spacing: 0.05em;">?? dirección de Entrega</div>
+            <div class="fw-bold text-dark">{{pedido.direccion.nombre}}</div>
+            <div class="text-muted small">{{pedido.direccion.descripcion}}</div>
+        </div>
+
+        <!-- Resumen de Costos -->
+        <div class="d-flex flex-column gap-2 pt-3 border-top">
+            <div class="d-flex justify-content-between text-muted">
+                <span>Subtotal:</span>
+                <span class="fw-bold text-dark">RD$ {{money pedido.subtotal}}</span>
+            </div>
+            <div class="d-flex justify-content-between text-muted">
+                <span>ITBIS ({{pedido.itbisPorcentaje}}%):</span>
+                <span class="fw-bold text-dark">RD$ {{money pedido.itbisMonto}}</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                <span class="fs-5 fw-bold" style="color: #1a1a2e;">Total:</span>
+                <span class="fs-4 fw-bold" style="color: #E91E63;">RD$ {{money pedido.total}}</span>
+            </div>
+        </div>
+    </div>
+</section>

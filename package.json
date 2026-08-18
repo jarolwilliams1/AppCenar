@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node server.js",
-    "dev": "cross-env NODE_ENV=development dotenv -e .env.dev nodemon  server.js",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "dev": "cross-env NODE_ENV=development dotenv -e .env.development -- nodemon server.js",
+    "qa": "cross-env NODE_ENV=qa dotenv -e .env.qa -- nodemon server.js",
+    "db": "mongod --dbpath C:\\data\\db",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,6 +32,7 @@
     "express-session": "^1.19.0",
     "express-validator": "^7.3.2",
     "hbs": "^4.2.1",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.9.1",
     "multer": "^2.2.0",
     "nodemailer": "^9.0.3"

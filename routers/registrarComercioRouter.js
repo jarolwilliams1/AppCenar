@@ -1,9 +1,9 @@
-const RegistrarComercioController = require("../controllers/RegistrarComercioController")
 const express = require("express");
 const router = express.Router();
-
-//ter.post("/login", authController.validar )
+const RegistrarComercioController = require("../controllers/RegistrarComercioController");
+const upload = require("../middlewares/uploadMiddleware");
 
 router.get("/", RegistrarComercioController.mostrar);
-router.post("/", RegistrarComercioController.validarCrearCuentaComercio)
+router.post("/", upload.single("comercioInputLogo"), RegistrarComercioController.validarCrearCuentaComercio);
+
 module.exports = router;

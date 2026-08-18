@@ -1,21 +1,28 @@
-const TipoComercioModel = require("../models/TipoComercioModel")
+const { TipoComercio, NuevoTipoComercio } = require("../models/TipoComercioModel");
 
+async function ValidarDatos(datos, file) {
+  const nombre = (datos.nombeNuevoTipoComercioInput || datos.nombre || "").trim();
+  const descripcion = (datos.descripcionNuevoTipoComercioInput || datos.descripcion || "").trim();
 
-async function ValidarDatos(datos) {
-  // 1. Extraer y limpiar los campos enviando los nombres correctos del body/formulario
-  const nombre = datos.nombeNuevoTipoComercioInput?.trim();
-    const descripcion = datos.descripcionNuevoTipoComercioInput?.trim();
-
-
-
-  // 2. Validar campos requeridos
   if (!nombre || !descripcion) {
     throw new Error("Todos los campos son requeridos");
   }
 
+  const existe = await TipoComercio.findOne({ nombre: new RegExp(`^${nombre}$`, "i") });
+  if (existe) {
+    throw new Error("Ya existe un tipo de comercio con ese nombre");
+  }
 
+  const iconoPath = file ? `/uploads/${file.filename}` : (datos.icono || "???");
 
- TipoComercioModel.NuevoTipoComercio(datos);
+  const datosCompletos = {
+    ...datos,
+    nombeNuevoTipoComercioInput: nombre,
+    descripcionNuevoTipoComercioInput: descripcion,
+    iconoNuevoTipoComercioAdminInput: iconoPath
+  };
+
+  return await NuevoTipoComercio(datosCompletos);
 }
 
 module.exports = { ValidarDatos };

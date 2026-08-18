@@ -1,55 +1,42 @@
-const mongoose = require('mongoose');
-const userModel = require("../models/userModel")
-
+const mongoose = require("mongoose");
 
 const CategoriaSchema = new mongoose.Schema({
-  comercioId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+  comercioId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, index: true },
   nombre: { type: String, required: true, trim: true },
   descripcion: { type: String, required: true, trim: true }
 }, { timestamps: true });
 
-const Categoria = mongoose.model('Categoria', CategoriaSchema);
+const Categoria = mongoose.models.Categoria || mongoose.model("Categoria", CategoriaSchema);
 
-
-  async function CrearCategoria(datos, id)
-  {
-try{
-
-const nombreCat = datos.nombreNuevaCategoriaInput?.trim();
-    const descripcionCat = datos.descripcionNuevaCategoriaInput?.trim();
+async function CrearCategoria(datos, id) {
+  try {
+    const nombreCat = (datos.nombreNuevaCategoriaInput || datos.nombre || "").trim();
+    const descripcionCat = (datos.descripcionNuevaCategoriaInput || datos.descripcion || "").trim();
     const nuevaCategoria = await Categoria.create({
-    nombre: nombreCat,
-    descripcion: descripcionCat,
-    comercioId: id
-  });
-
-  return nuevaCategoria;
-console.log("categoria agregda manito")
-  }catch(error){
-    throw Error ("error al guardar la categoria nueva en la bd: " + error);
-    console.log("error al guardar la categoria nueva en la bd: " + error)
-  }
-}
-
-// todos los clientes para los administradores
-
-async function GetCategoriasToComerce(id) 
-{
-  try{
-  const categorias = await Categoria.find(
-    {
+      nombre: nombreCat,
+      descripcion: descripcionCat,
       comercioId: id
-    }
-  );
-  return categorias;
-  }
-  catch(error){
+    });
+    return nuevaCategoria;
+  } catch (error) {
+    console.error("Error al guardar la categoria en la bd:", error);
     throw error;
-    console.log("error, extrayendo las categorias para el comercio: ", error)
   }
-  
 }
 
+async function GetCategoriasToComerce(id) {
+  try {
+    const categorias = await Categoria.find({ comercioId: id }).sort({ createdAt: -1 });
+    return categorias;
+  } catch (error) {
+    console.error("Error extrayendo las categorias para el comercio:", error);
+    throw error;
+  }
+}
 
-module.exports = {Categoria, CrearCategoria, GetCategoriasToComerce }
-
+module.exports = {
+  Categoria,
+  categoria: Categoria,
+  CrearCategoria,
+  GetCategoriasToComerce
+};

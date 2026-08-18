@@ -1,0 +1,126 @@
+<section class="container" style="max-width: 900px; margin-top: 90px; margin-bottom: 60px;">
+    <!-- Banner de Estado Actual -->
+    <div class="p-4 rounded-4 mb-4 text-white shadow-sm d-flex justify-content-between align-items-center" style="background: {{#if (eq delivery.estadoDelivery "Ocupado")}}linear-gradient(135deg, #E53935, #C62828){{else}}linear-gradient(135deg, #0288D1, #01579B){{/if}};">
+        <div>
+            <span class="text-uppercase small fw-bold opacity-75">Estado actual</span>
+            <h2 class="fw-bold mb-1">
+                {{#if (eq delivery.estadoDelivery "Ocupado")}}
+                    ?? Ocupado
+                {{else}}
+                    ?? Libre / Disponible
+                {{/if}}
+            </h2>
+            <p class="mb-0 small opacity-90">
+                {{#if (eq delivery.estadoDelivery "Ocupado")}}
+                    Tienes {{entregasEnCurso.length}} entrega(s) en curso.
+                {{else}}
+                    Listo para recibir nuevos pedidos de los comercios.
+                {{/if}}
+            </p>
+        </div>
+        <div style="font-size: 50px;">
+            ??
+        </div>
+    </div>
+
+    {{#if successMsg}}
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
+            {{successMsg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {{/if}}
+
+    {{#if errorMsg}}
+        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3" role="alert">
+            {{errorMsg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {{/if}}
+
+    <!-- Entregas en Curso -->
+    <div class="mb-5">
+        <h4 class="fw-bold mb-3" style="color: #1a1a2e;">Entregas en curso ({{entregasEnCurso.length}})</h4>
+
+        <div class="d-flex flex-column gap-3">
+            {{#each entregasEnCurso}}
+                <div class="card border-0 shadow-sm p-4 rounded-4" style="border-left: 5px solid #0288D1 !important;">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 50px; height: 50px; border: 1px solid #eee;">
+                                {{#if this.comercioId.logoComercio}}
+                                    <img src="{{this.comercioId.logoComercio}}" alt="Logo" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;">
+                                {{else}}
+                                    <span>??</span>
+                                {{/if}}
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-0 text-dark">{{this.comercioId.nombreComercio}}</h5>
+                                <small class="text-muted">Para: <strong>{{this.clienteId.nombre}} {{this.clienteId.apellido}}</strong> (?? {{this.clienteId.telefono}})</small>
+                            </div>
+                        </div>
+
+                        <div class="text-end">
+                            <span class="badge bg-info text-dark rounded-pill px-3 py-1 text-uppercase fw-bold" style="font-size: 11px;">
+                                En Proceso
+                            </span>
+                            <div class="fw-bold fs-5 mt-1" style="color: #0288D1;">RD$ {{money this.total}}</div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-3 my-2" style="background-color: #f8f9fb; border: 1px dashed #0288D1;">
+                        <div class="small text-muted fw-bold text-uppercase">?? dirección de entrega:</div>
+                        <div class="fw-bold text-dark">{{this.direccion.nombre}} - {{this.direccion.descripcion}}</div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                        <small class="text-muted">?? {{formatDate this.createdAt}}  {{this.productos.length}} productos</small>
+                        <a href="/delivery/pedidos/{{this._id}}" class="btn text-white px-4 py-2" style="background: linear-gradient(135deg, #0288D1, #01579B); border-radius: 8px; font-weight: 600; font-size: 13px;">
+                            Ver detalle / Completar ?
+                        </a>
+                    </div>
+                </div>
+            {{else}}
+                <div class="card border-0 shadow-sm p-4 text-center rounded-4">
+                    <p class="text-muted mb-0">No tienes pedidos pendientes de entrega en este momento.</p>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <!-- Entregas Completadas -->
+    <div>
+        <h4 class="fw-bold mb-3" style="color: #1a1a2e;">Entregas completadas ({{totalEntregasCompletadas}})</h4>
+
+        <div class="d-flex flex-column gap-3">
+            {{#each entregasCompletadas}}
+                <div class="card border-0 shadow-sm p-3 rounded-4">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 44px; height: 44px;">
+                                ??
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark">{{this.comercioId.nombreComercio}}</h6>
+                                <small class="text-muted">{{formatDate this.updatedAt}}  {{this.productos.length}} productos</small>
+                            </div>
+                        </div>
+
+                        <div class="text-end d-flex align-items-center gap-3">
+                            <div>
+                                <span class="badge bg-success text-white rounded-pill px-3 py-1">Completado</span>
+                                <div class="fw-bold small text-dark mt-1">RD$ {{money this.total}}</div>
+                            </div>
+                            <a href="/delivery/pedidos/{{this._id}}" class="btn btn-sm btn-outline-secondary px-3" style="border-radius: 8px;">
+                                Detalle
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {{else}}
+                <div class="card border-0 shadow-sm p-4 text-center rounded-4">
+                    <p class="text-muted mb-0">No has completado entregas todava.</p>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</section>

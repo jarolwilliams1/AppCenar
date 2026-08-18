@@ -1,0 +1,23 @@
+<section class="login-seccion">
+    <div class="encabezado">
+        <div class="logo-encaezado">
+            <span>AC</span>
+        </div>
+        <h2 class="nameApp">AppCenar</h2>
+        <p class="text-head">activación de Cuenta</p>
+    </div>
+
+    <div class="login-card text-center">
+        {{#if success}}
+            <div class="text-success mb-3" style="font-size: 48px;">?</div>
+            <h3 class="mb-3 font-weight-bold" style="color: #1a1a2e;">Cuenta Activada!</h3>
+            <p class="text-muted mb-4">Hola <strong>{{usuario}}</strong>, tu cuenta con rol <strong>{{rol}}</strong> ha sido verificada y activada con ééxito. Ya puedes iniciar sesión.</p>
+            <a href="/login" class="btn-primary2 text-decoration-none d-block">Ir a Iniciar sesión</a>
+        {{else}}
+            <div class="text-danger mb-3" style="font-size: 48px;">?</div>
+            <h3 class="mb-3 text-danger">Error de activación</h3>
+            <p class="text-muted mb-4">{{error}}</p>
+            <a href="/login" class="btn btn-outline-secondary d-block">Volver al Inicio</a>
+        {{/if}}
+    </div>
+</section>

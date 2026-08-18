@@ -1,6 +1,6 @@
 <section class="perfil-section container" style="max-width: 700px; margin-top: 100px; margin-bottom: 60px;">
     <div class="perfil-card">
-        <h3 class="fw-bold mb-4 text-center" style="color: #1a1a2e;">Mi Perfil</h3>
+        <h3 class="fw-bold mb-4 text-center" style="color: #1a1a2e;">Mi Perfil de Delivery</h3>
 
         {{#if successMsg}}
             <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
@@ -16,15 +16,15 @@
             </div>
         {{/if}}
 
-        <form action="/cliente/perfil" method="POST" enctype="multipart/form-data">
+        <form action="/delivery/perfil" method="POST" enctype="multipart/form-data">
             <!-- Foto de perfil avatar -->
             <div class="text-center mb-4">
                 <div class="position-relative d-inline-block">
-                    <div class="avatar mx-auto mb-2" style="width: 90px; height: 90px; overflow: hidden; font-size: 32px;">
-                        {{#if cliente.fotoPerfil}}
-                            <img src="{{cliente.fotoPerfil}}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div class="avatar mx-auto mb-2" style="width: 90px; height: 90px; overflow: hidden; font-size: 32px; background: linear-gradient(135deg, #0288D1, #01579B);">
+                        {{#if delivery.fotoPerfil}}
+                            <img src="{{delivery.fotoPerfil}}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
                         {{else}}
-                            <span>{{cliente.nombre.[0]}}{{cliente.apellido.[0]}}</span>
+                            <span>{{delivery.nombre.[0]}}{{delivery.apellido.[0]}}</span>
                         {{/if}}
                     </div>
                 </div>
@@ -34,40 +34,45 @@
                     </label>
                     <input type="file" id="fotoPerfil" name="fotoPerfil" class="d-none" accept="image/*">
                 </div>
+                <div class="mt-2">
+                    <span class="badge {{#if (eq delivery.estadoDelivery "Disponible")}}bg-success{{else}}bg-danger{{/if}} px-3 py-1 rounded-pill">
+                        {{delivery.estadoDelivery}}
+                    </span>
+                </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label fw-semibold">Nombre *</label>
-                    <input type="text" name="nombre" class="form-control" value="{{cliente.nombre}}" required>
+                    <input type="text" name="nombre" class="form-control" value="{{delivery.nombre}}" required>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label fw-semibold">Apellido *</label>
-                    <input type="text" name="apellido" class="form-control" value="{{cliente.apellido}}" required>
+                    <input type="text" name="apellido" class="form-control" value="{{delivery.apellido}}" required>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label fw-semibold">teléfono *</label>
-                    <input type="text" name="telefono" class="form-control" value="{{cliente.telefono}}" required>
+                    <input type="text" name="telefono" class="form-control" value="{{delivery.telefono}}" required>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label fw-semibold">Nombre de usuario</label>
-                    <input type="text" class="form-control bg-light" value="{{cliente.usuario}}" disabled readonly>
+                    <input type="text" class="form-control bg-light" value="{{delivery.usuario}}" disabled readonly>
                 </div>
             </div>
 
             <div class="mb-4">
                 <label class="form-label fw-semibold">Correo electrónico</label>
-                <input type="email" class="form-control bg-light" value="{{cliente.correo}}" disabled readonly>
+                <input type="email" class="form-control bg-light" value="{{delivery.correo}}" disabled readonly>
             </div>
 
             <div class="d-flex gap-3">
-                <a href="/cliente/home" class="btn btn-outline-secondary w-50 py-2" style="border-radius: 10px;">
+                <a href="/delivery/home" class="btn btn-outline-secondary w-50 py-2" style="border-radius: 10px;">
                     Volver
                 </a>
-                <button type="submit" class="btn text-white w-50 py-2" style="background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91)); border-radius: 10px; font-weight: 600;">
+                <button type="submit" class="btn text-white w-50 py-2" style="background: linear-gradient(135deg, #0288D1, #01579B); border-radius: 10px; font-weight: 600;">
                     Guardar cambios
                 </button>
             </div>

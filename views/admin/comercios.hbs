@@ -1,0 +1,87 @@
+<section class="container" style="max-width: 1050px; margin-top: 90px; margin-bottom: 60px;">
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1" style="color: #1a1a2e;">Listado de Comercios</h2>
+        <p class="text-muted mb-0">{{totalComercios}} comercios registrados</p>
+    </div>
+
+    {{#if successMsg}}
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
+            {{successMsg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {{/if}}
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">NOMBRE</th>
+                        <th>TIPO</th>
+                        <th>CORREO</th>
+                        <th>teléfono</th>
+                        <th>HORARIO</th>
+                        <th>PEDIDOS</th>
+                        <th>ESTADO</th>
+                        <th class="text-end pe-4">acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each listaComercios}}
+                        <tr>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center gap-2">
+                                    {{#if this.logoComercio}}
+                                        <img src="{{this.logoComercio}}" alt="Logo" style="width: 32px; height: 32px; object-fit: cover; border-radius: 6px;">
+                                    {{else}}
+                                        <span>??</span>
+                                    {{/if}}
+                                    <span class="fw-bold text-dark">{{this.nombreComercio}}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-light text-dark border px-2 py-1 rounded-pill">
+                                    {{this.tipoComercioId.nombre}}
+                                </span>
+                            </td>
+                            <td class="text-muted small">{{this.correo}}</td>
+                            <td class="text-muted small">{{this.telefono}}</td>
+                            <td class="text-muted small">{{this.horaApertura}} - {{this.horaCierre}}</td>
+                            <td>
+                                <span class="badge bg-light text-dark border px-2 py-1 rounded-pill fw-bold">
+                                    {{this.totalPedidos}}
+                                </span>
+                            </td>
+                            <td>
+                                {{#if this.isActive}}
+                                    <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill">Activo</span>
+                                {{else}}
+                                    <span class="badge bg-danger-subtle text-danger px-3 py-1 rounded-pill">Inactivo</span>
+                                {{/if}}
+                            </td>
+                            <td class="text-end pe-4">
+                                <form action="/admin/comercios/{{this._id}}/toggle-status" method="POST" class="m-0">
+                                    {{#if this.isActive}}
+                                        <button type="submit" class="btn btn-sm btn-danger px-3" style="border-radius: 8px;">
+                                            Inactivar
+                                        </button>
+                                    {{else}}
+                                        <button type="submit" class="btn btn-sm btn-success px-3 text-white" style="border-radius: 8px;">
+                                            Activar
+                                        </button>
+                                    {{/if}}
+                                </form>
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="8" class="text-center py-5 text-muted">
+                                No hay comercios registrados.
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

@@ -1,63 +1,80 @@
-<div class="head-lista-clientes">
-    <h2 class="text-head-list">
-        Listado de Clientes
-    </h2>
+<section class="container" style="max-width: 1050px; margin-top: 90px; margin-bottom: 60px;">
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1" style="color: #1a1a2e;">Listado de Repartidores (Deliveries)</h2>
+        <p class="text-muted mb-0">{{totalDeliveries}} repartidores registrados</p>
+    </div>
 
-    <p class="registros">{{cantidad}} clientes registrados </p>
+    {{#if successMsg}}
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
+            {{successMsg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {{/if}}
 
-</div>
-
-<section class="lista-clientes">
-
-
-
-<table class="tabla-clientes">
-
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Correo</th>
-        <th>Telefono</th>
-        <th>Disponibilidad</th>
-        <th>Entregas</th>
-        <th>Estado</th>
-        <th>Accion</th>
-      </tr>
-    </thead>
-
-    <tbody>
-       
-    {{#each listaDeliveries}}
-    <tr>
-      <td>{{this.nombre}}</td>
-      <td>{{this.apellido}}</td>
-      <td>{{this.correo}}</td>
-      <td>{{this.telefono}}</td>
-      <td>{{#if this.estadoDelivery}}Libre{{else}}Ocupado{{/if}}</td>
-      <td>hola</td>
-      <td>{{#if this.isActive}}Activo{{else}}Inactivo{{/if}}</td>
-      <td><button class="btn btn-sm btn-primary">Acción</button></td>
-    </tr>
-  {{/each}}
-
-
-    </tbody>
-
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">NOMBRE</th>
+                        <th>USUARIO</th>
+                        <th>CORREO</th>
+                        <th>teléfono</th>
+                        <th>ENTREGAS</th>
+                        <th>DISPONIBILIDAD</th>
+                        <th>ESTADO</th>
+                        <th class="text-end pe-4">acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each listaDeliveries}}
+                        <tr>
+                            <td class="ps-4 fw-bold text-dark">{{this.nombre}} {{this.apellido}}</td>
+                            <td class="text-muted">@{{this.usuario}}</td>
+                            <td class="text-muted small">{{this.correo}}</td>
+                            <td class="text-muted small">{{this.telefono}}</td>
+                            <td>
+                                <span class="badge bg-light text-dark border px-2 py-1 rounded-pill fw-bold">
+                                    {{this.totalEntregas}}
+                                </span>
+                            </td>
+                            <td>
+                                {{#if (eq this.estadoDelivery "Disponible")}}
+                                    <span class="badge bg-success text-white px-2 py-1 rounded-pill">?? Libre</span>
+                                {{else}}
+                                    <span class="badge bg-danger text-white px-2 py-1 rounded-pill">?? Ocupado</span>
+                                {{/if}}
+                            </td>
+                            <td>
+                                {{#if this.isActive}}
+                                    <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill">Activo</span>
+                                {{else}}
+                                    <span class="badge bg-danger-subtle text-danger px-3 py-1 rounded-pill">Inactivo</span>
+                                {{/if}}
+                            </td>
+                            <td class="text-end pe-4">
+                                <form action="/admin/deliveries/{{this._id}}/toggle-status" method="POST" class="m-0">
+                                    {{#if this.isActive}}
+                                        <button type="submit" class="btn btn-sm btn-danger px-3" style="border-radius: 8px;">
+                                            Inactivar
+                                        </button>
+                                    {{else}}
+                                        <button type="submit" class="btn btn-sm btn-success px-3 text-white" style="border-radius: 8px;">
+                                            Activar
+                                        </button>
+                                    {{/if}}
+                                </form>
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="8" class="text-center py-5 text-muted">
+                                No hay repartidores registrados.
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </section>

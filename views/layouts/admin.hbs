@@ -1,70 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/admin.css">
-    <title>AppCenar Adminin</title>
+    <title>AppCenar | Panel Administrador</title>
 </head>
 <body>
-    
     <nav>
-      <div class="izquierda">
-        <div class="cuadrologo">
-          <img src="" alt="">
+        <div class="izquierda">
+            <a href="/admin/dashboard" class="d-flex align-items-center text-decoration-none">
+                <div class="cuadrologo me-2">
+                    <span class="text-white fw-bold">AC</span>
+                </div>
+                <h2 class="text-head mb-0">App<span class="partenegra">Cenar</span></h2>
+            </a>
         </div>
 
-        <h2 class="text-head">App<span class="partenegra">Cenar</span></h2>
-      </div>
-
-<div class="centro">
-  <ul class="nav justify-content-center">
- 
-  <li class="nav-item">
-    <a class="nav-link" href="/comercio/home"  aria-current="page">Dashboard</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="/admin/clientes">Clientes</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link " href="/admin/deliveries">Deliveries</a>
-  </li>
-
-  <li class="nav-item">
-    <a class="nav-link " href="#">Configuracion</a>
-  </li>
-
-   <li class="nav-item">
-    <a class="nav-link " href="#">Administradores</a>
-  </li>
-
-    <li class="nav-item">
-    <a class="nav-link " href="/admin/tipo-comercio">Tipo de Comercios</a>
-  </li>
-</ul>
-</div>
-
-      <div class="derecha">
-        <div class="name-rol">
-          <h3 class="nombre">Jarol Williams</h3>
-          <h3 class="rol">CLIENTE</h3>
+        <div class="centro">
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/clientes">Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/deliveries">Deliveries</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/comercios">Comercios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/configuracion">configuración</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/administradores">Administradores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/tipo-comercio">Tipos de Comercio</a>
+                </li>
+            </ul>
         </div>
-        <button type="button" class="  btn-salir">Salir</button>
 
-
-      </div>
+        <div class="derecha">
+            <div class="name-rol">
+                <h3 class="nombre">{{#if sessionUser.nombre}}{{sessionUser.nombre}}{{else if sessionUser.usuario}}{{sessionUser.usuario}}{{else}}Admin{{/if}}</h3>
+                <h3 class="rol" style="background-color: #2e7d32;">ADMINISTRADOR</h3>
+            </div>
+            <a href="/logout" class="btn-salir text-decoration-none d-flex align-items-center">Salir</a>
+        </div>
     </nav>
-
 
     <main>
         {{{body}}}
     </main>
-    
 
-<footer>
-</footer>
-<script src="/js/bootstrap.bundle.js"></script>
-<script src="/js/app.js"></script>
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/app.js"></script>
 </body>
 </html>

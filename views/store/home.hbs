@@ -1,1 +1,114 @@
-<h1>hola mmg</h1>
+<section class="container" style="max-width: 1000px; margin-top: 90px; margin-bottom: 60px;">
+    <!-- Banner de Bienvenida -->
+    <div class="bienvenida comercio-banner mb-4">
+        <div class="text-bienvenida">
+            <h1 class="hola">Bienvenido, {{#if sessionUser.nombre}}{{sessionUser.nombre}}{{else}}{{sessionUser.usuario}}{{/if}} ??</h1>
+            <div class="pregunta">Gestiona los pedidos de tus clientes en tiempo real.</div>
+        </div>
+    </div>
+
+    <!-- Indicadores -->
+    <div class="row g-3 mb-4">
+        <div class="col-sm-6 col-md-4">
+            <div class="card border-0 shadow-sm p-3 rounded-4 text-center">
+                <span class="text-muted small fw-bold text-uppercase">Pedidos Hoy</span>
+                <strong class="fs-3" style="color: #1a1a2e;">{{pedidosHoy}}</strong>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="card border-0 shadow-sm p-3 rounded-4 text-center">
+                <span class="text-muted small fw-bold text-uppercase">Ventas Completadas</span>
+                <strong class="fs-3" style="color: #E91E63;">RD$ {{money ingresosTotal}}</strong>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <div class="card border-0 shadow-sm p-3 rounded-4 text-center">
+                <span class="text-muted small fw-bold text-uppercase">Total Productos</span>
+                <strong class="fs-3" style="color: #1a1a2e;">{{totalProductos}}</strong>
+            </div>
+        </div>
+    </div>
+
+    {{#if successMsg}}
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
+            {{successMsg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {{/if}}
+
+    {{#if errorMsg}}
+        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3" role="alert">
+            {{errorMsg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {{/if}}
+
+    <!-- Listado de Pedidos Recibidos -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold mb-0" style="color: #1a1a2e;">Pedidos Recibidos</h4>
+        <small class="text-muted">Ordenados del más reciente al más antiguo</small>
+    </div>
+
+    <div class="d-flex flex-column gap-3">
+        {{#each pedidos}}
+            <div class="card border-0 shadow-sm p-4 rounded-4">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
+                    <div>
+                        <span class="badge {{statusBadge this.estado}} rounded-pill px-3 py-1 text-uppercase me-2" style="font-weight: 700; font-size: 11px;">
+                            {{statusLabel this.estado}}
+                        </span>
+                        <span class="text-muted small">?? {{formatDate this.createdAt}}</span>
+                    </div>
+                    <span class="fs-5 fw-bold" style="color: #E91E63;">RD$ {{money this.total}}</span>
+                </div>
+
+                <div class="row g-2 align-items-center mt-1">
+                    <div class="col-md-7">
+                        <div class="fw-bold text-dark">Cliente: {{this.clienteId.nombre}} {{this.clienteId.apellido}}</div>
+                        <div class="text-muted small">?? {{this.clienteId.telefono}}</div>
+                        <div class="text-muted small mt-1">?? <strong>Entrega:</strong> {{this.direccion.nombre}} - {{this.direccion.descripcion}}</div>
+                        
+                        <div class="mt-2">
+                            <span class="text-muted small fw-bold">Items:</span>
+                            <span class="small text-dark">
+                                {{#each this.productos}}
+                                    {{this.nombre}}{{#unless @last}}, {{/unless}}
+                                {{/each}}
+                            </span>
+                        </div>
+
+                        {{#if this.deliveryId}}
+                            <div class="mt-2 small text-success fw-bold">
+                                ?? Repartidor asignado: {{this.deliveryId.nombre}} {{this.deliveryId.apellido}} ({{this.deliveryId.telefono}})
+                            </div>
+                        {{/if}}
+                    </div>
+
+                    <div class="col-md-5 text-md-end mt-3 mt-md-0">
+                        {{#if (eq this.estado "pendiente")}}
+                            <form action="/comercio/pedidos/{{this._id}}/asignar-delivery" method="POST" class="m-0">
+                                <button type="submit" class="btn text-white px-4 py-2" style="background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91)); border-radius: 10px; font-weight: 600; font-size: 14px;">
+                                    ?? Asignar Delivery
+                                </button>
+                            </form>
+                        {{else if (eq this.estado "en_proceso")}}
+                            <span class="badge bg-info text-dark px-3 py-2 rounded-pill">
+                                Repartidor en camino
+                            </span>
+                        {{else if (eq this.estado "completado")}}
+                            <span class="badge bg-success text-white px-3 py-2 rounded-pill">
+                                ? Entregado con ééxito
+                            </span>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        {{else}}
+            <div class="card border-0 shadow-sm p-5 text-center rounded-4">
+                <div style="font-size: 40px;" class="mb-2">??</div>
+                <h5 class="fw-bold text-dark">An no has recibido ningún pedido</h5>
+                <p class="text-muted mb-0">Los pedidos de tus clientes aparecern aquí automáticamente en tiempo real.</p>
+            </div>
+        {{/each}}
+    </div>
+</section>

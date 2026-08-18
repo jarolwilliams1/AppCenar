@@ -1,0 +1,156 @@
+<section class="container" style="max-width: 1000px; margin-top: 90px; margin-bottom: 60px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1" style="color: #1a1a2e;">Administradores</h2>
+            <p class="text-muted mb-0">Gestiona las cuentas con privilegios de administración</p>
+        </div>
+        {{#unless mostrarForm}}
+            <a href="/admin/administradoresínuevo=1" class="btn text-white px-3 py-2" style="background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91)); border-radius: 10px; font-weight: 600; font-size: 13px;">
+                + Nuevo Admin
+            </a>
+        {{/unless}}
+    </div>
+
+    {{#if successMsg}}
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
+            {{successMsg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {{/if}}
+
+    {{#if errorMsg}}
+        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3" role="alert">
+            {{errorMsg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {{/if}}
+
+    {{#if mostrarForm}}
+        <div class="card border-0 shadow-sm p-4 rounded-4 mb-4" style="border-left: 4px solid #E91E63 !important;">
+            <h5 class="fw-bold mb-3" style="color: #1a1a2e;">
+                {{#if modoEdicion}}Editar Administrador{{else}}Nuevo Administrador{{/if}}
+            </h5>
+
+            <form action="{{#if modoEdicion}}/admin/administradores/{{adminEdit._id}}/editar{{else}}/admin/administradores{{/if}}" method="POST">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-semibold">cédula *</label>
+                        <input type="text" class="form-control" name="cedula" value="{{#if modoEdicion}}{{adminEdit.cedula}}{{/if}}" placeholder="001-0000000-0" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-semibold">Nombre *</label>
+                        <input type="text" class="form-control" name="nombre" value="{{#if modoEdicion}}{{adminEdit.nombre}}{{/if}}" placeholder="ej. Carlos" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-semibold">Apellido *</label>
+                        <input type="text" class="form-control" name="apellido" value="{{#if modoEdicion}}{{adminEdit.apellido}}{{/if}}" placeholder="ej. Prez" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Usuario *</label>
+                        <input type="text" class="form-control" name="usuario" value="{{#if modoEdicion}}{{adminEdit.usuario}}{{/if}}" placeholder="admin_carlos" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Correo electrónico *</label>
+                        <input type="email" class="form-control" name="correo" value="{{#if modoEdicion}}{{adminEdit.correo}}{{/if}}" placeholder="admin@appcenar.com" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">contraseña {{#unless modoEdicion}}*{{else}}(opcional){{/unless}}</label>
+                        <input type="password" class="form-control" name="password" placeholder="" {{#unless modoEdicion}}required{{/unless}}>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Confirmar contraseña {{#unless modoEdicion}}*{{else}}(opcional){{/unless}}</label>
+                        <input type="password" class="form-control" name="confirmPassword" placeholder="" {{#unless modoEdicion}}required{{/unless}}>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn text-white px-4" style="background-color: #E91E63; border-radius: 8px; font-weight: 600;">
+                        {{#if modoEdicion}}Guardar Cambios{{else}}Crear Administrador{{/if}}
+                    </button>
+                    <a href="/admin/administradores" class="btn btn-outline-secondary px-4" style="border-radius: 8px;">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    {{/if}}
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">cédula</th>
+                        <th>USUARIO</th>
+                        <th>CORREO</th>
+                        <th>ESTADO</th>
+                        <th class="text-end pe-4">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each listaAdmins}}
+                        <tr>
+                            <td class="ps-4 fw-bold text-dark">{{this.cedula}}</td>
+                            <td>
+                                @{{this.usuario}}
+                                {{#if this.esAdminDefecto}}
+                                    <span class="badge bg-secondary text-white ms-1" style="font-size: 10px;">Sistema</span>
+                                {{/if}}
+                                {{#if this.esAdminActual}}
+                                    <span class="badge bg-primary text-white ms-1" style="font-size: 10px;">tú</span>
+                                {{/if}}
+                            </td>
+                            <td class="text-muted small">{{this.correo}}</td>
+                            <td>
+                                {{#if this.isActive}}
+                                    <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill">Activo</span>
+                                {{else}}
+                                    <span class="badge bg-danger-subtle text-danger px-3 py-1 rounded-pill">Inactivo</span>
+                                {{/if}}
+                            </td>
+                            <td class="text-end pe-4">
+                                {{#if this.puedeModificar}}
+                                    <a href="/admin/administradoresíedit={{this._id}}" class="btn btn-sm btn-outline-primary px-3 me-1" style="border-radius: 8px;">
+                                        Editar
+                                    </a>
+
+                                    <button type="button" class="btn btn-sm {{#if this.isActive}}btn-danger{{else}}btn-success{{/if}} px-3" style="border-radius: 8px;" data-bs-toggle="modal" data-bs-target="#modalStatusAdmin-{{this._id}}">
+                                        {{#if this.isActive}}Inactivar{{else}}Activar{{/if}}
+                                    </button>
+
+                                    <div class="modal fade" id="modalStatusAdmin-{{this._id}}" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content rounded-4 border-0 shadow">
+                                                <div class="modal-header border-0 pb-0">
+                                                    <h5 class="modal-title fw-bold text-dark">Confirmar acción</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body text-muted py-3 text-start">
+                                                    estás seguro de que deseas {{#if this.isActive}}inactivar{{else}}activar{{/if}} al administrador <strong>"{{this.nombre}} {{this.apellido}}"</strong>?
+                                                </div>
+                                                <div class="modal-footer border-0 pt-0">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, cancelar</button>
+                                                    <form action="/admin/administradores/{{this._id}}/toggle-status" method="POST" class="m-0">
+                                                        <button type="submit" class="btn {{#if this.isActive}}btn-danger{{else}}btn-success{{/if}}">sí, confirmar</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{else}}
+                                    <span class="text-muted small fst-italic">Protegido</span>
+                                {{/if}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

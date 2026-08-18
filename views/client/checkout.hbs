@@ -1,0 +1,128 @@
+<section class="container" style="max-width: 1000px; margin-top: 90px; margin-bottom: 60px;">
+    <div class="d-flex align-items-center mb-4">
+        <a href="/cliente/comercio/{{comercio._id}}" class="btn btn-outline-secondary btn-sm rounded-pill px-3 me-3">
+            &larr; Volver al menú
+        </a>
+        <div>
+            <h3 class="fw-bold mb-0" style="color: #1a1a2e;">Confirmar Pedido</h3>
+            <small class="text-muted">Selecciona tu dirección de entrega y revisa los montos</small>
+        </div>
+    </div>
+
+    <form action="/cliente/crear-pedido" method="POST">
+        <input type="hidden" name="comercioId" value="{{comercio._id}}">
+        <input type="hidden" name="productIds" value="{{productIds}}">
+
+        <div class="row g-4">
+            <!-- Seleccin de dirección -->
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm p-4 rounded-4 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0" style="color: #1a1a2e;">?? dirección de entrega *</h5>
+                        <a href="/cliente/direccionesínueva=1" class="btn btn-sm text-white" style="background-color: #E91E63; border-radius: 8px; font-weight: 600; font-size: 12px;">
+                            + Nueva dirección
+                        </a>
+                    </div>
+
+                    {{#if tienedirecciones}}
+                        <div class="d-flex flex-column gap-3">
+                            {{#each direcciones}}
+                                <label class="card p-3 border rounded-3 cursor-pointer d-flex flex-row align-items-center gap-3" style="cursor: pointer;">
+                                    <input type="radio" name="direccionId" value="{{this._id}}" class="form-check-input mt-0" required {{#if @first}}checked{{/if}}>
+                                    <div>
+                                        <div class="fw-bold" style="color: #1a1a2e;">{{this.nombre}}</div>
+                                        <small class="text-muted">{{this.descripcion}}</small>
+                                    </div>
+                                </label>
+                            {{/each}}
+                        </div>
+                    {{else}}
+                        <div class="alert alert-warning text-center my-3 rounded-3">
+                            <p class="mb-2 fw-bold">No tienes ninguna dirección registrada.</p>
+                            <p class="small text-muted mb-3">Para poder confirmar tu pedido, necesitas agregar al menos una dirección de entrega.</p>
+                            <a href="/cliente/direccionesínueva=1" class="btn btn-sm text-white" style="background-color: #E91E63; border-radius: 8px;">
+                                Registrar una dirección ahora
+                            </a>
+                        </div>
+                    {{/if}}
+                </div>
+
+                <!-- Productos en el pedido -->
+                <div class="card border-0 shadow-sm p-4 rounded-4">
+                    <h5 class="fw-bold mb-3" style="color: #1a1a2e;">Platos seleccionados ({{productos.length}})</h5>
+                    <div class="d-flex flex-column gap-2">
+                        {{#each productos}}
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="rounded-2 d-flex align-items-center justify-content-center bg-light" style="width: 44px; height: 44px; overflow: hidden;">
+                                        {{#if this.foto}}
+                                            <img src="{{this.foto}}" alt="{{this.nombre}}" style="width: 100%; height: 100%; object-fit: cover;">
+                                        {{else}}
+                                            <span>???</span>
+                                        {{/if}}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold small text-dark">{{this.nombre}}</div>
+                                        <small class="text-muted">1 unidad</small>
+                                    </div>
+                                </div>
+                                <span class="fw-bold text-dark">RD$ {{money this.precio}}</span>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Resumen de Totales e ITBIS -->
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm p-4 rounded-4 sticky-top" style="top: 90px;">
+                    <!-- Comercio Info -->
+                    <div class="d-flex align-items-center gap-3 pb-3 mb-3 border-bottom">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-light" style="width: 48px; height: 48px; border: 1px solid #eee;">
+                            {{#if comercio.logoComercio}}
+                                <img src="{{comercio.logoComercio}}" alt="{{comercio.nombreComercio}}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                            {{else}}
+                                <span>??</span>
+                            {{/if}}
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0 text-dark">{{comercio.nombreComercio}}</h6>
+                            <small class="text-muted">Pedido directo</small>
+                        </div>
+                    </div>
+
+                    <!-- Detalle de montos -->
+                    <div class="d-flex flex-column gap-2 mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Subtotal:</span>
+                            <span class="fw-bold text-dark">RD$ {{money subtotal}}</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">ITBIS ({{itbisPorcentaje}}%):</span>
+                            <span class="fw-bold text-dark">RD$ {{money itbisMonto}}</span>
+                        </div>
+
+                        <hr class="my-2">
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fs-5 fw-bold" style="color: #1a1a2e;">Total a pagar:</span>
+                            <span class="fs-4 fw-bold" style="color: #E91E63;">RD$ {{money total}}</span>
+                        </div>
+                    </div>
+
+                    <!-- Botún de confirmación -->
+                    {{#if tienedirecciones}}
+                        <button type="submit" class="btn text-white w-100 py-3" style="background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91)); border-radius: 12px; font-weight: bold; font-size: 16px;">
+                            Pedir ahora
+                        </button>
+                    {{else}}
+                        <button type="button" class="btn btn-secondary w-100 py-3 disabled" style="border-radius: 12px; font-weight: bold;">
+                            Agrega una dirección para pedir
+                        </button>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

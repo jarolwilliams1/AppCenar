@@ -1,14 +1,9 @@
-const session = require('express-session');
-
-async function  verificarSesion(req, res, next)
-{
-    if(req.session){
-        
+function verificarSesion(req, res, next) {
+    if (req.session && req.session.usuario) {
+        return next();
     }
 
+    return res.redirect('/login');
 }
 
-
-module.exports = {
-    verificarSesion
-};
+module.exports = { verificarSesion };
