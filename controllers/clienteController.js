@@ -26,6 +26,16 @@ async function Home(req, res) {
     )
     }
 
+
+async function VerComerciosPorTipo(req, res) 
+{
     
 
-module.exports = {mostrar, perfil, Home}
+    res.render("client/ComerciosPorTipo",{
+        layout: "client"
+    })
+    
+}
+    
+
+module.exports = {mostrar, perfil, Home, VerComerciosPorTipo}
