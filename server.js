@@ -21,7 +21,7 @@ for (const archivo of archivosEntorno) {
   }
 }
 
-const { MongoStore } = require("connect-mongo");
+const MongoStore = require("connect-mongo").MongoStore || require("connect-mongo");
 const conexion = require("./config/mongooseConection");
 const seedAdmin = require("./config/seedAdmin");
 
@@ -35,7 +35,7 @@ app.use(express.json({ limit: "15mb" }));
 const mongoUri = process.env.MONGODB_URI || process.env.MONGO_CONECTION || "mongodb://127.0.0.1:27017/AppCenarDB_Dev";
 
 app.use(session({
-  secret: process.env.SESSION_ENV || "appcenar-secret-session-key",
+  secret: process.env.SESSION_ENV || process.env.SESSION_SECRET || "appcenar-secret-session-key",
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({

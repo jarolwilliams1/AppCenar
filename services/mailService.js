@@ -59,24 +59,35 @@ async function getTransporter() {
 }
 
 async function dispatchEmail({ to, subject, html }) {
-  const resendApiKey = (process.env.RESEND_API_KEY || "").trim();
+  const resendApiKey = (process.env.RESEND_API_KEY || process.env.RESEND_KEY || process.env.RESEND_TOKEN || "").trim();
 
-  // 1. Prioridad: Resend API (Funciona 100% en Railway sin bloqueo de puertos SMTP)
+  // 1. Prioridad: Resend API (HTTPS Puerto 443 - 100% compatible con Railway)
   if (resendApiKey) {
     try {
       const resend = new Resend(resendApiKey);
       const from = (process.env.RESEND_FROM || process.env.EMAIL_FROM || "AppCenar <onboarding@resend.dev>").trim();
-      const response = await resend.emails.send({
+      
+      console.log(`[Resend] Enviando correo a "${to}" desde "${from}"...`);
+      
+      const { data, error } = await resend.emails.send({
         from: from,
         to: to,
         subject: subject,
         html: html
       });
-      console.log(`[Resend] Correo enviado exitosamente a: ${to} (ID: ${response.data?.id || 'ok'})`);
-      return response;
+
+      if (error) {
+        console.error(`[Resend Error]:`, error.message || error);
+        return null;
+      }
+
+      console.log(`[Resend] Correo enviado exitosamente a: ${to} (ID: ${data?.id || 'ok'})`);
+      return data;
     } catch (error) {
-      console.error("[Resend] Error enviando correo vía Resend API:", error.message);
+      console.error("[Resend Exception]:", error.message);
     }
+  } else {
+    console.warn("[Email Aviso] RESEND_API_KEY no está configurada en las variables de entorno de Railway. Intentando vía SMTP...");
   }
 
   // 2. Fallback: Nodemailer SMTP
@@ -93,13 +104,18 @@ async function dispatchEmail({ to, subject, html }) {
     console.log(`[Nodemailer] Correo enviado exitosamente a: ${to}`);
     return info;
   } catch (error) {
-    console.error("[Nodemailer] Error enviando correo vía SMTP:", error.message);
+    console.error("[Nodemailer Error]:", error.message);
   }
 }
 
 async function sendActivationEmail({ email, nombre, token, baseUrl }) {
-  const host = baseUrl || process.env.BASE_URL || "http://localhost:3000";
+  const host = baseUrl || process.env.BASE_URL || process.env.APP_URI || "http://localhost:3000";
   const activationUrl = `${host}/activar-cuenta/${token}`;
+
+  console.log(`==================================================`);
+  console.log(`[ENLACE DE ACTIVACIÓN]: ${activationUrl}`);
+  console.log(`[DESTINATARIO]: ${email}`);
+  console.log(`==================================================`);
 
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 25px; border: 1px solid #eee; border-radius: 12px; background-color: #ffffff;">
@@ -128,8 +144,13 @@ async function sendActivationEmail({ email, nombre, token, baseUrl }) {
 }
 
 async function sendPasswordResetEmail({ email, nombre, token, baseUrl }) {
-  const host = baseUrl || process.env.BASE_URL || "http://localhost:3000";
+  const host = baseUrl || process.env.BASE_URL || process.env.APP_URI || "http://localhost:3000";
   const resetUrl = `${host}/reset-password/${token}`;
+
+  console.log(`==================================================`);
+  console.log(`[ENLACE DE RECUPERACIÓN]: ${resetUrl}`);
+  console.log(`[DESTINATARIO]: ${email}`);
+  console.log(`==================================================`);
 
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 25px; border: 1px solid #eee; border-radius: 12px; background-color: #ffffff;">
