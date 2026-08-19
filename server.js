@@ -21,7 +21,7 @@ for (const archivo of archivosEntorno) {
   }
 }
 
-const MongoStore = require("connect-mongo");
+const { MongoStore } = require("connect-mongo");
 const conexion = require("./config/mongooseConection");
 const seedAdmin = require("./config/seedAdmin");
 
