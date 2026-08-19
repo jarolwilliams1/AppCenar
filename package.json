@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node server.js",
+    "prod": "cross-env NODE_ENV=production node server.js",
     "dev": "cross-env NODE_ENV=development dotenv -e .env.development -- nodemon server.js",
     "qa": "cross-env NODE_ENV=qa dotenv -e .env.qa -- nodemon server.js",
     "db": "mongod --dbpath C:\\data\\db",
