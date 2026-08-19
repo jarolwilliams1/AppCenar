@@ -67,7 +67,7 @@ async function sendActivationEmail({ email, nombre, token, baseUrl }) {
 
   try {
     const client = await getTransporter();
-    await client.sendMail({
+    const info = await client.sendMail({
       from: fromAddress,
       to: email,
       subject: "Activa tu cuenta en AppCenar",
@@ -88,7 +88,7 @@ async function sendActivationEmail({ email, nombre, token, baseUrl }) {
         </div>
       `
     });
-    console.log(`[CORREO ENVIADO EXITOSAMENTE] -> ${email}`);
+    console.log(`[CORREO ENVIADO EXITOSAMENTE] -> Destinatario: ${email} | ID: ${info.messageId} | Servidor: ${info.response}`);
   } catch (error) {
     console.warn("Aviso: No se pudo enviar el correo vía SMTP real (se registró en consola):", error.message);
   }
@@ -109,7 +109,7 @@ async function sendPasswordResetEmail({ email, nombre, token, baseUrl }) {
 
   try {
     const client = await getTransporter();
-    await client.sendMail({
+    const info = await client.sendMail({
       from: fromAddress,
       to: email,
       subject: "Restablecer contraseña - AppCenar",
@@ -130,7 +130,7 @@ async function sendPasswordResetEmail({ email, nombre, token, baseUrl }) {
         </div>
       `
     });
-    console.log(`[CORREO ENVIADO EXITOSAMENTE] -> ${email}`);
+    console.log(`[CORREO ENVIADO EXITOSAMENTE] -> Destinatario: ${email} | ID: ${info.messageId} | Servidor: ${info.response}`);
   } catch (error) {
     console.warn("Aviso: No se pudo enviar el correo vía SMTP real (se registró en consola):", error.message);
   }
