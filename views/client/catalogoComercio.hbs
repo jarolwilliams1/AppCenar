@@ -1,57 +1,44 @@
-<section class="container" style="max-width: 1100px; margin-top: 90px; margin-bottom: 60px;">
+<div class="app-container">
     <!-- Encabezado del Comercio -->
-    <div class="d-flex align-items-center mb-4">
-        <a href="/cliente/home/comercios/{{comercio.tipoComercioId}}" class="btn btn-outline-secondary btn-sm rounded-pill px-3 me-3">
-            &larr; Volver
+    <div class="mb-3">
+        <a href="/cliente/home" class="back-link">
+            ← Volver
         </a>
-        <div class="d-flex align-items-center gap-3">
-            <div class="rounded-circle d-flex align-items-center justify-content-center bg-white shadow-sm" style="width: 56px; height: 56px; border: 1px solid #eee;">
-                {{#if comercio.logoComercio}}
-                    <img src="{{comercio.logoComercio}}" alt="{{comercio.nombreComercio}}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%;">
-                {{else}}
-                    <span style="font-size: 28px;">??</span>
-                {{/if}}
-            </div>
-            <div>
-                <h3 class="fw-bold mb-0" style="color: #1a1a2e;">{{comercio.nombreComercio}}</h3>
-                <small class="text-muted">Selecciona los productos para tu pedido  ? {{comercio.horaApertura}} - {{comercio.horaCierre}}</small>
-            </div>
-        </div>
+        <h3 class="fw-bold mb-1" style="color: #1A1A2E; font-size: 22px;">{{comercio.nombreComercio}}</h3>
+        <p class="text-muted small mb-4">Selecciona los productos para tu pedido</p>
     </div>
 
     <div class="row g-4">
-        <!-- catálogo de Productos Agrupados -->
+        <!-- Catálogo de Productos Agrupados -->
         <div class="col-lg-8">
             {{#each categorias}}
                 <div class="mb-4">
-                    <h4 class="fw-bold pb-2 border-bottom" style="color: #1a1a2e;">{{this.nombre}}</h4>
-                    {{#if this.descripcion}}
-                        <p class="text-muted small mb-3">{{this.descripcion}}</p>
-                    {{/if}}
+                    <h5 class="fw-bold mb-3" style="color: #1A1A2E; font-size: 16px;">{{this.nombre}}</h5>
 
-                    <div class="d-flex flex-column gap-3">
+                    <div class="d-flex flex-column gap-2">
                         {{#each this.productos}}
-                            <div class="card border-0 shadow-sm p-3 rounded-4 product-card" id="card-prod-{{this._id}}">
+                            <div class="card border-0 shadow-sm p-3 rounded-4 product-card" id="card-prod-{{this._id}}"
+                                 style="background: #FFFFFF; border: 1px solid #EEF2F6;">
                                 <div class="d-flex justify-content-between align-items-center gap-3">
                                     <div class="d-flex align-items-center gap-3">
-                                        <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 70px; height: 70px; flex-shrink: 0; overflow: hidden;">
+                                        <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 52px; height: 52px; flex-shrink: 0; overflow: hidden; font-size: 26px;">
                                             {{#if this.foto}}
                                                 <img src="{{this.foto}}" alt="{{this.nombre}}" style="width: 100%; height: 100%; object-fit: cover;">
                                             {{else}}
-                                                <span style="font-size: 32px;">??</span>
+                                                🍕
                                             {{/if}}
                                         </div>
                                         <div>
-                                            <h6 class="fw-bold mb-1 text-dark">{{this.nombre}}</h6>
-                                            <p class="text-muted small mb-1">{{this.descripcion}}</p>
-                                            <span class="fw-bold" style="color: #E91E63; font-size: 15px;">RD$ {{money this.precio}}</span>
+                                            <div class="fw-bold text-dark mb-0" style="font-size: 14.5px;">{{this.nombre}}</div>
+                                            <div class="text-muted small mb-1" style="font-size: 12px;">{{this.descripcion}}</div>
+                                            <div class="fw-bold" style="color: #E91E63; font-size: 14px;">RD${{money this.precio}}</div>
                                         </div>
                                     </div>
                                     <div>
                                         <button type="button" 
-                                                class="btn btn-add-cart px-3 py-2 text-white" 
+                                                class="btn-pink-primary" 
                                                 id="btn-add-{{this._id}}"
-                                                style="background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91)); border-radius: 10px; font-weight: 600; font-size: 13px;"
+                                                style="padding: 6px 14px; font-size: 12.5px;"
                                                 onclick="agregarAlPedido('{{this._id}}', '{{this.nombre}}', {{this.precio}}, '{{this.foto}}')">
                                             + Agregar
                                         </button>
@@ -62,50 +49,48 @@
                     </div>
                 </div>
             {{else}}
-                <div class="card border-0 shadow-sm p-5 text-center rounded-4">
-                    <p class="text-muted mb-0">Este comercio an no tiene productos disponibles.</p>
+                <div class="card border-0 shadow-sm p-5 text-center rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+                    <p class="text-muted mb-0">Este comercio aún no tiene productos disponibles.</p>
                 </div>
             {{/each}}
         </div>
 
         <!-- Panel Lateral "Mi Pedido" -->
         <div class="col-lg-4">
-            <div class="card border-0 shadow-sm p-4 rounded-4 sticky-top" style="top: 90px;">
+            <div class="card border-0 shadow-sm p-4 rounded-4 sticky-top" style="top: 84px; background: #FFFFFF; border: 1px solid #EEF2F6;">
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h5 class="fw-bold mb-0" style="color: #1a1a2e;">?? Mi pedido</h5>
+                    <h6 class="fw-bold mb-0" style="color: #1A1A2E; font-size: 15px;">🛒 Mi Pedido</h6>
                     <span class="badge bg-light text-dark" id="cart-count">0 items</span>
                 </div>
 
                 <!-- Empty State -->
                 <div id="cart-empty" class="text-center py-5">
-                    <div style="font-size: 48px; opacity: 0.4;">??</div>
-                    <p class="text-muted mt-2 mb-0" style="font-size: 14px;">Tu pedido está vacíoo</p>
-                    <small class="text-muted">Agrega productos del menú para continuar</small>
+                    <p class="text-muted mb-0" style="font-size: 13.5px;">Tu pedido está vacío</p>
                 </div>
 
                 <!-- Cart Items Container -->
                 <div id="cart-items" class="d-flex flex-column gap-2 mb-3" style="display: none !important;">
                 </div>
 
-                <!-- Resumen Subtotal y Botún Continuar -->
+                <!-- Resumen Subtotal y Botón Continuar -->
                 <div id="cart-summary" style="display: none !important;">
                     <hr class="my-3">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-muted fw-bold">Subtotal:</span>
-                        <span class="fw-bold fs-5" style="color: #1a1a2e;" id="cart-subtotal">RD$ 0.00</span>
+                        <span class="text-muted fw-bold small">Subtotal:</span>
+                        <span class="fw-bold" style="color: #1A1A2E; font-size: 16px;" id="cart-subtotal">RD$0.00</span>
                     </div>
 
                     <button type="button" 
-                            class="btn text-white w-100 py-3" 
-                            style="background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91)); border-radius: 12px; font-weight: bold; font-size: 15px;"
+                            class="btn-pink-primary w-100 py-2" 
+                            style="font-size: 14px; font-weight: 600;"
                             onclick="irAlCheckout()">
-                        Continuar ?
+                        Continuar al Checkout →
                     </button>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
 
 <script>
     const comercioId = "{{comercio._id}}";

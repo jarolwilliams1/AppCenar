@@ -103,10 +103,10 @@ async function ToggleStatusCliente(req, res) {
       cliente.isActive = !cliente.isActive;
       await cliente.save();
     }
-    res.redirect("/admin/clientesísuccess=Estado del cliente actualizado");
+    res.redirect("/admin/clientes?success=Estado del cliente actualizado");
   } catch (error) {
     console.error("Error al cambiar estado de cliente:", error);
-    res.redirect("/admin/clientesíerror=Error al cambiar estado");
+    res.redirect("/admin/clientes?error=Error al cambiar estado");
   }
 }
 
@@ -145,10 +145,10 @@ async function ToggleStatusDelivery(req, res) {
       delivery.isActive = !delivery.isActive;
       await delivery.save();
     }
-    res.redirect("/admin/deliveriesísuccess=Estado del repartidor actualizado");
+    res.redirect("/admin/deliveries?success=Estado del repartidor actualizado");
   } catch (error) {
     console.error("Error al cambiar estado de delivery:", error);
-    res.redirect("/admin/deliveriesíerror=Error al cambiar estado");
+    res.redirect("/admin/deliveries?error=Error al cambiar estado");
   }
 }
 
@@ -187,10 +187,10 @@ async function ToggleStatusComercio(req, res) {
       comercio.isActive = !comercio.isActive;
       await comercio.save();
     }
-    res.redirect("/admin/comerciosísuccess=Estado del comercio actualizado");
+    res.redirect("/admin/comercios?success=Estado del comercio actualizado");
   } catch (error) {
     console.error("Error al cambiar estado de comercio:", error);
-    res.redirect("/admin/comerciosíerror=Error al cambiar estado");
+    res.redirect("/admin/comercios?error=Error al cambiar estado");
   }
 }
 
@@ -286,26 +286,26 @@ async function CrearAdmin(req, res) {
     const { nombre, apellido, cedula, correo, usuario, password, confirmPassword } = req.body;
 
     if (!nombre || !apellido || !cedula || !correo || !usuario || !password || !confirmPassword) {
-      return res.redirect("/admin/administradoresíerror=Todos los campos son requeridos&nuevo=1");
+      return res.redirect("/admin/administradores?error=Todos los campos son requeridos&nuevo=1");
     }
 
     if (password !== confirmPassword) {
-      return res.redirect("/admin/administradoresíerror=Las contraseñas no coinciden&nuevo=1");
+      return res.redirect("/admin/administradores?error=Las contraseñas no coinciden&nuevo=1");
     }
 
     const existeUser = await User.findOne({ usuario: usuario.trim() });
     if (existeUser) {
-      return res.redirect("/admin/administradoresíerror=El nombre de usuario ya existe&nuevo=1");
+      return res.redirect("/admin/administradores?error=El nombre de usuario ya existe&nuevo=1");
     }
 
     const existeCorreo = await User.findOne({ correo: correo.trim().toLowerCase() });
     if (existeCorreo) {
-      return res.redirect("/admin/administradoresíerror=El correo ya está registrado&nuevo=1");
+      return res.redirect("/admin/administradores?error=El correo ya está registrado&nuevo=1");
     }
 
     const existeCedula = await Administrador.findOne({ cedula: cedula.trim() });
     if (existeCedula) {
-      return res.redirect("/admin/administradoresíerror=La cédula ya está registrada&nuevo=1");
+      return res.redirect("/admin/administradores?error=La cédula ya está registrada&nuevo=1");
     }
 
     const nuevoAdmin = new Administrador({
@@ -319,10 +319,10 @@ async function CrearAdmin(req, res) {
     });
 
     await nuevoAdmin.save();
-    res.redirect("/admin/administradoresísuccess=Administrador creado exitosamente");
+    res.redirect("/admin/administradores?success=Administrador creado exitosamente");
   } catch (error) {
     console.error("Error al crear admin:", error);
-    res.redirect("/admin/administradoresíerror=Error al crear administrador");
+    res.redirect("/admin/administradores?error=Error al crear administrador");
   }
 }
 
@@ -334,17 +334,17 @@ async function EditarAdmin(req, res) {
 
     const admin = await Administrador.findById(adminId);
     if (!admin) {
-      return res.redirect("/admin/administradoresíerror=Administrador no encontrado");
+      return res.redirect("/admin/administradores?error=Administrador no encontrado");
     }
 
     // Regla: No se puede editar el admin por defecto
     if (admin.correo === "admin@appcenar.com" || admin.usuario === "admin") {
-      return res.redirect("/admin/administradoresíerror=El administrador principal por defecto no puede ser editado");
+      return res.redirect("/admin/administradores?error=El administrador principal por defecto no puede ser editado");
     }
 
     // Regla: No puede auto-editarse desde este listado de gestin
     if (admin._id.toString() === adminActualId) {
-      return res.redirect("/admin/administradoresíerror=No puedes editar tu propio usuario desde la gestin");
+      return res.redirect("/admin/administradores?error=No puedes editar tu propio usuario desde la gestin");
     }
 
     admin.nombre = nombre.trim();
@@ -355,16 +355,16 @@ async function EditarAdmin(req, res) {
 
     if (password && password.trim().length > 0) {
       if (password !== confirmPassword) {
-        return res.redirect(`/admin/administradoresíerror=Las contraseñas no coinciden&edit=${adminId}`);
+        return res.redirect(`/admin/administradores?error=Las contraseñas no coinciden&edit=${adminId}`);
       }
       admin.password = password.trim();
     }
 
     await admin.save();
-    res.redirect("/admin/administradoresísuccess=Administrador actualizado exitosamente");
+    res.redirect("/admin/administradores?success=Administrador actualizado exitosamente");
   } catch (error) {
     console.error("Error al editar admin:", error);
-    res.redirect("/admin/administradoresíerror=Error al actualizar administrador");
+    res.redirect("/admin/administradores?error=Error al actualizar administrador");
   }
 }
 
@@ -375,26 +375,26 @@ async function ToggleStatusAdmin(req, res) {
 
     const admin = await Administrador.findById(adminId);
     if (!admin) {
-      return res.redirect("/admin/administradoresíerror=Administrador no encontrado");
+      return res.redirect("/admin/administradores?error=Administrador no encontrado");
     }
 
     // Regla: No se puede inactivar el admin por defecto
     if (admin.correo === "admin@appcenar.com" || admin.usuario === "admin") {
-      return res.redirect("/admin/administradoresíerror=El administrador principal por defecto no puede ser inactivado");
+      return res.redirect("/admin/administradores?error=El administrador principal por defecto no puede ser inactivado");
     }
 
     // Regla: No puede inactivarse a sí mismo
     if (admin._id.toString() === adminActualId) {
-      return res.redirect("/admin/administradoresíerror=No puedes cambiar el estado de tu propio usuario");
+      return res.redirect("/admin/administradores?error=No puedes cambiar el estado de tu propio usuario");
     }
 
     admin.isActive = !admin.isActive;
     await admin.save();
 
-    res.redirect("/admin/administradoresísuccess=Estado del administrador actualizado");
+    res.redirect("/admin/administradores?success=Estado del administrador actualizado");
   } catch (error) {
     console.error("Error al cambiar estado de admin:", error);
-    res.redirect("/admin/administradoresíerror=Error al cambiar estado del administrador");
+    res.redirect("/admin/administradores?error=Error al cambiar estado del administrador");
   }
 }
 

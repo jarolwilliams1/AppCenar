@@ -1,68 +1,68 @@
-<section class="container" style="max-width: 750px; margin-top: 90px; margin-bottom: 60px;">
+<div class="app-container" style="max-width: 680px;">
     <div class="mb-4">
-        <h2 class="fw-bold mb-1" style="color: #1a1a2e;">configuración del Sistema</h2>
-        <p class="text-muted mb-0">Variables globales de la plataforma</p>
+        <h3 class="fw-bold mb-1" style="color: #1A1A2E; font-size: 22px;">Configuración del Sistema</h3>
+        <p class="text-muted small mb-0">Variables globales de la plataforma</p>
     </div>
 
     {{#if successMsg}}
-        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
             {{successMsg}}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     {{/if}}
 
     {{#if errorMsg}}
-        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
             {{errorMsg}}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     {{/if}}
 
-    <div class="card border-0 shadow-sm p-4 rounded-4 mb-4">
-        <div class="d-flex justify-content-between align-items-center pb-3 border-bottom mb-4">
+    <div class="card border-0 shadow-sm p-4 rounded-4 mb-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+        <div class="d-flex justify-content-between align-items-center pb-3 border-bottom mb-4 flex-wrap gap-2">
             <div>
-                <h5 class="fw-bold mb-1" style="color: #1a1a2e;">ITBIS (%)</h5>
-                <small class="text-muted">Impuesto aplicado a todos los pedidos de la plataforma</small>
+                <h5 class="fw-bold mb-0 text-dark" style="font-size: 15px;">ITBIS (%)</h5>
+                <small class="text-muted" style="font-size: 12px;">Impuesto aplicado a todos los pedidos de la plataforma</small>
             </div>
 
             {{#if modoEdicion}}
                 <form action="/admin/configuracion" method="POST" class="d-flex align-items-center gap-2 m-0">
-                    <div class="input-group" style="width: 130px;">
-                        <input type="number" step="0.1" min="0" max="100" name="itbis" class="form-control text-center fw-bold" value="{{config.itbis}}" required>
+                    <div class="input-group input-group-sm" style="width: 110px;">
+                        <input type="number" step="0.1" min="0" max="100" name="itbis" class="form-control text-center fw-bold" value="{{config.itbis}}" required style="font-size: 13.5px;">
                         <span class="input-group-text bg-light">%</span>
                     </div>
-                    <button type="submit" class="btn text-white px-3" style="background-color: #E91E63; border-radius: 8px; font-weight: 600;">
+                    <button type="submit" class="btn-pink-primary" style="padding: 5px 14px; font-size: 12px;">
                         Guardar
                     </button>
-                    <a href="/admin/configuracion" class="btn btn-outline-secondary" style="border-radius: 8px;">?</a>
+                    <a href="/admin/configuracion" class="btn btn-sm btn-link text-muted text-decoration-none" style="font-size: 14px;">✕</a>
                 </form>
             {{else}}
                 <div class="d-flex align-items-center gap-3">
-                    <span class="fs-4 fw-bold" style="color: #E91E63;">{{config.itbis}}%</span>
-                    <a href="/admin/configuracion?edit=1" class="btn btn-outline-secondary btn-sm px-3" style="border-radius: 8px;">
+                    <span class="fw-bold" style="color: #E91E63; font-size: 18px;">{{config.itbis}}%</span>
+                    <a href="/admin/configuracion?edit=1" class="btn-outline-custom">
                         Editar
                     </a>
                 </div>
             {{/if}}
         </div>
 
-        <div class="p-3 rounded-3" style="background-color: #f8f9fb; border: 1px solid #eee;">
-            <h6 class="text-uppercase text-muted fw-bold mb-3" style="font-size: 11px; letter-spacing: 0.05em;">EJEMPLO DE cálculo CON ITBIS ACTUAL</h6>
+        <div class="p-3 rounded-3" style="background-color: #F8FAFC; border: 1px solid #EEF2F6;">
+            <div class="text-uppercase text-muted fw-bold mb-3" style="font-size: 10.5px; letter-spacing: 0.05em;">EJEMPLO DE CÁLCULO CON ITBIS ACTUAL</div>
             <div class="d-flex flex-column gap-2">
-                <div class="d-flex justify-content-between small text-muted">
-                    <span>Subtotal:</span>
-                    <span class="fw-bold text-dark">RD$ {{money subtotalEjemplo}}</span>
+                <div class="d-flex justify-content-between text-muted" style="font-size: 13px;">
+                    <span>Subtotal</span>
+                    <span class="fw-semibold text-dark">RD$1,000.00</span>
                 </div>
-                <div class="d-flex justify-content-between small text-muted">
-                    <span>ITBIS ({{config.itbis}}%):</span>
-                    <span class="fw-bold text-dark">RD$ {{money itbisEjemplo}}</span>
+                <div class="d-flex justify-content-between text-muted" style="font-size: 13px;">
+                    <span>ITBIS ({{config.itbis}}%)</span>
+                    <span class="fw-semibold text-dark">RD${{money itbisEjemplo}}</span>
                 </div>
                 <hr class="my-1">
-                <div class="d-flex justify-content-between fw-bold">
-                    <span style="color: #1a1a2e;">Total:</span>
-                    <span style="color: #E91E63;">RD$ {{money totalEjemplo}}</span>
+                <div class="d-flex justify-content-between fw-bold" style="font-size: 14.5px;">
+                    <span style="color: #1A1A2E;">Total</span>
+                    <span style="color: #E91E63;">RD${{money totalEjemplo}}</span>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>

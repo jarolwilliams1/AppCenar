@@ -1,76 +1,72 @@
-<section class="perfil-section container" style="max-width: 700px; margin-top: 100px; margin-bottom: 60px;">
-    <div class="perfil-card">
-        <h3 class="fw-bold mb-4 text-center" style="color: #1a1a2e;">Mi Perfil</h3>
+<div class="app-container" style="max-width: 580px;">
+    <h3 class="fw-bold mb-4 text-center" style="color: #1A1A2E; font-size: 22px;">Mi Perfil</h3>
 
-        {{#if successMsg}}
-            <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
-                {{successMsg}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        {{/if}}
+    {{#if successMsg}}
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
+            {{successMsg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {{/if}}
 
-        {{#if errorMsg}}
-            <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3" role="alert">
-                {{errorMsg}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        {{/if}}
+    {{#if errorMsg}}
+        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
+            {{errorMsg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {{/if}}
 
+    <div class="card border-0 shadow-sm p-4 p-md-5 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
         <form action="/cliente/perfil" method="POST" enctype="multipart/form-data">
-            <!-- Foto de perfil avatar -->
+            <!-- Avatar y Cambiar foto -->
             <div class="text-center mb-4">
-                <div class="position-relative d-inline-block">
-                    <div class="avatar mx-auto mb-2" style="width: 90px; height: 90px; overflow: hidden; font-size: 32px;">
-                        {{#if cliente.fotoPerfil}}
-                            <img src="{{cliente.fotoPerfil}}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
-                        {{else}}
-                            <span>{{cliente.nombre.[0]}}{{cliente.apellido.[0]}}</span>
-                        {{/if}}
-                    </div>
+                <div class="rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-2 text-white" 
+                     style="width: 76px; height: 76px; background: linear-gradient(135deg, #E91E63, #C2185B); font-size: 32px; overflow: hidden; box-shadow: 0 4px 12px rgba(233, 30, 99, 0.2);">
+                    {{#if cliente.fotoPerfil}}
+                        <img src="{{cliente.fotoPerfil}}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                    {{else}}
+                        👤
+                    {{/if}}
                 </div>
                 <div>
-                    <label for="fotoPerfil" class="btn btn-sm btn-outline-secondary" style="border-radius: 20px; font-size: 12px; cursor: pointer;">
-                        ?? Cambiar foto
+                    <label for="fotoPerfil" class="btn btn-link p-0 text-decoration-none" style="color: #E91E63; font-size: 12.5px; font-weight: 500; cursor: pointer;">
+                        Cambiar foto
                     </label>
                     <input type="file" id="fotoPerfil" name="fotoPerfil" class="d-none" accept="image/*">
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-semibold">Nombre *</label>
-                    <input type="text" name="nombre" class="form-control" value="{{cliente.nombre}}" required>
+            <div class="row g-3 mb-3">
+                <div class="col-12 col-md-6">
+                    <label class="form-label text-muted small fw-semibold">Nombre</label>
+                    <input type="text" name="nombre" class="form-control" value="{{cliente.nombre}}" required style="font-size: 13.5px;">
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-semibold">Apellido *</label>
-                    <input type="text" name="apellido" class="form-control" value="{{cliente.apellido}}" required>
+                <div class="col-12 col-md-6">
+                    <label class="form-label text-muted small fw-semibold">Apellido</label>
+                    <input type="text" name="apellido" class="form-control" value="{{cliente.apellido}}" required style="font-size: 13.5px;">
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-semibold">teléfono *</label>
-                    <input type="text" name="telefono" class="form-control" value="{{cliente.telefono}}" required>
+            <div class="row g-3 mb-3">
+                <div class="col-12 col-md-6">
+                    <label class="form-label text-muted small fw-semibold">Teléfono</label>
+                    <input type="text" name="telefono" class="form-control" value="{{cliente.telefono}}" required style="font-size: 13.5px;">
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-semibold">Nombre de usuario</label>
-                    <input type="text" class="form-control bg-light" value="{{cliente.usuario}}" disabled readonly>
+                <div class="col-12 col-md-6">
+                    <label class="form-label text-muted small fw-semibold">Nombre de usuario</label>
+                    <input type="text" class="form-control bg-light" value="{{cliente.usuario}}" disabled readonly style="font-size: 13.5px;">
                 </div>
             </div>
 
             <div class="mb-4">
-                <label class="form-label fw-semibold">Correo electrónico</label>
-                <input type="email" class="form-control bg-light" value="{{cliente.correo}}" disabled readonly>
+                <label class="form-label text-muted small fw-semibold">Correo electrónico</label>
+                <input type="email" class="form-control bg-light" value="{{cliente.correo}}" disabled readonly style="font-size: 13.5px;">
             </div>
 
-            <div class="d-flex gap-3">
-                <a href="/cliente/home" class="btn btn-outline-secondary w-50 py-2" style="border-radius: 10px;">
-                    Volver
-                </a>
-                <button type="submit" class="btn text-white w-50 py-2" style="background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91)); border-radius: 10px; font-weight: 600;">
+            <div>
+                <button type="submit" class="btn-pink-primary w-100 py-2" style="font-size: 14px;">
                     Guardar cambios
                 </button>
             </div>
         </form>
     </div>
-</section>
+</div>

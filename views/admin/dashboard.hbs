@@ -1,91 +1,116 @@
-<section class="container" style="max-width: 1100px; margin-top: 90px; margin-bottom: 60px;">
+<div class="app-container-wide">
     <div class="mb-4">
-        <h2 class="fw-bold mb-1" style="color: #1a1a2e;">Dashboard</h2>
-        <p class="text-muted">Panel analtico de AppCenar</p>
+        <h3 class="fw-bold mb-1" style="color: #1A1A2E; font-size: 22px;">Dashboard</h3>
+        <p class="text-muted small mb-0">Panel analítico de AppCenar</p>
     </div>
 
     {{#if successMsg}}
-        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
             {{successMsg}}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     {{/if}}
 
     {{#if errorMsg}}
-        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
             {{errorMsg}}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     {{/if}}
 
-    <h6 class="text-uppercase text-muted fw-bold mb-3" style="font-size: 11px; letter-spacing: 0.05em;">PEDIDOS Y catálogo</h6>
-    <div class="row g-3 mb-4">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-4 rounded-4 text-center">
-                <span class="text-muted small fw-bold text-uppercase">TOTAL histórico</span>
-                <strong class="fs-2 my-1" style="color: #1a1a2e;">{{metrics.totalPedidos}}</strong>
-                <small class="text-muted">Desde el inicio de la plataforma</small>
+    <!-- Sección Pedidos -->
+    <div class="mb-4">
+        <div class="text-uppercase text-muted fw-bold mb-2" style="font-size: 11px; letter-spacing: 0.05em;">PEDIDOS</div>
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <div class="card border-0 shadow-sm p-4 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="text-muted small fw-bold text-uppercase" style="font-size: 11px;">TOTAL HISTÓRICO</span>
+                        <span>📦</span>
+                    </div>
+                    <div class="fw-bold my-1 text-dark" style="font-size: 28px;">{{metrics.totalPedidos}}</div>
+                    <small class="text-muted" style="font-size: 11.5px;">Desde el inicio de la plataforma</small>
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-4 rounded-4 text-center">
-                <span class="text-muted small fw-bold text-uppercase">PEDIDOS HOY</span>
-                <strong class="fs-2 my-1" style="color: #E91E63;">{{metrics.pedidosHoy}}</strong>
-                <small class="text-muted">óórdenes generadas hoy</small>
+            <div class="col-12 col-md-4">
+                <div class="card border-0 shadow-sm p-4 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="text-muted small fw-bold text-uppercase" style="font-size: 11px;">PEDIDOS HOY</span>
+                        <span>📅</span>
+                    </div>
+                    <div class="fw-bold my-1 text-dark" style="font-size: 28px;">{{metrics.pedidosHoy}}</div>
+                    <small class="text-muted" style="font-size: 11.5px;">1 agosto 2026</small>
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-4 rounded-4 text-center">
-                <span class="text-muted small fw-bold text-uppercase">PRODUCTOS TOTALES</span>
-                <strong class="fs-2 my-1" style="color: #1a1a2e;">{{metrics.totalProductos}}</strong>
-                <small class="text-muted">En todos los comercios</small>
-            </div>
-        </div>
-    </div>
-
-    <h6 class="text-uppercase text-muted fw-bold mb-3" style="font-size: 11px; letter-spacing: 0.05em;">ESTADO DE USUARIOS</h6>
-    <div class="row g-3 mb-5">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-4 rounded-4 text-center">
-                <span class="text-muted small fw-bold text-uppercase">COMERCIOS ACTIVOS</span>
-                <strong class="fs-2 my-1 text-success">{{metrics.comerciosActivos}}</strong>
-                <small class="text-danger fw-bold">{{metrics.comerciosInactivos}} inactivos</small>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-4 rounded-4 text-center">
-                <span class="text-muted small fw-bold text-uppercase">CLIENTES ACTIVOS</span>
-                <strong class="fs-2 my-1 text-success">{{metrics.clientesActivos}}</strong>
-                <small class="text-danger fw-bold">{{metrics.clientesInactivos}} inactivos</small>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm p-4 rounded-4 text-center">
-                <span class="text-muted small fw-bold text-uppercase">DELIVERIES ACTIVOS</span>
-                <strong class="fs-2 my-1 text-success">{{metrics.deliveriesActivos}}</strong>
-                <small class="text-danger fw-bold">{{metrics.deliveriesInactivos}} inactivos</small>
+            <div class="col-12 col-md-4">
+                <div class="card border-0 shadow-sm p-4 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="text-muted small fw-bold text-uppercase" style="font-size: 11px;">PRODUCTOS TOTALES</span>
+                        <span>🍽️</span>
+                    </div>
+                    <div class="fw-bold my-1 text-dark" style="font-size: 28px;">{{metrics.totalProductos}}</div>
+                    <small class="text-muted" style="font-size: 11.5px;">En todos los comercios</small>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Sección Usuarios -->
+    <div class="mb-4">
+        <div class="text-uppercase text-muted fw-bold mb-2" style="font-size: 11px; letter-spacing: 0.05em;">USUARIOS</div>
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <div class="card border-0 shadow-sm p-4 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="text-muted small fw-bold text-uppercase" style="font-size: 11px;">COMERCIOS ACTIVOS</span>
+                        <span>🏪</span>
+                    </div>
+                    <div class="fw-bold my-1 text-dark" style="font-size: 28px;">{{metrics.comerciosActivos}}</div>
+                    <small class="text-muted" style="font-size: 11.5px;">{{metrics.comerciosInactivos}} inactivos</small>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card border-0 shadow-sm p-4 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="text-muted small fw-bold text-uppercase" style="font-size: 11px;">CLIENTES ACTIVOS</span>
+                        <span>👤</span>
+                    </div>
+                    <div class="fw-bold my-1 text-dark" style="font-size: 28px;">{{metrics.clientesActivos}}</div>
+                    <small class="text-muted" style="font-size: 11.5px;">{{metrics.clientesInactivos}} inactivos</small>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card border-0 shadow-sm p-4 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="text-muted small fw-bold text-uppercase" style="font-size: 11px;">DELIVERIES ACTIVOS</span>
+                        <span>🛵</span>
+                    </div>
+                    <div class="fw-bold my-1 text-dark" style="font-size: 28px;">{{metrics.deliveriesActivos}}</div>
+                    <small class="text-muted" style="font-size: 11.5px;">{{metrics.deliveriesInactivos}} inactivos</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filas inferiores: Pedidos recientes y Top comercios -->
     <div class="row g-4">
-        <div class="col-lg-7">
-            <div class="card border-0 shadow-sm p-4 rounded-4">
-                <h5 class="fw-bold mb-3" style="color: #1a1a2e;">Pedidos Recientes</h5>
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm p-4 rounded-4 h-100" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+                <h6 class="fw-bold mb-3" style="color: #1A1A2E; font-size: 15px;">Pedidos recientes</h6>
                 <div class="d-flex flex-column gap-2">
                     {{#each pedidosRecientes}}
-                        <div class="d-flex justify-content-between align-items-center p-2 rounded-3 bg-light">
+                        <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
                             <div>
-                                <span class="fw-bold text-dark">{{this.clienteId.nombre}} {{this.clienteId.apellido}}</span>
-                                <small class="text-muted d-block">{{this.comercioId.nombreComercio}}</small>
+                                <div class="fw-semibold text-dark" style="font-size: 13.5px;">{{this.clienteId.nombre}} {{this.clienteId.apellido}}</div>
+                                <small class="text-muted" style="font-size: 12px;">{{this.comercioId.nombreComercio}}</small>
                             </div>
                             <div class="text-end">
-                                <span class="fw-bold text-dark d-block">RD$ {{money this.total}}</span>
-                                <span class="badge {{statusBadge this.estado}} rounded-pill px-2" style="font-size: 10px;">{{statusLabel this.estado}}</span>
+                                <div class="fw-bold" style="color: #E91E63; font-size: 13.5px;">RD${{money this.total}}</div>
+                                <span class="badge {{statusBadge this.estado}} rounded-pill px-2 py-0" style="font-size: 10px;">{{statusLabel this.estado}}</span>
                             </div>
                         </div>
                     {{else}}
@@ -95,19 +120,24 @@
             </div>
         </div>
 
-        <div class="col-lg-5">
-            <div class="card border-0 shadow-sm p-4 rounded-4">
-                <h5 class="fw-bold mb-3" style="color: #1a1a2e;">Top Comercios</h5>
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm p-4 rounded-4 h-100" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+                <h6 class="fw-bold mb-3" style="color: #1A1A2E; font-size: 15px;">Top comercios</h6>
                 <div class="d-flex flex-column gap-3">
                     {{#each topComercios}}
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center gap-2">
-                                <span>??</span>
-                                <span class="fw-bold text-dark">{{this.nombreComercio}}</span>
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span>🍕</span>
+                                    <span class="fw-semibold text-dark" style="font-size: 13.5px;">{{this.nombreComercio}}</span>
+                                </div>
+                                <span class="text-muted small fw-semibold" style="font-size: 12px;">
+                                    {{this.totalPedidos}}
+                                </span>
                             </div>
-                            <span class="badge bg-light text-dark border px-3 py-1 rounded-pill">
-                                {{this.totalPedidos}} pedidos
-                            </span>
+                            <div class="progress" style="height: 4px; border-radius: 4px; background-color: #FCE4EC;">
+                                <div class="progress-bar" role="progressbar" style="width: 75%; background-color: #E91E63;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         </div>
                     {{else}}
                         <p class="text-muted small mb-0">No hay datos de comercios.</p>
@@ -116,4 +146,4 @@
             </div>
         </div>
     </div>
-</section>
+</div>

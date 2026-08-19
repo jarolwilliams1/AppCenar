@@ -4,49 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/comercio.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title>AppCenar | Comercio</title>
 </head>
 <body>
-    <nav class="cliente-nav comercio-nav">
-        <div class="izquierda">
-            <a href="/comercio/home" class="d-flex align-items-center text-decoration-none">
-                <div class="cuadrologo me-2">
-                    <span class="text-white fw-bold">AC</span>
-                </div>
-                <h2 class="text-head mb-0">App<span class="partenegra">Cenar</span></h2>
+    <nav class="navbar navbar-expand-lg app-navbar fixed-top">
+        <div class="container-fluid px-3 px-lg-4">
+            <a href="/comercio/home" class="brand-logo">
+                <div class="logo-square">AC</div>
+                <div class="brand-text">App<span>Cenar</span></div>
             </a>
-        </div>
 
-        <div class="centro">
-            <ul class="nav justify-content-center">
-                <li class="nav-item">
-                    <a class="nav-link" href="/comercio/home">Pedidos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/comercio/categoria">categorías</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/comercio/productos">Productos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/comercio/perfil">Perfil</a>
-                </li>
-            </ul>
-        </div>
+            <button class="navbar-toggler border-0 shadow-none p-1" type="button" data-bs-toggle="collapse" data-bs-target="#appNavbarCollapse" aria-controls="appNavbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="derecha">
-            <div class="name-rol">
-                <h3 class="nombre">{{#if sessionUser.nombre}}{{sessionUser.nombre}}{{else if sessionUser.usuario}}{{sessionUser.usuario}}{{else}}Comercio{{/if}}</h3>
-                <h3 class="rol">COMERCIO</h3>
+            <div class="collapse navbar-collapse" id="appNavbarCollapse">
+                <ul class="navbar-nav mx-auto nav-center-menu">
+                    <li class="nav-item"><a class="nav-link-custom {{#if (eq activeTab 'pedidos')}}active{{/if}}" href="/comercio/home">Pedidos</a></li>
+                    <li class="nav-item"><a class="nav-link-custom {{#if (eq activeTab 'categorias')}}active{{/if}}" href="/comercio/categoria">Categorías</a></li>
+                    <li class="nav-item"><a class="nav-link-custom {{#if (eq activeTab 'productos')}}active{{/if}}" href="/comercio/productos">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link-custom {{#if (eq activeTab 'perfil')}}active{{/if}}" href="/comercio/perfil">Perfil</a></li>
+                </ul>
+
+                <div class="nav-user-area">
+                    <div class="user-info-block">
+                        <div class="user-name">{{#if sessionUser.nombre}}{{sessionUser.nombre}}{{else if sessionUser.usuario}}{{sessionUser.usuario}}{{else}}Comercio{{/if}}</div>
+                        <span class="role-badge role-badge-comercio">COMERCIO</span>
+                    </div>
+                    <a href="/logout" class="btn-nav-logout">Salir</a>
+                </div>
             </div>
-            <a href="/logout" class="btn-salir text-decoration-none d-flex align-items-center">Salir</a>
         </div>
     </nav>
 
-    <main>
+    <main class="main-wrapper">
         {{{body}}}
     </main>
+
+    {{> footer}}
 
     <script src="/js/bootstrap.bundle.js"></script>
     <script src="/js/app.js"></script>

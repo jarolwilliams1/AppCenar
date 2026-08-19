@@ -32,9 +32,46 @@ router.get("/resetPassword", authController.mostrarReset);
 router.post("/reset-password", authController.guardarReset);
 router.post("/resetPassword", authController.guardarReset);
 
-// Redirecciones de registro
-router.get("/registro", (req, res) => res.redirect("/registrar"));
-router.get("/registrar-cliente", (req, res) => res.redirect("/registrar"));
-router.get("/registrar-comercio", (req, res) => res.redirect("/registrarComercio"));
+// Atajos de rutas globales inteligentes según el rol
+router.get("/pedidos", (req, res) => {
+  const rol = req.session && req.session.usuario ? req.session.usuario.rol : null;
+  if (rol === "Cliente") return res.redirect("/cliente/pedidos");
+  if (rol === "Comercio") return res.redirect("/comercio/home");
+  if (rol === "Delivery") return res.redirect("/delivery/home");
+  return res.redirect("/login");
+});
+
+router.get("/direcciones", (req, res) => {
+  const rol = req.session && req.session.usuario ? req.session.usuario.rol : null;
+  if (rol === "Cliente") return res.redirect("/cliente/direcciones");
+  return res.redirect("/login");
+});
+
+router.get("/favoritos", (req, res) => {
+  const rol = req.session && req.session.usuario ? req.session.usuario.rol : null;
+  if (rol === "Cliente") return res.redirect("/cliente/favoritos");
+  return res.redirect("/login");
+});
+
+router.get("/perfil", (req, res) => {
+  const rol = req.session && req.session.usuario ? req.session.usuario.rol : null;
+  if (rol === "Cliente") return res.redirect("/cliente/perfil");
+  if (rol === "Comercio") return res.redirect("/comercio/perfil");
+  if (rol === "Delivery") return res.redirect("/delivery/perfil");
+  if (rol === "Administrador") return res.redirect("/admin/dashboard");
+  return res.redirect("/login");
+});
+
+router.get(["/productos", "/producto"], (req, res) => {
+  return res.redirect("/comercio/productos");
+});
+
+router.get(["/categoria", "/categorias"], (req, res) => {
+  return res.redirect("/comercio/categoria");
+});
+
+router.get("/dashboard", (req, res) => {
+  return res.redirect("/admin/dashboard");
+});
 
 module.exports = router;

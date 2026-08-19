@@ -6,7 +6,7 @@ async function mostrar(req, res) {
   const listaTiposComercio = TiposComerciosDB.map(t => t.toObject());
 
   return res.render("auth/RegistrarComenrce", {
-    layout: "comerce",
+    layout: "client-delivery",
     listaTiposComercio,
     error: req.query.error || null
   });
@@ -23,7 +23,7 @@ async function validarCrearCuentaComercio(req, res) {
     const listaTiposComercio = TiposComerciosDB.map(t => t.toObject());
 
     return res.status(400).render("auth/RegistrarComenrce", {
-      layout: "comerce",
+      layout: "client-delivery",
       error: error.message,
       datos: req.body,
       listaTiposComercio

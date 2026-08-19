@@ -31,13 +31,17 @@ router.post("/configuracion", adminContoller.ActualizarConfiguracion);
 // Administradores
 router.get("/administradores", adminContoller.AdministradoresView);
 router.post("/administradores", adminContoller.CrearAdmin);
-router.post("/administradores/:id/editar", adminContoller.EditarAdmin);
-router.post("/administradores/:id/toggle-status", adminContoller.ToggleStatusAdmin);
+router.post(["/administradores/:id/editar", "/administrador/:id/editar"], adminContoller.EditarAdmin);
+router.get(["/administradores/:id/editar", "/administrador/:id/editar"], adminContoller.EditarAdmin);
+router.post(["/administradores/:id/toggle-status", "/administrador/:id/toggle-status"], adminContoller.ToggleStatusAdmin);
+router.get(["/administradores/:id/toggle-status", "/administrador/:id/toggle-status"], adminContoller.ToggleStatusAdmin);
 
 // Tipos de Comercio
-router.get("/tipo-comercio", adminContoller.ListaComercios);
-router.post("/tipo-comercio", upload.single("iconoNuevoTipoComercioAdminInput"), adminContoller.NuevoTipoComercio);
-router.post("/tipo-comercio/:id/editar", upload.single("iconoNuevoTipoComercioAdminInput"), adminContoller.EditarTipoComercio);
-router.post("/tipo-comercio/:id/eliminar", adminContoller.EliminarTipoComercio);
+router.get(["/tipo-comercio", "/tipos-comercio"], adminContoller.ListaComercios);
+router.post(["/tipo-comercio", "/tipos-comercio"], upload.any(), adminContoller.NuevoTipoComercio);
+router.post(["/tipo-comercio/:id/editar", "/tipos-comercio/:id/editar", "/tipo-comercio/editar/:id"], upload.any(), adminContoller.EditarTipoComercio);
+router.get(["/tipo-comercio/:id/editar", "/tipos-comercio/:id/editar", "/tipo-comercio/editar/:id"], adminContoller.EditarTipoComercio);
+router.post(["/tipo-comercio/:id/eliminar", "/tipos-comercio/:id/eliminar", "/tipo-comercio/eliminar/:id"], adminContoller.EliminarTipoComercio);
+router.get(["/tipo-comercio/:id/eliminar", "/tipos-comercio/:id/eliminar", "/tipo-comercio/eliminar/:id"], adminContoller.EliminarTipoComercio);
 
 module.exports = router;

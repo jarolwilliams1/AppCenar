@@ -1,11 +1,11 @@
-<section class="container" style="max-width: 900px; margin-top: 90px; margin-bottom: 60px;">
+<div class="app-container">
     <div class="mb-4">
-        <h2 class="fw-bold mb-1" style="color: #1a1a2e;">Mis Pedidos</h2>
-        <p class="text-muted">Historial completo de tus pedidos</p>
+        <h3 class="fw-bold mb-1" style="color: #1A1A2E; font-size: 22px;">Mis Pedidos</h3>
+        <p class="text-muted small mb-0">Historial completo de tus pedidos</p>
     </div>
 
     {{#if successMsg}}
-        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
             {{successMsg}}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
@@ -13,46 +13,42 @@
 
     <div class="d-flex flex-column gap-3">
         {{#each pedidos}}
-            <div class="card border-0 shadow-sm p-4 rounded-4">
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 60px; height: 60px; border: 1px solid #eee;">
-                            {{#if this.comercioId.logoComercio}}
-                                <img src="{{this.comercioId.logoComercio}}" alt="Logo" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
-                            {{else}}
-                                <span style="font-size: 30px;">??</span>
-                            {{/if}}
-                        </div>
-                        <div>
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <span class="badge {{statusBadge this.estado}} rounded-pill px-3 py-1 text-uppercase" style="font-size: 11px; font-weight: 700;">
-                                    {{statusLabel this.estado}}
-                                </span>
-                                <small class="text-muted">{{formatDate this.createdAt}}</small>
+            <a href="/cliente/pedidos/{{this._id}}" class="text-decoration-none text-dark">
+                <div class="card border-0 shadow-sm p-3 rounded-4" 
+                     style="background: #FFFFFF; border: 1px solid #EEF2F6; transition: transform 0.15s ease, box-shadow 0.15s ease;">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 48px; height: 48px; font-size: 24px;">
+                                {{#if this.comercioId.logoComercio}}
+                                    <img src="{{this.comercioId.logoComercio}}" alt="Logo" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;">
+                                {{else}}
+                                    🍕
+                                {{/if}}
                             </div>
-                            <h5 class="fw-bold mb-0 text-dark">{{this.comercioId.nombreComercio}}</h5>
-                            <small class="text-muted">{{this.cantidadProductos}} productos  Total: <strong>RD$ {{money this.total}}</strong></small>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark" style="font-size: 15px;">{{this.comercioId.nombreComercio}}</h6>
+                                <small class="text-muted" style="font-size: 12px;">{{formatDate this.createdAt}} · {{this.productos.length}} productos</small>
+                            </div>
                         </div>
-                    </div>
 
-                    <div>
-                        <a href="/cliente/pedidos/{{this._id}}" class="btn btn-outline-secondary px-4 py-2" style="border-radius: 10px; font-weight: 600; font-size: 13px;">
-                            Ver detalle ?
-                        </a>
+                        <div class="text-end">
+                            <div class="fw-bold mb-1" style="color: #E91E63; font-size: 15px;">RD${{money this.total}}</div>
+                            <span class="badge {{statusBadge this.estado}} rounded-pill px-3 py-1" style="font-size: 11px;">
+                                {{statusLabel this.estado}}
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         {{else}}
-            <div class="card border-0 shadow-sm p-5 text-center rounded-4">
-                <div style="font-size: 50px;" class="mb-3">??</div>
-                <h5 class="fw-bold text-dark">An no has realizado ningún pedido</h5>
-                <p class="text-muted mb-4">Explora nuestros comercios y pide tus platos favoritos.</p>
+            <div class="card border-0 shadow-sm p-5 text-center rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+                <p class="text-muted mb-3">Aún no has realizado ningún pedido.</p>
                 <div>
-                    <a href="/cliente/home" class="btn text-white px-4 py-2" style="background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91)); border-radius: 10px; font-weight: 600;">
+                    <a href="/cliente/home" class="btn-pink-primary">
                         Explorar Comercios
                     </a>
                 </div>
             </div>
         {{/each}}
     </div>
-</section>
+</div>

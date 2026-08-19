@@ -1,117 +1,117 @@
-<section class="container" style="max-width: 800px; margin-top: 90px; margin-bottom: 60px;">
+<div class="app-container" style="max-width: 780px;">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="fw-bold mb-1" style="color: #1a1a2e;">Mis direcciones</h2>
-            <p class="text-muted mb-0">Gestiona tus direcciones de entrega</p>
+            <h3 class="fw-bold mb-1" style="color: #1A1A2E; font-size: 22px;">Mis Direcciones</h3>
+            <p class="text-muted small mb-0">Gestiona tus direcciones de entrega</p>
         </div>
-        {{#unless mostrarForm}}
-            <a href="/cliente/direccionesínueva=1" class="btn text-white px-3 py-2" style="background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91)); border-radius: 10px; font-weight: 600; font-size: 13px;">
-                + dirección
-            </a>
-        {{/unless}}
+        <button type="button" class="btn-pink-primary" onclick="toggleFormDireccion()">
+            + Dirección
+        </button>
     </div>
 
     {{#if successMsg}}
-        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
             {{successMsg}}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     {{/if}}
 
     {{#if errorMsg}}
-        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
             {{errorMsg}}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     {{/if}}
 
-    <!-- Formulario Crear / Editar dirección -->
-    {{#if mostrarForm}}
-        <div class="card border-0 shadow-sm p-4 rounded-4 mb-4" style="border-left: 4px solid #E91E63 !important;">
-            <h5 class="fw-bold mb-3" style="color: #1a1a2e;">
-                {{#if modoEdicion}}Editar dirección{{else}}Nueva dirección{{/if}}
-            </h5>
-
-            <form action="{{#if modoEdicion}}/cliente/direcciones/{{direccionEdit._id}}/editar{{else}}/cliente/direcciones{{/if}}" method="POST">
-                <div class="mb-3">
-                    <label for="nombre" class="form-label fw-semibold">Nombre de la dirección *</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" value="{{#if modoEdicion}}{{direccionEdit.nombre}}{{/if}}" placeholder="ej. Casa, Oficina, Depto" required>
+    <!-- Formulario Inline / Colapsable de Nueva / Editar Dirección -->
+    <div id="formDireccionCard" class="card border-0 shadow-sm p-4 rounded-4 mb-4" 
+         style="background: #FFFFFF; border: 1px solid #EEF2F6; {{#unless mostrarForm}}display: none;{{/unless}}">
+        <h5 class="fw-bold text-dark mb-3" style="font-size: 15px;" id="formTitle">
+            {{#if modoEdicion}}Editar dirección{{else}}Nueva dirección{{/if}}
+        </h5>
+        <form id="formDirAction" action="{{#if modoEdicion}}/cliente/direcciones/{{direccionEdit._id}}/editar{{else}}/cliente/direcciones{{/if}}" method="POST">
+            <div class="row g-3 mb-3">
+                <div class="col-12 col-md-5">
+                    <label class="form-label text-muted small fw-semibold">Nombre (ej. Casa, Oficina)</label>
+                    <input type="text" class="form-control" name="nombre" id="inputNombreDir" value="{{#if direccionEdit}}{{direccionEdit.nombre}}{{/if}}" placeholder="Casa" required style="font-size: 13.5px;">
                 </div>
-
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label fw-semibold">descripción completa *</label>
-                    <input type="text" class="form-control" id="descripcion" name="descripcion" value="{{#if modoEdicion}}{{direccionEdit.descripcion}}{{/if}}" placeholder="ej. Calle Duarte #45, Apto 3B, Santiago" required>
+                <div class="col-12 col-md-7">
+                    <label class="form-label text-muted small fw-semibold">Descripción completa</label>
+                    <input type="text" class="form-control" name="descripcion" id="inputDescDir" value="{{#if direccionEdit}}{{direccionEdit.descripcion}}{{/if}}" placeholder="Calle Duarte #45, Santiago" required style="font-size: 13.5px;">
                 </div>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn-pink-primary">Guardar</button>
+                <button type="button" class="btn-cancel-custom" onclick="cancelarFormDireccion()">Cancelar</button>
+            </div>
+        </form>
+    </div>
 
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn text-white px-4" style="background-color: #E91E63; border-radius: 8px; font-weight: 600;">
-                        Guardar
-                    </button>
-                    <a href="/cliente/direcciones" class="btn btn-outline-secondary px-4" style="border-radius: 8px;">
-                        Cancelar
-                    </a>
-                </div>
-            </form>
-        </div>
-    {{/if}}
-
-    <!-- Listado de direcciones -->
+    <!-- Listado de Direcciones -->
     <div class="d-flex flex-column gap-3">
         {{#each direcciones}}
-            <div class="card border-0 shadow-sm p-3 rounded-4">
+            <div class="card border-0 shadow-sm p-3 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-light" style="width: 44px; height: 44px;">
-                            ??
+                        <div style="font-size: 24px;">
+                            📍
                         </div>
                         <div>
-                            <h6 class="fw-bold mb-0 text-dark">{{this.nombre}}</h6>
-                            <small class="text-muted">{{this.descripcion}}</small>
+                            <div class="fw-bold text-dark mb-0" style="font-size: 14.5px;">{{this.nombre}}</div>
+                            <small class="text-muted" style="font-size: 12.5px;">{{this.descripcion}}</small>
                         </div>
                     </div>
 
                     <div class="d-flex gap-2">
-                        <a href="/cliente/direccionesíedit={{this._id}}" class="btn btn-sm btn-outline-primary px-3" style="border-radius: 8px;">
+                        <button type="button" class="btn-outline-custom" onclick="editarDireccion('{{this._id}}', '{{this.nombre}}', '{{this.descripcion}}')">
                             Editar
-                        </a>
-
-                        <button type="button" class="btn btn-sm btn-outline-danger px-3" style="border-radius: 8px;" data-bs-toggle="modal" data-bs-target="#modalEliminar-{{this._id}}">
-                            Eliminar
                         </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal confirmación Eliminar -->
-            <div class="modal fade" id="modalEliminar-{{this._id}}" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content rounded-4 border-0 shadow">
-                        <div class="modal-header border-0 pb-0">
-                            <h5 class="modal-title fw-bold text-dark">Confirmar eliminación</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body text-muted py-3">
-                            estás seguro de que deseas eliminar la dirección <strong>"{{this.nombre}}"</strong>?
-                        </div>
-                        <div class="modal-footer border-0 pt-0">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <form action="/cliente/direcciones/{{this._id}}/eliminar" method="POST" class="m-0">
-                                <button type="submit" class="btn btn-danger">Aceptar y Eliminar</button>
-                            </form>
-                        </div>
+                        <form action="/cliente/direcciones/{{this._id}}/eliminar" method="POST" class="m-0" onsubmit="return confirm('¿Eliminar esta dirección?');">
+                            <button type="submit" class="btn-danger-pill">
+                                Eliminar
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         {{else}}
-            <div class="card border-0 shadow-sm p-5 text-center rounded-4">
-                <div style="font-size: 40px;" class="mb-2">??</div>
-                <p class="text-muted mb-3">No tienes direcciones registradas todava.</p>
+            <div class="card border-0 shadow-sm p-5 text-center rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+                <div style="font-size: 36px;" class="mb-2">📍</div>
+                <p class="text-muted mb-3">No tienes direcciones registradas todavía.</p>
                 <div>
-                    <a href="/cliente/direccionesínueva=1" class="btn text-white px-4 py-2" style="background-color: #E91E63; border-radius: 10px; font-weight: 600;">
-                        + Agregar mi primera dirección
-                    </a>
+                    <button type="button" class="btn-pink-primary" onclick="toggleFormDireccion()">
+                        + Agregar Dirección
+                    </button>
                 </div>
             </div>
         {{/each}}
     </div>
-</section>
+</div>
+
+<script>
+    function toggleFormDireccion() {
+        const card = document.getElementById('formDireccionCard');
+        document.getElementById('formTitle').innerText = 'Nueva dirección';
+        document.getElementById('formDirAction').action = '/cliente/direcciones';
+        document.getElementById('inputNombreDir').value = '';
+        document.getElementById('inputDescDir').value = '';
+        card.style.display = card.style.display === 'none' ? 'block' : 'none';
+        if (card.style.display === 'block') {
+            document.getElementById('inputNombreDir').focus();
+        }
+    }
+
+    function editarDireccion(id, nombre, desc) {
+        const card = document.getElementById('formDireccionCard');
+        document.getElementById('formTitle').innerText = 'Editar dirección';
+        document.getElementById('formDirAction').action = '/cliente/direcciones/' + id + '/editar';
+        document.getElementById('inputNombreDir').value = nombre;
+        document.getElementById('inputDescDir').value = desc;
+        card.style.display = 'block';
+        card.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function cancelarFormDireccion() {
+        document.getElementById('formDireccionCard').style.display = 'none';
+    }
+</script>

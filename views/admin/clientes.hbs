@@ -1,57 +1,72 @@
-<section class="container" style="max-width: 1000px; margin-top: 90px; margin-bottom: 60px;">
-    <div class="mb-4">
-        <h2 class="fw-bold mb-1" style="color: #1a1a2e;">Listado de Clientes</h2>
-        <p class="text-muted mb-0">{{totalClientes}} clientes registrados</p>
+<div class="app-container-wide">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <h3 class="fw-bold mb-1" style="color: #1A1A2E; font-size: 22px;">Listado de Clientes</h3>
+            <p class="text-muted small mb-0">{{totalClientes}} clientes registrados</p>
+        </div>
+        <div style="width: 240px;">
+            <div class="input-group input-group-sm" style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; padding: 2px 6px;">
+                <span class="input-group-text bg-transparent border-0 text-muted" style="font-size: 13px;">🔍</span>
+                <input type="text" id="buscarClienteInput" class="form-control border-0 shadow-none ps-0" placeholder="Buscar cliente..." style="font-size: 12.5px;" onkeyup="filtrarTablaClientes()">
+            </div>
+        </div>
     </div>
 
     {{#if successMsg}}
-        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
             {{successMsg}}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     {{/if}}
 
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    {{#if errorMsg}}
+        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
+            {{errorMsg}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {{/if}}
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
         <div class="table-responsive">
-            <table class="table align-middle mb-0">
-                <thead class="table-light">
+            <table class="table table-app align-middle mb-0" id="tablaClientes">
+                <thead>
                     <tr>
                         <th class="ps-4">NOMBRE</th>
                         <th>USUARIO</th>
                         <th>CORREO</th>
-                        <th>teléfono</th>
+                        <th>TELÉFONO</th>
                         <th>PEDIDOS</th>
                         <th>ESTADO</th>
-                        <th class="text-end pe-4">acción</th>
+                        <th class="text-end pe-4">ACCIÓN</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{#each listaClientes}}
                         <tr>
-                            <td class="ps-4 fw-bold text-dark">{{this.nombre}} {{this.apellido}}</td>
-                            <td class="text-muted">@{{this.usuario}}</td>
+                            <td class="ps-4 fw-semibold text-dark">{{this.nombre}} {{this.apellido}}</td>
+                            <td class="text-muted small">@{{this.usuario}}</td>
                             <td class="text-muted small">{{this.correo}}</td>
                             <td class="text-muted small">{{this.telefono}}</td>
                             <td>
-                                <span class="badge bg-light text-danger border px-2 py-1 rounded-pill fw-bold">
+                                <span class="badge rounded-pill px-2 py-1 fw-semibold" style="background-color: #FCE4EC; color: #E91E63; font-size: 11.5px;">
                                     {{this.totalPedidos}}
                                 </span>
                             </td>
                             <td>
                                 {{#if this.isActive}}
-                                    <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill">Activo</span>
+                                    <span class="fw-semibold" style="color: #2E7D32; font-size: 12.5px;">Activo</span>
                                 {{else}}
-                                    <span class="badge bg-danger-subtle text-danger px-3 py-1 rounded-pill">Inactivo</span>
+                                    <span class="fw-semibold" style="color: #E53935; font-size: 12.5px;">Inactivo</span>
                                 {{/if}}
                             </td>
                             <td class="text-end pe-4">
                                 <form action="/admin/clientes/{{this._id}}/toggle-status" method="POST" class="m-0">
                                     {{#if this.isActive}}
-                                        <button type="submit" class="btn btn-sm btn-danger px-3" style="border-radius: 8px;">
+                                        <button type="submit" class="btn-danger-pill">
                                             Inactivar
                                         </button>
                                     {{else}}
-                                        <button type="submit" class="btn btn-sm btn-success px-3 text-white" style="border-radius: 8px;">
+                                        <button type="submit" class="btn-success-pill">
                                             Activar
                                         </button>
                                     {{/if}}
@@ -69,4 +84,16 @@
             </table>
         </div>
     </div>
-</section>
+</div>
+
+<script>
+    function filtrarTablaClientes() {
+        const input = document.getElementById('buscarClienteInput');
+        const filter = input.value.toLowerCase();
+        const rows = document.querySelectorAll('#tablaClientes tbody tr');
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(filter) ? '' : 'none';
+        });
+    }
+</script>

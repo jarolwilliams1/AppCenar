@@ -1,12 +1,13 @@
-<section class="container" style="max-width: 1000px; margin-top: 90px; margin-bottom: 60px;">
-    <div class="d-flex align-items-center mb-4">
-        <a href="/cliente/comercio/{{comercio._id}}" class="btn btn-outline-secondary btn-sm rounded-pill px-3 me-3">
-            &larr; Volver al menú
+<div class="app-container-wide">
+    <div class="mb-3">
+        <a href="/cliente/comercio/{{comercio._id}}" class="back-link">
+            ← Volver al menú
         </a>
-        <div>
-            <h3 class="fw-bold mb-0" style="color: #1a1a2e;">Confirmar Pedido</h3>
-            <small class="text-muted">Selecciona tu dirección de entrega y revisa los montos</small>
-        </div>
+    </div>
+    
+    <div class="mb-4">
+        <h3 class="fw-bold mb-1" style="color: #1A1A2E; font-size: 22px;">Confirmar Pedido</h3>
+        <p class="text-muted small mb-0">Selecciona tu dirección de entrega y revisa los montos</p>
     </div>
 
     <form action="/cliente/crear-pedido" method="POST">
@@ -14,33 +15,33 @@
         <input type="hidden" name="productIds" value="{{productIds}}">
 
         <div class="row g-4">
-            <!-- Seleccin de dirección -->
+            <!-- Selección de dirección -->
             <div class="col-lg-7">
-                <div class="card border-0 shadow-sm p-4 rounded-4 mb-4">
+                <div class="card border-0 shadow-sm p-4 rounded-4 mb-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="fw-bold mb-0" style="color: #1a1a2e;">?? dirección de entrega *</h5>
-                        <a href="/cliente/direccionesínueva=1" class="btn btn-sm text-white" style="background-color: #E91E63; border-radius: 8px; font-weight: 600; font-size: 12px;">
+                        <h6 class="fw-bold mb-0" style="color: #1A1A2E; font-size: 15px;">📍 Dirección de entrega</h6>
+                        <a href="/cliente/direcciones?nueva=1" class="btn-pink-primary" style="padding: 4px 12px; font-size: 12px;">
                             + Nueva dirección
                         </a>
                     </div>
 
                     {{#if tienedirecciones}}
-                        <div class="d-flex flex-column gap-3">
+                        <div class="d-flex flex-column gap-2">
                             {{#each direcciones}}
-                                <label class="card p-3 border rounded-3 cursor-pointer d-flex flex-row align-items-center gap-3" style="cursor: pointer;">
+                                <label class="card p-3 rounded-3 d-flex flex-row align-items-center gap-3 border" style="cursor: pointer; background: #FAFAFA;">
                                     <input type="radio" name="direccionId" value="{{this._id}}" class="form-check-input mt-0" required {{#if @first}}checked{{/if}}>
                                     <div>
-                                        <div class="fw-bold" style="color: #1a1a2e;">{{this.nombre}}</div>
-                                        <small class="text-muted">{{this.descripcion}}</small>
+                                        <div class="fw-semibold text-dark" style="font-size: 13.5px;">{{this.nombre}}</div>
+                                        <small class="text-muted" style="font-size: 12px;">{{this.descripcion}}</small>
                                     </div>
                                 </label>
                             {{/each}}
                         </div>
                     {{else}}
-                        <div class="alert alert-warning text-center my-3 rounded-3">
-                            <p class="mb-2 fw-bold">No tienes ninguna dirección registrada.</p>
+                        <div class="alert alert-light border text-center my-3 rounded-3 py-4">
+                            <p class="mb-2 fw-semibold text-dark" style="font-size: 13.5px;">No tienes ninguna dirección registrada.</p>
                             <p class="small text-muted mb-3">Para poder confirmar tu pedido, necesitas agregar al menos una dirección de entrega.</p>
-                            <a href="/cliente/direccionesínueva=1" class="btn btn-sm text-white" style="background-color: #E91E63; border-radius: 8px;">
+                            <a href="/cliente/direcciones?nueva=1" class="btn-pink-primary">
                                 Registrar una dirección ahora
                             </a>
                         </div>
@@ -48,25 +49,25 @@
                 </div>
 
                 <!-- Productos en el pedido -->
-                <div class="card border-0 shadow-sm p-4 rounded-4">
-                    <h5 class="fw-bold mb-3" style="color: #1a1a2e;">Platos seleccionados ({{productos.length}})</h5>
+                <div class="card border-0 shadow-sm p-4 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
+                    <h6 class="fw-bold mb-3" style="color: #1A1A2E; font-size: 15px;">Platos seleccionados ({{productos.length}})</h6>
                     <div class="d-flex flex-column gap-2">
                         {{#each productos}}
                             <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
                                 <div class="d-flex align-items-center gap-3">
-                                    <div class="rounded-2 d-flex align-items-center justify-content-center bg-light" style="width: 44px; height: 44px; overflow: hidden;">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 40px; height: 40px; font-size: 20px;">
                                         {{#if this.foto}}
-                                            <img src="{{this.foto}}" alt="{{this.nombre}}" style="width: 100%; height: 100%; object-fit: cover;">
+                                            <img src="{{this.foto}}" alt="{{this.nombre}}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                                         {{else}}
-                                            <span>???</span>
+                                            🍕
                                         {{/if}}
                                     </div>
                                     <div>
-                                        <div class="fw-bold small text-dark">{{this.nombre}}</div>
-                                        <small class="text-muted">1 unidad</small>
+                                        <div class="fw-semibold small text-dark">{{this.nombre}}</div>
+                                        <small class="text-muted" style="font-size: 11.5px;">1 unidad</small>
                                     </div>
                                 </div>
-                                <span class="fw-bold text-dark">RD$ {{money this.precio}}</span>
+                                <span class="fw-bold text-dark" style="font-size: 13.5px;">RD${{money this.precio}}</span>
                             </div>
                         {{/each}}
                     </div>
@@ -75,49 +76,49 @@
 
             <!-- Panel de Resumen de Totales e ITBIS -->
             <div class="col-lg-5">
-                <div class="card border-0 shadow-sm p-4 rounded-4 sticky-top" style="top: 90px;">
+                <div class="card border-0 shadow-sm p-4 rounded-4 sticky-top" style="top: 90px; background: #FFFFFF; border: 1px solid #EEF2F6;">
                     <!-- Comercio Info -->
                     <div class="d-flex align-items-center gap-3 pb-3 mb-3 border-bottom">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-light" style="width: 48px; height: 48px; border: 1px solid #eee;">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-light" style="width: 44px; height: 44px; font-size: 22px;">
                             {{#if comercio.logoComercio}}
-                                <img src="{{comercio.logoComercio}}" alt="{{comercio.nombreComercio}}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                                <img src="{{comercio.logoComercio}}" alt="{{comercio.nombreComercio}}" style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%;">
                             {{else}}
-                                <span>??</span>
+                                🏪
                             {{/if}}
                         </div>
                         <div>
-                            <h6 class="fw-bold mb-0 text-dark">{{comercio.nombreComercio}}</h6>
-                            <small class="text-muted">Pedido directo</small>
+                            <div class="fw-bold mb-0 text-dark" style="font-size: 14.5px;">{{comercio.nombreComercio}}</div>
+                            <small class="text-muted" style="font-size: 12px;">Pedido directo</small>
                         </div>
                     </div>
 
                     <!-- Detalle de montos -->
                     <div class="d-flex flex-column gap-2 mb-3">
-                        <div class="d-flex justify-content-between">
-                            <span class="text-muted">Subtotal:</span>
-                            <span class="fw-bold text-dark">RD$ {{money subtotal}}</span>
+                        <div class="d-flex justify-content-between text-muted" style="font-size: 13.5px;">
+                            <span>Subtotal:</span>
+                            <span class="fw-semibold text-dark">RD${{money subtotal}}</span>
                         </div>
 
-                        <div class="d-flex justify-content-between">
-                            <span class="text-muted">ITBIS ({{itbisPorcentaje}}%):</span>
-                            <span class="fw-bold text-dark">RD$ {{money itbisMonto}}</span>
+                        <div class="d-flex justify-content-between text-muted" style="font-size: 13.5px;">
+                            <span>ITBIS ({{itbisPorcentaje}}%):</span>
+                            <span class="fw-semibold text-dark">RD${{money itbisMonto}}</span>
                         </div>
 
                         <hr class="my-2">
 
                         <div class="d-flex justify-content-between align-items-center">
-                            <span class="fs-5 fw-bold" style="color: #1a1a2e;">Total a pagar:</span>
-                            <span class="fs-4 fw-bold" style="color: #E91E63;">RD$ {{money total}}</span>
+                            <span class="fw-bold" style="color: #1A1A2E; font-size: 15px;">Total a pagar:</span>
+                            <span class="fw-bold" style="color: #E91E63; font-size: 20px;">RD${{money total}}</span>
                         </div>
                     </div>
 
-                    <!-- Botún de confirmación -->
+                    <!-- Botón de confirmación -->
                     {{#if tienedirecciones}}
-                        <button type="submit" class="btn text-white w-100 py-3" style="background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91)); border-radius: 12px; font-weight: bold; font-size: 16px;">
+                        <button type="submit" class="btn-pink-primary w-100 py-3" style="font-size: 15px; border-radius: 12px;">
                             Pedir ahora
                         </button>
                     {{else}}
-                        <button type="button" class="btn btn-secondary w-100 py-3 disabled" style="border-radius: 12px; font-weight: bold;">
+                        <button type="button" class="btn-cancel-custom w-100 py-3 text-center" disabled style="font-size: 13.5px;">
                             Agrega una dirección para pedir
                         </button>
                     {{/if}}
@@ -125,4 +126,4 @@
             </div>
         </div>
     </form>
-</section>
+</div>

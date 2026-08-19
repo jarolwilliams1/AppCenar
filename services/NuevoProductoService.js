@@ -1,30 +1,39 @@
+const mongoose = require("mongoose");
 const { Producto, CrearProducto } = require("../models/ProductoModel");
 const { Categoria } = require("../models/categoriaModel");
 
 async function ValidarDatos(datos, id, file) {
-  const nombre = (datos.NombreNuevoPorducto || datos.nombre || "").trim();
-  const categoria = (datos.CategoriaNuevoProducto || datos.categoriaId || "").toString().trim();
+  const nombre = (datos.NombreNuevoPorducto || datos.nombre || datos.nombreProducto || "").trim();
+  const categoriaRaw = (datos.CategoriaNuevoProducto || datos.categoriaId || datos.categoria || "").toString().trim();
   const precio = Number(datos.PrecioNuevoProducto || datos.precio || 0);
   const descripcion = (datos.DescripcionNuevoProducto || datos.descripcion || "").trim();
   const foto = file ? `/uploads/${file.filename}` : (datos.FotoProductoNuevo || datos.foto || "/icons/default-food.png");
 
-  if (!nombre || !categoria || !precio || !descripcion) {
-    throw new Error("Todos los campos son requeridos");
+  if (!nombre) {
+    throw new Error("El nombre del producto es obligatorio");
   }
 
-  if (precio < 0) {
-    throw new Error("El precio no puede ser menor que 0");
+  if (!categoriaRaw) {
+    throw new Error("Debes seleccionar una categoría para el producto");
   }
 
-  // Validar que la categoría pertenezca a este comercio
-  const cat = await Categoria.findOne({ _id: categoria, comercioId: id });
+  if (isNaN(precio) || precio < 0) {
+    throw new Error("El precio debe ser un número válido mayor o igual a 0");
+  }
+
+  if (!descripcion) {
+    throw new Error("La descripción del producto es obligatoria");
+  }
+
+  // Buscar categoría por ID
+  const cat = await Categoria.findById(categoriaRaw);
   if (!cat) {
-    throw new Error("La categoría seleccionada no es válida para este comercio");
+    throw new Error("La categoría seleccionada no existe en la base de datos");
   }
 
   const datosCompletos = {
     NombreNuevoPorducto: nombre,
-    CategoriaNuevoProducto: categoria,
+    CategoriaNuevoProducto: cat._id,
     PrecioNuevoProducto: precio,
     DescripcionNuevoProducto: descripcion,
     FotoProductoNuevo: foto
@@ -34,3 +43,4 @@ async function ValidarDatos(datos, id, file) {
 }
 
 module.exports = { ValidarDatos };
+

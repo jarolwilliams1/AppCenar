@@ -234,7 +234,7 @@ async function CrearPedido(req, res) {
 
     await nuevoPedido.save();
 
-    return res.redirect(`/cliente/pedidosísuccess=Pedido realizado con ééxito!`);
+    return res.redirect(`/cliente/pedidos?success=Pedido realizado con éxito!`);
   } catch (error) {
     console.error("Error al crear pedido:", error);
     return res.redirect(`/cliente/home?error=Error al procesar el pedido`);
@@ -279,7 +279,7 @@ async function DetallePedido(req, res) {
       .lean();
 
     if (!pedido) {
-      return res.redirect("/cliente/pedidosíerror=Pedido no encontrado");
+      return res.redirect("/cliente/pedidos?error=Pedido no encontrado");
     }
 
     res.render("client/pedidoDetalle", {
@@ -288,7 +288,7 @@ async function DetallePedido(req, res) {
     });
   } catch (error) {
     console.error("Error en DetallePedido:", error);
-    res.redirect("/cliente/pedidosíerror=Error al consultar detalle del pedido");
+    res.redirect("/cliente/pedidos?error=Error al consultar detalle del pedido");
   }
 }
 
@@ -327,7 +327,7 @@ async function CrearDireccion(req, res) {
     const { nombre, descripcion } = req.body;
 
     if (!nombre || !descripcion) {
-      return res.redirect("/cliente/direccionesíerror=Todos los campos son requeridos&nueva=1");
+      return res.redirect("/cliente/direcciones?error=Todos los campos son requeridos&nueva=1");
     }
 
     await Direccion.create({
@@ -336,10 +336,10 @@ async function CrearDireccion(req, res) {
       descripcion: descripcion.trim()
     });
 
-    res.redirect("/cliente/direccionesísuccess=dirección agregada correctamente");
+    res.redirect("/cliente/direcciones?success=dirección agregada correctamente");
   } catch (error) {
     console.error("Error en CrearDireccion:", error);
-    res.redirect("/cliente/direccionesíerror=Error al guardar la dirección");
+    res.redirect("/cliente/direcciones?error=Error al guardar la dirección");
   }
 }
 
@@ -350,22 +350,22 @@ async function EditarDireccion(req, res) {
     const { nombre, descripcion } = req.body;
 
     if (!nombre || !descripcion) {
-      return res.redirect(`/cliente/direccionesíerror=Todos los campos son requeridos&edit=${direccionId}`);
+      return res.redirect(`/cliente/direcciones?error=Todos los campos son requeridos&edit=${direccionId}`);
     }
 
     const dir = await Direccion.findOne({ _id: direccionId, clienteId });
     if (!dir) {
-      return res.redirect("/cliente/direccionesíerror=dirección no encontrada");
+      return res.redirect("/cliente/direcciones?error=dirección no encontrada");
     }
 
     dir.nombre = nombre.trim();
     dir.descripcion = descripcion.trim();
     await dir.save();
 
-    res.redirect("/cliente/direccionesísuccess=dirección actualizada correctamente");
+    res.redirect("/cliente/direcciones?success=dirección actualizada correctamente");
   } catch (error) {
     console.error("Error en EditarDireccion:", error);
-    res.redirect("/cliente/direccionesíerror=Error al actualizar la dirección");
+    res.redirect("/cliente/direcciones?error=Error al actualizar la dirección");
   }
 }
 
@@ -375,10 +375,10 @@ async function EliminarDireccion(req, res) {
     const direccionId = req.params.id;
 
     await Direccion.findOneAndDelete({ _id: direccionId, clienteId });
-    res.redirect("/cliente/direccionesísuccess=dirección eliminada correctamente");
+    res.redirect("/cliente/direcciones?success=dirección eliminada correctamente");
   } catch (error) {
     console.error("Error en EliminarDireccion:", error);
-    res.redirect("/cliente/direccionesíerror=Error al eliminar la dirección");
+    res.redirect("/cliente/direcciones?error=Error al eliminar la dirección");
   }
 }
 
@@ -452,10 +452,10 @@ async function RemoverFavorito(req, res) {
       }
     }
 
-    res.redirect("/cliente/favoritosísuccess=Comercio removido de favoritos");
+    res.redirect("/cliente/favoritos?success=Comercio removido de favoritos");
   } catch (error) {
     console.error("Error en RemoverFavorito:", error);
-    res.redirect("/cliente/favoritosíerror=Error al remover de favoritos");
+    res.redirect("/cliente/favoritos?error=Error al remover de favoritos");
   }
 }
 

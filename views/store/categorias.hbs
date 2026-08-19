@@ -1,68 +1,64 @@
-<section class="container" style="max-width: 900px; margin-top: 90px; margin-bottom: 60px;">
+<div class="app-container-wide">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="fw-bold mb-1" style="color: #1a1a2e;">categorías</h2>
-            <p class="text-muted mb-0">Organiza tu menú por categorías</p>
+            <h3 class="fw-bold mb-1" style="color: #1A1A2E; font-size: 22px;">Categorías</h3>
+            <p class="text-muted small mb-0">Organiza tu menú por categorías</p>
         </div>
-        {{#unless mostrarForm}}
-            <a href="/comercio/categoria?nueva=1" class="btn text-white px-3 py-2" style="background: linear-gradient(135deg, rgb(233, 30, 99), rgb(194, 24, 91)); border-radius: 10px; font-weight: 600; font-size: 13px;">
-                + Nueva categoría
-            </a>
-        {{/unless}}
+        <button type="button" class="btn-pink-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaCategoria">
+            + Nueva Categoría
+        </button>
     </div>
 
     {{#if successMsg}}
-        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3" role="alert">
+        <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
             {{successMsg}}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     {{/if}}
 
     {{#if errorMsg}}
-        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3 border-0 shadow-sm" role="alert">
             {{errorMsg}}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     {{/if}}
 
-    <!-- Formulario Nueva / Editar categoría -->
-    {{#if mostrarForm}}
-        <div class="card border-0 shadow-sm p-4 rounded-4 mb-4" style="border-left: 4px solid #E91E63 !important;">
-            <h5 class="fw-bold mb-3" style="color: #1a1a2e;">
-                {{#if modoEdicion}}Editar categoría{{else}}Nueva categoría{{/if}}
-            </h5>
-
-            <form action="{{#if modoEdicion}}/comercio/categoria/{{categoriaEdit._id}}/editar{{else}}/comercio/categoria{{/if}}" method="POST">
-                <div class="mb-3">
-                    <label for="nombreNuevaCategoriaInput" class="form-label fw-semibold">Nombre *</label>
-                    <input type="text" class="form-control" id="nombreNuevaCategoriaInput" name="nombreNuevaCategoriaInput" value="{{#if modoEdicion}}{{categoriaEdit.nombre}}{{/if}}" placeholder="ej. Entradas, Pizzas, Bebidas, Postres" required>
+    <!-- Modal Crear Nueva Categoría -->
+    <div class="modal fade" id="modalNuevaCategoria" tabindex="-1" aria-labelledby="modalNuevaCategoriaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-dark" id="modalNuevaCategoriaLabel">Nueva Categoría</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
-                <div class="mb-3">
-                    <label for="descripcionNuevaCategoriaInput" class="form-label fw-semibold">descripción *</label>
-                    <input type="text" class="form-control" id="descripcionNuevaCategoriaInput" name="descripcionNuevaCategoriaInput" value="{{#if modoEdicion}}{{categoriaEdit.descripcion}}{{/if}}" placeholder="ej. Deliciosas pizzas artesanales horneadas a la lea" required>
-                </div>
-
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn text-white px-4" style="background-color: #E91E63; border-radius: 8px; font-weight: 600;">
-                        {{#if modoEdicion}}Guardar Cambios{{else}}Crear categoría{{/if}}
-                    </button>
-                    <a href="/comercio/categoria" class="btn btn-outline-secondary px-4" style="border-radius: 8px;">
-                        Cancelar
-                    </a>
-                </div>
-            </form>
+                <form action="/comercio/categoria" method="POST">
+                    <div class="modal-body py-3">
+                        <div class="mb-3">
+                            <label for="nombreNuevaCategoriaInput" class="form-label text-muted small fw-semibold">Nombre</label>
+                            <input type="text" class="form-control" id="nombreNuevaCategoriaInput" name="nombreNuevaCategoriaInput" placeholder="ej. Pizzas" required style="font-size: 13.5px;">
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcionNuevaCategoriaInput" class="form-label text-muted small fw-semibold">Descripción</label>
+                            <textarea class="form-control" rows="3" id="descripcionNuevaCategoriaInput" name="descripcionNuevaCategoriaInput" placeholder="Pizzas artesanales al horno de leña" required style="font-size: 13.5px;"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn-cancel-custom" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn-pink-primary">Crear Categoría</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    {{/if}}
+    </div>
 
-    <!-- Tabla de categorías -->
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <!-- Tabla de Categorías -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
         <div class="table-responsive">
-            <table class="table align-middle mb-0">
-                <thead class="table-light">
+            <table class="table table-app align-middle mb-0">
+                <thead>
                     <tr>
                         <th class="ps-4">NOMBRE</th>
-                        <th>descripción</th>
+                        <th>DESCRIPCIÓN</th>
                         <th>PRODUCTOS</th>
                         <th class="text-end pe-4">ACCIONES</th>
                     </tr>
@@ -73,44 +69,53 @@
                             <td class="ps-4 fw-bold text-dark">{{this.nombre}}</td>
                             <td class="text-muted small">{{this.descripcion}}</td>
                             <td>
-                                <span class="badge bg-light text-dark border px-2 py-1 rounded-pill">
+                                <span class="badge rounded-pill px-3 py-1 fw-semibold" style="background-color: #FCE4EC; color: #E91E63; font-size: 11.5px;">
                                     {{this.productosCount}} productos
                                 </span>
                             </td>
                             <td class="text-end pe-4">
-                                <a href="/comercio/categoria?edit={{this._id}}" class="btn btn-sm btn-outline-primary px-3 me-1" style="border-radius: 8px;">
+                                <button type="button" class="btn-outline-custom me-1" data-bs-toggle="modal" data-bs-target="#modalEditarCat-{{this._id}}">
                                     Editar
-                                </a>
-                                <button type="button" class="btn btn-sm btn-outline-danger px-3" style="border-radius: 8px;" data-bs-toggle="modal" data-bs-target="#modalEliminarCat-{{this._id}}">
-                                    Eliminar
                                 </button>
+                                <form action="/comercio/categoria/{{this._id}}/eliminar" method="POST" class="d-inline m-0" onsubmit="return confirm('¿Eliminar esta categoría?');">
+                                    <button type="submit" class="btn-danger-pill">
+                                        Eliminar
+                                    </button>
+                                </form>
                             </td>
                         </tr>
 
-                        <!-- Modal confirmación Eliminar categoría -->
-                        <div class="modal fade" id="modalEliminarCat-{{this._id}}" tabindex="-1">
+                        <!-- Modal Editar Categoría -->
+                        <div class="modal fade" id="modalEditarCat-{{this._id}}" tabindex="-1" aria-labelledby="modalEditarCatLabel-{{this._id}}" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content rounded-4 border-0 shadow">
                                     <div class="modal-header border-0 pb-0">
-                                        <h5 class="modal-title fw-bold text-dark">Confirmar eliminación</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        <h5 class="modal-title fw-bold text-dark" id="modalEditarCatLabel-{{this._id}}">Editar Categoría</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body text-muted py-3">
-                                        estás seguro de que deseas eliminar la categoría <strong>"{{this.nombre}}"</strong>?
-                                    </div>
-                                    <div class="modal-footer border-0 pt-0">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <form action="/comercio/categoria/{{this._id}}/eliminar" method="POST" class="m-0">
-                                            <button type="submit" class="btn btn-danger">Aceptar y Eliminar</button>
-                                        </form>
-                                    </div>
+                                    <form action="/comercio/categoria/{{this._id}}/editar" method="POST">
+                                        <div class="modal-body py-3 text-start">
+                                            <div class="mb-3">
+                                                <label class="form-label text-muted small fw-semibold">Nombre</label>
+                                                <input type="text" class="form-control" name="nombre" value="{{this.nombre}}" required style="font-size: 13.5px;">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label text-muted small fw-semibold">Descripción</label>
+                                                <textarea class="form-control" rows="3" name="descripcion" required style="font-size: 13.5px;">{{this.descripcion}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer border-0 pt-0">
+                                            <button type="button" class="btn-cancel-custom" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn-pink-primary">Guardar Cambios</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     {{else}}
                         <tr>
                             <td colspan="4" class="text-center py-5 text-muted">
-                                No hay categorías creadas todava.
+                                No hay categorías creadas todavía.
                             </td>
                         </tr>
                     {{/each}}
@@ -118,4 +123,4 @@
             </table>
         </div>
     </div>
-</section>
+</div>

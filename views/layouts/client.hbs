@@ -4,52 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/cliente.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title>AppCenar | Cliente</title>
 </head>
 <body>
-    <nav class="cliente-nav">
-        <div class="izquierda">
-            <a href="/cliente/home" class="d-flex align-items-center text-decoration-none">
-                <div class="cuadrologo me-2">
-                    <span class="text-white fw-bold">AC</span>
-                </div>
-                <h2 class="text-head mb-0">App<span class="partenegra">Cenar</span></h2>
+    <nav class="navbar navbar-expand-lg app-navbar fixed-top">
+        <div class="container-fluid px-3 px-lg-4">
+            <a href="/cliente/home" class="brand-logo">
+                <div class="logo-square">AC</div>
+                <div class="brand-text">App<span>Cenar</span></div>
             </a>
-        </div>
 
-        <div class="centro">
-            <ul class="nav justify-content-center">
-                <li class="nav-item">
-                    <a class="nav-link" href="/cliente/home">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/cliente/pedidos">Mis Pedidos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/cliente/direcciones">Mis direcciones</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/cliente/favoritos">Mis Favoritos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/cliente/perfil">Mi Perfil</a>
-                </li>
-            </ul>
-        </div>
+            <button class="navbar-toggler border-0 shadow-none p-1" type="button" data-bs-toggle="collapse" data-bs-target="#appNavbarCollapse" aria-controls="appNavbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="derecha">
-            <div class="name-rol">
-                <h3 class="nombre">{{#if sessionUser.nombre}}{{sessionUser.nombre}}{{else if sessionUser.usuario}}{{sessionUser.usuario}}{{else}}Cliente{{/if}}</h3>
-                <h3 class="rol">CLIENTE</h3>
+            <div class="collapse navbar-collapse" id="appNavbarCollapse">
+                <ul class="navbar-nav mx-auto nav-center-menu">
+                    <li class="nav-item"><a class="nav-link-custom {{#if (eq activeTab 'inicio')}}active{{/if}}" href="/cliente/home">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link-custom {{#if (eq activeTab 'pedidos')}}active{{/if}}" href="/cliente/pedidos">Mis Pedidos</a></li>
+                    <li class="nav-item"><a class="nav-link-custom {{#if (eq activeTab 'direcciones')}}active{{/if}}" href="/cliente/direcciones">Mis Direcciones</a></li>
+                    <li class="nav-item"><a class="nav-link-custom {{#if (eq activeTab 'favoritos')}}active{{/if}}" href="/cliente/favoritos">Mis Favoritos</a></li>
+                    <li class="nav-item"><a class="nav-link-custom {{#if (eq activeTab 'perfil')}}active{{/if}}" href="/cliente/perfil">Mi Perfil</a></li>
+                </ul>
+
+                <div class="nav-user-area">
+                    <div class="user-info-block">
+                        <div class="user-name">{{#if sessionUser.nombre}}{{sessionUser.nombre}}{{else if sessionUser.usuario}}{{sessionUser.usuario}}{{else}}Cliente{{/if}}</div>
+                        <span class="role-badge role-badge-cliente">CLIENTE</span>
+                    </div>
+                    <a href="/logout" class="btn-nav-logout">Salir</a>
+                </div>
             </div>
-            <a href="/logout" class="btn-salir text-decoration-none d-flex align-items-center">Salir</a>
         </div>
     </nav>
 
-    <main>
+    <main class="main-wrapper">
         {{{body}}}
     </main>
+
+    {{> footer}}
 
     <script src="/js/bootstrap.bundle.js"></script>
     <script src="/js/app.js"></script>

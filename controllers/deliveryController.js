@@ -93,7 +93,7 @@ async function CompletarPedido(req, res) {
       await delivery.save();
     }
 
-    res.redirect("/delivery/home?success=Excelente trabajo! Pedido completado con ééxito y quedas disponible para nuevas entregas.");
+    res.redirect("/delivery/home?success=Excelente trabajo! Pedido completado con éxito y quedas disponible para nuevas entregas.");
   } catch (error) {
     console.error("Error al completar pedido:", error);
     res.redirect("/delivery/home?error=Error al marcar el pedido como completado");

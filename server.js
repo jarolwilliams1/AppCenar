@@ -7,15 +7,15 @@ const dotenv = require("dotenv");
 
 const ambiente = (process.env.NODE_ENV || "development").toLowerCase();
 const archivosEntorno = [
-  path.resolve(__dirname, ".env"),
   path.resolve(__dirname, `.env.${ambiente}`),
-  path.resolve(__dirname, ".env.dev"),
+  path.resolve(__dirname, ".env.development"),
   path.resolve(__dirname, ".env.qa")
 ];
 
 for (const archivo of archivosEntorno) {
   if (fs.existsSync(archivo)) {
     dotenv.config({ path: archivo });
+    break;
   }
 }
 
@@ -93,11 +93,31 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
-// Pasar usuario de sesión y alertas a todas las vistas
+// Pasar usuario de sesión, alertas y pestaña activa a todas las vistas
 app.use((req, res, next) => {
   res.locals.sessionUser = req.session && req.session.usuario ? req.session.usuario : null;
   res.locals.successMsg = req.query.success || null;
   res.locals.errorMsg = req.query.error || null;
+
+  const p = req.path.toLowerCase();
+  if (p.includes("dashboard")) res.locals.activeTab = "dashboard";
+  else if (p.includes("cliente/pedidos")) res.locals.activeTab = "pedidos";
+  else if (p.includes("cliente/direcciones") || p.includes("direccion")) res.locals.activeTab = "direcciones";
+  else if (p.includes("cliente/favoritos") || p.includes("favorito")) res.locals.activeTab = "favoritos";
+  else if (p.includes("perfil")) res.locals.activeTab = "perfil";
+  else if (p.includes("categoria")) res.locals.activeTab = "categorias";
+  else if (p.includes("producto")) res.locals.activeTab = "productos";
+  else if (p.includes("admin/clientes")) res.locals.activeTab = "clientes";
+  else if (p.includes("admin/deliveries")) res.locals.activeTab = "deliveries";
+  else if (p.includes("admin/comercios")) res.locals.activeTab = "comercios";
+  else if (p.includes("configuracion")) res.locals.activeTab = "configuracion";
+  else if (p.includes("administrador")) res.locals.activeTab = "administradores";
+  else if (p.includes("tipo-comercio") || p.includes("tipos-comercio")) res.locals.activeTab = "tipos";
+  else if (p.includes("delivery/home") || p.includes("asignacion")) res.locals.activeTab = "asignaciones";
+  else if (p.includes("comercio/home") || p.includes("comercio/pedidos")) res.locals.activeTab = "pedidos";
+  else if (p.includes("cliente/home") || p.includes("comercios")) res.locals.activeTab = "inicio";
+  else res.locals.activeTab = "inicio";
+
   next();
 });
 
@@ -116,6 +136,7 @@ app.use("/cliente", cliente);
 
 const Comercio = require("./routers/ComercioRouter");
 app.use("/comercio", Comercio);
+app.use("/comercios", Comercio);
 
 const delivery = require("./routers/deliveryRouter");
 app.use("/delivery", delivery);

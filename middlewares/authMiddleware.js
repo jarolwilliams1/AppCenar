@@ -14,10 +14,18 @@ function requiereRol(rolesPermitidos = []) {
     }
 
     if (!rolesPermitidos.includes(usuario.rol)) {
-      return res.status(403).render('auth/login', {
-        layout: 'auth',
-        error: 'No tienes permisos para acceder a esta sección.'
-      });
+      switch (usuario.rol) {
+        case 'Cliente':
+          return res.redirect('/cliente/home');
+        case 'Delivery':
+          return res.redirect('/delivery/home');
+        case 'Comercio':
+          return res.redirect('/comercio/home');
+        case 'Administrador':
+          return res.redirect('/admin');
+        default:
+          return res.redirect('/login');
+      }
     }
 
     return next();

@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const { User, Comercio, Delivery } = require("../models/userModel");
 const { TipoComercio } = require("../models/TipoComercioModel");
 const { Categoria, CrearCategoria, GetCategoriasToComerce } = require("../models/categoriaModel");
@@ -80,7 +81,7 @@ async function AsignarDelivery(req, res) {
     deliveryDisponible.estadoDelivery = "Ocupado";
     await deliveryDisponible.save();
 
-    res.redirect("/comercio/home?success=Repartidor asignado con ééxito. El pedido está ahora en proceso.");
+    res.redirect("/comercio/home?success=Repartidor asignado con éxito. El pedido está ahora en proceso.");
   } catch (error) {
     console.error("Error al asignar delivery:", error);
     res.redirect("/comercio/home?error=Error al asignar delivery al pedido");
@@ -91,21 +92,31 @@ async function AsignarDelivery(req, res) {
 async function mostrarCategoria(req, res) {
   try {
     const comercioId = req.session.usuario.id;
-    const categorias = await Categoria.find({ comercioId }).sort({ createdAt: -1 }).lean();
+    const categorias = await Categoria.find({
+      $or: [
+        { comercioId: comercioId },
+        { comercioId: new mongoose.Types.ObjectId(comercioId) }
+      ]
+    }).sort({ createdAt: -1 }).lean();
 
-    // Contar productos asociados a cada categoría
-    for (const cat of categorias) {
-      cat.productosCount = await Producto.countDocuments({
-        comercioId,
-        categoriaId: cat._id,
-        isActive: true
+    // Contar productos asociados a cada categoría garantizando que sea número entero
+    for (let i = 0; i < categorias.length; i++) {
+      const cat = categorias[i];
+      const count = await Producto.countDocuments({
+        $or: [
+          { categoriaId: cat._id },
+          { categoriaId: new mongoose.Types.ObjectId(cat._id) },
+          { categoriaId: cat._id.toString() }
+        ],
+        isActive: { $ne: false }
       });
+      categorias[i].productosCount = Number(count || 0);
     }
 
     const editId = req.query.edit || null;
     let categoriaEdit = null;
     if (editId) {
-      categoriaEdit = await Categoria.findOne({ _id: editId, comercioId }).lean();
+      categoriaEdit = await Categoria.findById(editId).lean();
     }
 
     return res.render("store/categorias", {
@@ -126,34 +137,36 @@ async function mostrarCategoria(req, res) {
 }
 
 async function NuevaCategoria(req, res) {
-  const comercioId = req.session.usuario.id;
+  const comercioId = req.session && req.session.usuario ? (req.session.usuario.id || req.session.usuario._id) : null;
   try {
     await NuevaCategoriaComercioService.Validar(req.body, comercioId);
-    return res.redirect("/comercio/categoria?success=categoría creada exitosamente");
+    return res.redirect("/comercio/categoria?success=Categoría creada exitosamente");
   } catch (error) {
-    return res.redirect(`/comercio/categoria?error=${encodeURIComponent(error.message || "No se pudo crear la categoría")}&nueva=1`);
+    console.error("Error en NuevaCategoria:", error);
+    return res.redirect(`/comercio/categoria?error=${encodeURIComponent(error.message || "No se pudo crear la categoría")}`);
   }
 }
 
 async function EditarCategoria(req, res) {
-  const comercioId = req.session.usuario.id;
-  const categoriaId = req.params.id;
+  const categoriaId = req.params.id || req.body.id || req.query.id;
   try {
-    const { nombre, descripcion } = req.body;
+    const nombre = (req.body.nombre || req.body.nombreNuevaCategoriaInput || "").trim();
+    const descripcion = (req.body.descripcion || req.body.descripcionNuevaCategoriaInput || "").trim();
+
     if (!nombre || !descripcion) {
-      return res.redirect(`/comercio/categoria?error=Todos los campos son requeridos&edit=${categoriaId}`);
+      return res.redirect("/comercio/categoria?error=Todos los campos son requeridos");
     }
 
-    const cat = await Categoria.findOne({ _id: categoriaId, comercioId });
+    const cat = await Categoria.findById(categoriaId);
     if (!cat) {
-      return res.redirect("/comercio/categoria?error=categoría no encontrada");
+      return res.redirect("/comercio/categoria?error=Categoría no encontrada");
     }
 
-    cat.nombre = nombre.trim();
-    cat.descripcion = descripcion.trim();
+    cat.nombre = nombre;
+    cat.descripcion = descripcion;
     await cat.save();
 
-    return res.redirect("/comercio/categoria?success=categoría actualizada correctamente");
+    return res.redirect("/comercio/categoria?success=Categoría actualizada correctamente");
   } catch (error) {
     console.error("Error al editar categoría:", error);
     return res.redirect(`/comercio/categoria?error=${encodeURIComponent(error.message)}`);
@@ -161,26 +174,45 @@ async function EditarCategoria(req, res) {
 }
 
 async function EliminarCategoria(req, res) {
-  const comercioId = req.session.usuario.id;
-  const categoriaId = req.params.id;
   try {
-    await Categoria.findOneAndDelete({ _id: categoriaId, comercioId });
-    // Opcional: inactivar o eliminar productos de esa categoría
-    await Producto.updateMany({ categoriaId, comercioId }, { isActive: false });
-
-    return res.redirect("/comercio/categoria?success=categoría eliminada exitosamente");
+    const categoriaId = req.params.id || req.body.id || req.query.id;
+    if (categoriaId) {
+      await Categoria.findByIdAndDelete(categoriaId);
+      await Producto.deleteMany({
+        $or: [
+          { categoriaId: categoriaId },
+          ...(mongoose.Types.ObjectId.isValid(categoriaId) ? [{ categoriaId: new mongoose.Types.ObjectId(categoriaId) }] : [])
+        ]
+      });
+    }
+    return res.redirect("/comercio/categoria?success=Categoría eliminada exitosamente");
   } catch (error) {
     console.error("Error al eliminar categoría:", error);
-    return res.redirect("/comercio/categoria?error=Error al eliminar categoría");
+    return res.redirect("/comercio/categoria?error=Error al eliminar la categoría");
   }
 }
 
 // PRODUCTOS (CRUD)
 async function ProductsView(req, res) {
   try {
-    const comercioId = req.session.usuario.id;
-    const categorias = await Categoria.find({ comercioId }).lean();
-    const productos = await Producto.find({ comercioId, isActive: true })
+    const comercioId = req.session && req.session.usuario ? (req.session.usuario.id || req.session.usuario._id) : null;
+    
+    // Obtener todas las categorías del comercio
+    const categorias = await Categoria.find({
+      $or: [
+        { comercioId: comercioId },
+        ...(mongoose.Types.ObjectId.isValid(comercioId) ? [{ comercioId: new mongoose.Types.ObjectId(comercioId) }] : [])
+      ]
+    }).sort({ createdAt: -1 }).lean();
+
+    // Obtener productos activos de este comercio
+    const productos = await Producto.find({
+      $or: [
+        { comercioId: comercioId },
+        ...(mongoose.Types.ObjectId.isValid(comercioId) ? [{ comercioId: new mongoose.Types.ObjectId(comercioId) }] : [])
+      ],
+      isActive: { $ne: false }
+    })
       .populate("categoriaId")
       .sort({ createdAt: -1 })
       .lean();
@@ -188,7 +220,7 @@ async function ProductsView(req, res) {
     const editId = req.query.edit || null;
     let productoEdit = null;
     if (editId) {
-      productoEdit = await Producto.findOne({ _id: editId, comercioId }).lean();
+      productoEdit = await Producto.findById(editId).lean();
     }
 
     return res.render("store/productos", {
@@ -211,55 +243,63 @@ async function ProductsView(req, res) {
 }
 
 async function NuevoProducto(req, res) {
-  const comercioId = req.session.usuario.id;
   try {
-    await NuevoProductoService.ValidarDatos(req.body, comercioId, req.file);
-    return res.redirect("/comercio/productosísuccess=Producto creado exitosamente");
+    const comercioId = req.session && req.session.usuario ? (req.session.usuario.id || req.session.usuario._id) : null;
+    const file = req.file || (req.files && req.files.length > 0 ? req.files[0] : null);
+
+    await NuevoProductoService.ValidarDatos(req.body, comercioId, file);
+    return res.redirect("/comercio/productos?success=Producto creado exitosamente");
   } catch (error) {
-    return res.redirect(`/comercio/productosíerror=${encodeURIComponent(error.message || "No se pudo crear el producto")}&nuevo=1`);
+    console.error("Error en NuevoProducto:", error);
+    return res.redirect(`/comercio/productos?error=${encodeURIComponent(error.message || "No se pudo crear el producto")}`);
   }
 }
 
 async function EditarProducto(req, res) {
-  const comercioId = req.session.usuario.id;
-  const productoId = req.params.id;
   try {
-    const { nombre, descripcion, precio, categoriaId } = req.body;
+    const productoId = req.params.id || req.body.id || req.query.id;
+    const nombre = (req.body.nombre || req.body.NombreNuevoPorducto || "").trim();
+    const descripcion = (req.body.descripcion || req.body.DescripcionNuevoProducto || "").trim();
+    const precio = Number(req.body.precio || req.body.PrecioNuevoProducto || 0);
+    const categoriaId = req.body.categoriaId || req.body.CategoriaNuevoProducto;
+
     if (!nombre || !descripcion || !precio || !categoriaId) {
-      return res.redirect(`/comercio/productosíerror=Todos los campos son requeridos&edit=${productoId}`);
+      return res.redirect("/comercio/productos?error=Todos los campos son requeridos");
     }
 
-    const prod = await Producto.findOne({ _id: productoId, comercioId });
+    const prod = await Producto.findById(productoId);
     if (!prod) {
-      return res.redirect("/comercio/productosíerror=Producto no encontrado");
+      return res.redirect("/comercio/productos?error=Producto no encontrado");
     }
 
-    prod.nombre = nombre.trim();
-    prod.descripcion = descripcion.trim();
-    prod.precio = Number(precio);
-    prod.categoriaId = categoriaId;
+    prod.nombre = nombre;
+    prod.descripcion = descripcion;
+    prod.precio = precio;
+    prod.categoriaId = mongoose.Types.ObjectId.isValid(categoriaId) ? new mongoose.Types.ObjectId(categoriaId) : categoriaId;
 
-    if (req.file) {
-      prod.foto = `/uploads/${req.file.filename}`;
+    const file = req.file || (req.files && req.files.length > 0 ? req.files[0] : null);
+    if (file) {
+      prod.foto = `/uploads/${file.filename}`;
     }
 
     await prod.save();
-    return res.redirect("/comercio/productosísuccess=Producto actualizado exitosamente");
+    return res.redirect("/comercio/productos?success=Producto actualizado exitosamente");
   } catch (error) {
     console.error("Error al editar producto:", error);
-    return res.redirect(`/comercio/productosíerror=${encodeURIComponent(error.message)}`);
+    return res.redirect(`/comercio/productos?error=${encodeURIComponent(error.message)}`);
   }
 }
 
 async function EliminarProducto(req, res) {
-  const comercioId = req.session.usuario.id;
-  const productoId = req.params.id;
   try {
-    await Producto.findOneAndDelete({ _id: productoId, comercioId });
-    return res.redirect("/comercio/productosísuccess=Producto eliminado exitosamente");
+    const productoId = req.params.id || req.body.id || req.query.id;
+    if (productoId) {
+      await Producto.findByIdAndDelete(productoId);
+    }
+    return res.redirect("/comercio/productos?success=Producto eliminado exitosamente");
   } catch (error) {
     console.error("Error al eliminar producto:", error);
-    return res.redirect("/comercio/productosíerror=Error al eliminar el producto");
+    return res.redirect("/comercio/productos?error=Error al eliminar el producto");
   }
 }
 
