@@ -21,18 +21,27 @@ for (const archivo of archivosEntorno) {
   }
 }
 
+const MongoStore = require("connect-mongo");
 const conexion = require("./config/mongooseConection");
 const seedAdmin = require("./config/seedAdmin");
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 app.use(express.urlencoded({ extended: true, limit: "15mb" }));
 app.use(express.json({ limit: "15mb" }));
 
+const mongoUri = process.env.MONGODB_URI || process.env.MONGO_CONECTION || "mongodb://127.0.0.1:27017/AppCenarDB_Dev";
+
 app.use(session({
-  secret: process.env.SESSION_ENV || "appcenar-secret",
+  secret: process.env.SESSION_ENV || "appcenar-secret-session-key",
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: mongoUri,
+    ttl: 24 * 60 * 60
+  }),
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // 24 horas
     httpOnly: true,

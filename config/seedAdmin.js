@@ -42,21 +42,21 @@ async function seedAdmin() {
     const totalTipos = await TipoComercio.countDocuments();
     if (totalTipos === 0) {
       const tiposIniciales = [
-        { nombre: "Restaurantes", descripcion: "Comida preparada y restaurantes", icono: "??" },
-        { nombre: "Mercados", descripcion: "Supermercados y minisípers", icono: "??" },
-        { nombre: "Bebidas", descripcion: "Licoreras y tiendas de bebidas", icono: "??" },
-        { nombre: "Farmacias", descripcion: "Farmacias y productos de salud", icono: "??" },
-        { nombre: "cafeterías", descripcion: "cafés y desayunos", icono: "?" },
-        { nombre: "heladerías", descripcion: "Helados y postres fros", icono: "??" }
+        { nombre: "Restaurantes", descripcion: "Comida preparada y restaurantes", icono: null },
+        { nombre: "Mercados", descripcion: "Supermercados y minimarkets", icono: null },
+        { nombre: "Bebidas", descripcion: "Licoreras y tiendas de bebidas", icono: null },
+        { nombre: "Farmacias", descripcion: "Farmacias y productos de salud", icono: null },
+        { nombre: "Cafeterías", descripcion: "Cafés, repostería y desayunos", icono: null },
+        { nombre: "Heladerías", descripcion: "Helados y postres fríos", icono: null }
       ];
 
       for (const t of tiposIniciales) {
         await TipoComercio.create(t);
       }
-      console.log("? Tipos de comercio iniciales creados");
+      console.log("Tipos de comercio iniciales creados exitosamente");
     }
   } catch (error) {
-    console.error("Error creando datos iniciales (seed):", error);
+    console.error("Error creando datos iniciales (seed):", error.message);
   }
 }
 
