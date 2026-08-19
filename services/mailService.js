@@ -15,43 +15,48 @@ function getEmailCredentials() {
 }
 
 async function getTransporter() {
-  if (transporter) return transporter;
-
   const { user, pass, host, port, secure, service } = getEmailCredentials();
 
   if (user && pass) {
     if (service === "gmail" || !host) {
-      transporter = nodemailer.createTransport({
+      return nodemailer.createTransport({
         service: "gmail",
         auth: {
           user: user,
           pass: pass
-        }
+        },
+        connectionTimeout: 7000,
+        greetingTimeout: 7000,
+        socketTimeout: 9000
       });
     } else {
-      transporter = nodemailer.createTransport({
+      return nodemailer.createTransport({
         host: host,
         port: port,
         secure: secure,
         auth: {
           user: user,
           pass: pass
-        }
+        },
+        connectionTimeout: 7000,
+        greetingTimeout: 7000,
+        socketTimeout: 9000
       });
     }
   } else {
     // Configuración fallback para entorno de desarrollo sin credenciales
-    transporter = nodemailer.createTransport({
+    return nodemailer.createTransport({
       host: "smtp.ethereal.email",
       port: 587,
       auth: {
         user: "appcenar.system@ethereal.email",
         pass: "appcenar12345"
-      }
+      },
+      connectionTimeout: 7000,
+      greetingTimeout: 7000,
+      socketTimeout: 9000
     });
   }
-
-  return transporter;
 }
 
 async function sendActivationEmail({ email, nombre, token, baseUrl }) {

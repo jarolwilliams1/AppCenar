@@ -46,13 +46,15 @@ async function ValidarDatos(datos, file, baseUrl) {
 
   const nuevoUsuario = await CrearUsuario(datosCompletos);
 
-  // Enviar correo de activación
+  // Enviar correo de activación en segundo plano para respuesta inmediata al usuario
   if (nuevoUsuario && nuevoUsuario.activationToken) {
-    await sendActivationEmail({
+    sendActivationEmail({
       email: nuevoUsuario.correo,
       nombre: nuevoUsuario.nombre,
       token: nuevoUsuario.activationToken,
       baseUrl: baseUrl
+    }).catch(err => {
+      console.error("Aviso: No se pudo enviar el correo de activación vía SMTP:", err.message);
     });
   }
 

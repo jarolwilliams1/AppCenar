@@ -160,11 +160,13 @@ async function solicitarRecuperacion(req, res) {
     await usuario.save();
 
     const baseUrl = `${req.protocol}://${req.get("host")}`;
-    await sendPasswordResetEmail({
+    sendPasswordResetEmail({
       email: usuario.correo,
       nombre: usuario.nombre || usuario.nombreComercio || usuario.usuario,
       token: token,
       baseUrl: baseUrl
+    }).catch(err => {
+      console.error("Aviso: No se pudo enviar el correo de recuperación vía SMTP:", err.message);
     });
 
     return res.render("auth/recuperarPassword", {

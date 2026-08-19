@@ -42,13 +42,15 @@ async function ValidarDatos(datos, file, baseUrl) {
 
   const nuevoComercio = await CrearComercio(datosCompletos);
 
-  // Enviar correo de activación
+  // Enviar correo de activación en segundo plano para respuesta inmediata al usuario
   if (nuevoComercio && nuevoComercio.activationToken) {
-    await sendActivationEmail({
+    sendActivationEmail({
       email: nuevoComercio.correo,
       nombre: nuevoComercio.nombreComercio,
       token: nuevoComercio.activationToken,
       baseUrl: baseUrl
+    }).catch(err => {
+      console.error("Aviso: No se pudo enviar el correo de activación vía SMTP:", err.message);
     });
   }
 
