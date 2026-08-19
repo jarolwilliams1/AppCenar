@@ -64,11 +64,11 @@
                 <tbody>
                     {{#each listaTiposComercio}}
                         <tr>
-                            <td class="ps-4" style="font-size: 24px;">
+                            <td class="ps-4">
                                 {{#if this.icono}}
                                     <img src="{{this.icono}}" alt="{{this.nombre}}" style="width: 32px; height: 32px; object-fit: contain;">
                                 {{else}}
-                                    🍽️
+                                    <div class="logo-square" style="width: 30px; height: 30px; font-size: 11px; margin: 0;">AC</div>
                                 {{/if}}
                             </td>
                             <td class="fw-semibold text-dark">{{this.nombre}}</td>
@@ -125,7 +125,7 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content rounded-4 border-0 shadow">
                                     <div class="modal-header border-0 pb-0">
-                                        <h5 class="modal-title fw-bold text-danger">⚠️ Confirmar eliminación</h5>
+                                        <h5 class="modal-title fw-bold text-danger">Confirmar eliminación</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-muted py-3 text-start" style="font-size: 13.5px;">

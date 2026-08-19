@@ -57,9 +57,13 @@ async function validar(req, res) {
         return res.redirect("/login");
     }
   } catch (error) {
+    const userMsg = (error && error.message && !error.message.includes("Mongo") && !error.message.includes("E11000")) 
+      ? error.message 
+      : "Usuario o contraseña incorrectos.";
+
     return res.status(400).render("auth/login", {
       layout: "auth",
-      error: error.message || "Error al iniciar sesión",
+      error: userMsg,
       datos: req.body
     });
   }

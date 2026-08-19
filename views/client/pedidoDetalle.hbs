@@ -9,11 +9,11 @@
         <!-- Cabecera del pedido -->
         <div class="d-flex justify-content-between align-items-start pb-3 mb-3 border-bottom flex-wrap gap-2">
             <div class="d-flex align-items-center gap-3">
-                <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 48px; height: 48px; font-size: 24px;">
+                <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 48px; height: 48px; font-size: 14px;">
                     {{#if pedido.comercioId.logoComercio}}
                         <img src="{{pedido.comercioId.logoComercio}}" alt="Logo" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;">
                     {{else}}
-                        🍕
+                        <div class="logo-square" style="width: 36px; height: 36px; font-size: 13px; margin: 0;">AC</div>
                     {{/if}}
                 </div>
                 <div>
@@ -43,7 +43,7 @@
         <!-- Dirección de entrega y Total -->
         <div class="d-flex justify-content-between align-items-center pt-3 border-top flex-wrap gap-3">
             <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 13px;">
-                <span>📍</span>
+                <svg width="14" height="14" fill="#E91E63" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                 <span class="text-dark fw-semibold">{{pedido.direccion.nombre}}</span> - <span>{{pedido.direccion.descripcion}}</span>
             </div>
 

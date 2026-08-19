@@ -7,9 +7,9 @@ async function connectDB() {
     console.log(' Conexión a MongoDB exitosa en:', uri);
   } catch (error) {
     console.error('===============================================================');
-    console.error('❌ Error de conexión a MongoDB (ECONNREFUSED):');
+    console.error(' Error de conexión a MongoDB (ECONNREFUSED):');
     console.error('El servidor MongoDB no está corriendo en el puerto 27017.');
-    console.error('👉 Para iniciarlo en Windows:');
+    console.error(' Para iniciarlo en Windows:');
     console.error('   1. Abre una terminal y ejecuta: mongod --dbpath C:\\data\\db');
     console.error('   2. O inicia el servicio: net start MongoDB');
     console.error('===============================================================');

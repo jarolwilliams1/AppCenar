@@ -60,14 +60,9 @@ async function sendActivationEmail({ email, nombre, token, baseUrl }) {
   const { user } = getEmailCredentials();
   const fromAddress = user ? `"AppCenar" <${user}>` : '"AppCenar" <no-reply@appcenar.com>';
 
-  console.log("==================================================");
-  console.log(`[EMAIL ACTIVACIÓN] Destinatario: ${email}`);
-  console.log(`[ENLACE DE ACTIVACIÓN]: ${activationUrl}`);
-  console.log("==================================================");
-
   try {
     const client = await getTransporter();
-    const info = await client.sendMail({
+    await client.sendMail({
       from: fromAddress,
       to: email,
       subject: "Activa tu cuenta en AppCenar",
@@ -88,9 +83,8 @@ async function sendActivationEmail({ email, nombre, token, baseUrl }) {
         </div>
       `
     });
-    console.log(`[CORREO ENVIADO EXITOSAMENTE] -> Destinatario: ${email} | ID: ${info.messageId} | Servidor: ${info.response}`);
   } catch (error) {
-    console.warn("Aviso: No se pudo enviar el correo vía SMTP real (se registró en consola):", error.message);
+    // Error silencioso en producción
   }
 
   return activationUrl;
@@ -102,14 +96,9 @@ async function sendPasswordResetEmail({ email, nombre, token, baseUrl }) {
   const { user } = getEmailCredentials();
   const fromAddress = user ? `"AppCenar" <${user}>` : '"AppCenar" <no-reply@appcenar.com>';
 
-  console.log("==================================================");
-  console.log(`[EMAIL RECUPERAR CONTRASEÑA] Destinatario: ${email}`);
-  console.log(`[ENLACE DE RECUPERACIÓN]: ${resetUrl}`);
-  console.log("==================================================");
-
   try {
     const client = await getTransporter();
-    const info = await client.sendMail({
+    await client.sendMail({
       from: fromAddress,
       to: email,
       subject: "Restablecer contraseña - AppCenar",
@@ -130,9 +119,8 @@ async function sendPasswordResetEmail({ email, nombre, token, baseUrl }) {
         </div>
       `
     });
-    console.log(`[CORREO ENVIADO EXITOSAMENTE] -> Destinatario: ${email} | ID: ${info.messageId} | Servidor: ${info.response}`);
   } catch (error) {
-    console.warn("Aviso: No se pudo enviar el correo vía SMTP real (se registró en consola):", error.message);
+    // Error silencioso en producción
   }
 
   return resetUrl;

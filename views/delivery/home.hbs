@@ -6,17 +6,14 @@
             <span class="text-uppercase small opacity-75 fw-semibold" style="font-size: 11.5px; letter-spacing: 0.05em;">Estado actual</span>
             <h3 class="fw-bold mb-1" style="font-size: 20px;">
                 {{#if (eq delivery.estadoDelivery "Ocupado")}}
-                    🔴 Ocupado
+                    Ocupado
                 {{else}}
-                    🟢 Libre / Disponible
+                    Libre / Disponible
                 {{/if}}
             </h3>
             <p class="mb-0 small opacity-90" style="font-size: 12.5px;">
                 {{entregasEnCurso.length}} entrega(s) pendiente(s)
             </p>
-        </div>
-        <div style="font-size: 48px;">
-            🛵
         </div>
     </div>
 
@@ -44,13 +41,13 @@
                     <div class="card border-0 shadow-sm p-3 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 44px; height: 44px; font-size: 22px;">
-                                    🍕
+                                <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 44px; height: 44px; font-size: 13px;">
+                                    <div class="logo-square" style="width: 36px; height: 36px; font-size: 13px; margin: 0; background: linear-gradient(135deg, #0288D1, #01579B);">AC</div>
                                 </div>
                                 <div>
                                     <div class="fw-bold text-dark mb-0" style="font-size: 14.5px;">Pedido #{{this._id}}</div>
                                     <small class="text-muted d-block" style="font-size: 12px;">{{this.comercioId.nombreComercio}} · Para: {{this.clienteId.nombre}} {{this.clienteId.apellido}}</small>
-                                    <small class="text-muted" style="font-size: 12px;">📍 {{this.direccion.nombre}} - {{this.direccion.descripcion}}</small>
+                                    <small class="text-muted" style="font-size: 12px;">{{this.direccion.nombre}} - {{this.direccion.descripcion}}</small>
                                 </div>
                             </div>
 
@@ -80,8 +77,8 @@
                 <div class="card border-0 shadow-sm p-3 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                         <div class="d-flex align-items-center gap-3">
-                            <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 40px; height: 40px; font-size: 20px;">
-                                🍕
+                            <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 40px; height: 40px; font-size: 13px;">
+                                <div class="logo-square" style="width: 32px; height: 32px; font-size: 12px; margin: 0; background: linear-gradient(135deg, #0288D1, #01579B);">AC</div>
                             </div>
                             <div>
                                 <div class="fw-bold text-dark mb-0" style="font-size: 14px;">Pedido #{{this._id}} - {{this.comercioId.nombreComercio}}</div>

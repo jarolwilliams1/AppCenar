@@ -22,9 +22,13 @@ async function validarCrearCuentaComercio(req, res) {
     const TiposComerciosDB = await tipoComercioModel.GetTiposComercio();
     const listaTiposComercio = TiposComerciosDB.map(t => t.toObject());
 
+    const userMsg = (error && error.message && !error.message.includes("Mongo") && !error.message.includes("E11000")) 
+      ? error.message 
+      : "No se pudo registrar el comercio. Por favor verifica tus datos e intenta nuevamente.";
+
     return res.status(400).render("auth/RegistrarComenrce", {
       layout: "client-delivery",
-      error: error.message,
+      error: userMsg,
       datos: req.body,
       listaTiposComercio
     });

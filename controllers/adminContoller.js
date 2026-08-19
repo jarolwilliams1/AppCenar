@@ -436,8 +436,10 @@ async function NuevoTipoComercioController(req, res) {
     await TipoComercioServices.ValidarDatos(req.body, req.file);
     res.redirect("/admin/tipo-comercio?success=Tipo de comercio creado exitosamente");
   } catch (error) {
-    console.error("Error creando tipo comercio:", error);
-    res.redirect(`/admin/tipo-comercio?error=${encodeURIComponent(error.message || "Error al crear tipo de comercio")}&nuevo=1`);
+    const userMsg = (error && error.message && !error.message.includes("Mongo") && !error.message.includes("E11000")) 
+      ? error.message 
+      : "Error al crear tipo de comercio. Verifica los datos requeridos.";
+    res.redirect(`/admin/tipo-comercio?error=${encodeURIComponent(userMsg)}&nuevo=1`);
   }
 }
 

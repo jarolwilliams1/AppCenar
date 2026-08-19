@@ -53,8 +53,8 @@
             <div class="card border-0 shadow-sm p-3 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                     <div class="d-flex align-items-center gap-3">
-                        <div style="font-size: 24px;">
-                            📍
+                        <div style="color: #E91E63;">
+                            <svg width="22" height="22" fill="#E91E63" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                         </div>
                         <div>
                             <div class="fw-bold text-dark mb-0" style="font-size: 14.5px;">{{this.nombre}}</div>
@@ -76,7 +76,9 @@
             </div>
         {{else}}
             <div class="card border-0 shadow-sm p-5 text-center rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
-                <div style="font-size: 36px;" class="mb-2">📍</div>
+                <div class="mb-2" style="color: #E91E63;">
+                    <svg width="36" height="36" fill="#E91E63" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                </div>
                 <p class="text-muted mb-3">No tienes direcciones registradas todavía.</p>
                 <div>
                     <button type="button" class="btn-pink-primary" onclick="toggleFormDireccion()">

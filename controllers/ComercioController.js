@@ -142,8 +142,10 @@ async function NuevaCategoria(req, res) {
     await NuevaCategoriaComercioService.Validar(req.body, comercioId);
     return res.redirect("/comercio/categoria?success=Categoría creada exitosamente");
   } catch (error) {
-    console.error("Error en NuevaCategoria:", error);
-    return res.redirect(`/comercio/categoria?error=${encodeURIComponent(error.message || "No se pudo crear la categoría")}`);
+    const msg = (error && error.message && !error.message.includes("Mongo") && !error.message.includes("E11000")) 
+      ? error.message 
+      : "No se pudo crear la categoría. Por favor intenta nuevamente.";
+    return res.redirect(`/comercio/categoria?error=${encodeURIComponent(msg)}`);
   }
 }
 
@@ -168,8 +170,7 @@ async function EditarCategoria(req, res) {
 
     return res.redirect("/comercio/categoria?success=Categoría actualizada correctamente");
   } catch (error) {
-    console.error("Error al editar categoría:", error);
-    return res.redirect(`/comercio/categoria?error=${encodeURIComponent(error.message)}`);
+    return res.redirect("/comercio/categoria?error=No se pudo actualizar la categoría");
   }
 }
 
@@ -187,7 +188,6 @@ async function EliminarCategoria(req, res) {
     }
     return res.redirect("/comercio/categoria?success=Categoría eliminada exitosamente");
   } catch (error) {
-    console.error("Error al eliminar categoría:", error);
     return res.redirect("/comercio/categoria?error=Error al eliminar la categoría");
   }
 }
@@ -232,7 +232,6 @@ async function ProductsView(req, res) {
       mostrarForm: req.query.nuevo === "1" || !!productoEdit
     });
   } catch (error) {
-    console.error("Error al obtener productos:", error);
     return res.status(500).render("store/productos", {
       layout: "comerce",
       CategoriaLista: [],
@@ -250,8 +249,10 @@ async function NuevoProducto(req, res) {
     await NuevoProductoService.ValidarDatos(req.body, comercioId, file);
     return res.redirect("/comercio/productos?success=Producto creado exitosamente");
   } catch (error) {
-    console.error("Error en NuevoProducto:", error);
-    return res.redirect(`/comercio/productos?error=${encodeURIComponent(error.message || "No se pudo crear el producto")}`);
+    const msg = (error && error.message && !error.message.includes("Mongo") && !error.message.includes("E11000")) 
+      ? error.message 
+      : "No se pudo crear el producto. Verifica los datos requeridos.";
+    return res.redirect(`/comercio/productos?error=${encodeURIComponent(msg)}`);
   }
 }
 
@@ -285,8 +286,7 @@ async function EditarProducto(req, res) {
     await prod.save();
     return res.redirect("/comercio/productos?success=Producto actualizado exitosamente");
   } catch (error) {
-    console.error("Error al editar producto:", error);
-    return res.redirect(`/comercio/productos?error=${encodeURIComponent(error.message)}`);
+    return res.redirect("/comercio/productos?error=No se pudo actualizar el producto");
   }
 }
 
@@ -298,7 +298,6 @@ async function EliminarProducto(req, res) {
     }
     return res.redirect("/comercio/productos?success=Producto eliminado exitosamente");
   } catch (error) {
-    console.error("Error al eliminar producto:", error);
     return res.redirect("/comercio/productos?error=Error al eliminar el producto");
   }
 }

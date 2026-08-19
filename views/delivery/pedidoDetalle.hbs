@@ -9,8 +9,8 @@
         <!-- Cabecera -->
         <div class="d-flex justify-content-between align-items-start pb-3 mb-3 border-bottom flex-wrap gap-2">
             <div class="d-flex align-items-center gap-3">
-                <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 48px; height: 48px; font-size: 24px;">
-                    🍕
+                <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 48px; height: 48px; font-size: 13px;">
+                    <div class="logo-square" style="width: 36px; height: 36px; font-size: 13px; margin: 0; background: linear-gradient(135deg, #0288D1, #01579B);">AC</div>
                 </div>
                 <div>
                     <h5 class="fw-bold mb-0 text-dark" style="font-size: 16px;">Pedido #{{pedido._id}}</h5>
@@ -38,7 +38,7 @@
 
         <!-- Dirección de entrega destacada en azul claro -->
         <div class="p-3 rounded-3 mb-4" style="background-color: #E1F5FE; border-radius: 12px;">
-            <div class="fw-bold mb-1" style="font-size: 11px; letter-spacing: 0.05em; color: #0288D1;">📍 DIRECCIÓN DE ENTREGA</div>
+            <div class="fw-bold mb-1" style="font-size: 11px; letter-spacing: 0.05em; color: #0288D1;">DIRECCIÓN DE ENTREGA</div>
             <div class="fw-semibold text-dark" style="font-size: 13.5px;">{{pedido.direccion.nombre}} - {{pedido.direccion.descripcion}}</div>
         </div>
 
@@ -51,7 +51,7 @@
             {{#if esEnProceso}}
                 <form action="/delivery/pedidos/{{pedido._id}}/completar" method="POST" class="m-0">
                     <button type="submit" class="btn-success-pill py-2 px-4" style="font-size: 13.5px;">
-                        ✅ Completar Pedido
+                        Completar Pedido
                     </button>
                 </form>
             {{/if}}

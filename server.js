@@ -8,6 +8,8 @@ const dotenv = require("dotenv");
 const ambiente = (process.env.NODE_ENV || "development").toLowerCase();
 const archivosEntorno = [
   path.resolve(__dirname, `.env.${ambiente}`),
+  path.resolve(__dirname, ".env.production"),
+  path.resolve(__dirname, ".env"),
   path.resolve(__dirname, ".env.development"),
   path.resolve(__dirname, ".env.qa")
 ];

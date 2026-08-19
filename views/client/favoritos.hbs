@@ -16,11 +16,11 @@
             <div class="card border-0 shadow-sm p-3 rounded-4" style="background: #FFFFFF; border: 1px solid #EEF2F6;">
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 48px; height: 48px; font-size: 24px;">
+                        <div class="rounded-3 d-flex align-items-center justify-content-center bg-light" style="width: 48px; height: 48px; font-size: 14px;">
                             {{#if this.logoComercio}}
                                 <img src="{{this.logoComercio}}" alt="{{this.nombreComercio}}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;">
                             {{else}}
-                                🍕
+                                <div class="logo-square" style="width: 36px; height: 36px; font-size: 13px; margin: 0;">AC</div>
                             {{/if}}
                         </div>
                         <div>
@@ -36,7 +36,7 @@
 
                         <form action="/cliente/favoritos/remove/{{this._id}}" method="POST" class="m-0">
                             <button type="submit" class="btn-danger-pill">
-                                Remover ❤️
+                                Eliminar de favoritos
                             </button>
                         </form>
                     </div>
