@@ -35,7 +35,8 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.9.1",
     "multer": "^2.2.0",
-    "nodemailer": "^9.0.3"
+    "nodemailer": "^9.0.3",
+    "resend": "^6.20.0"
   },
   "devDependencies": {
     "dotenv-cli": "^11.0.0",
